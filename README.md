@@ -1,3 +1,5 @@
+![GitHub](https://img.shields.io/github/license/lyseontech/dashboard)
+
 # Administrative dashboard
 
 Administrative dashboard made with PHP
