@@ -10,3 +10,9 @@ There are 2 types of users:
 administrators and users associated with customers.
 
 Users should log in to the system and view invoices and recording audios of all customers they have.
+
+## Contributing
+
+Read the [contributing](/CONTRIBUTING.md) file first.
+
+Check out the project issues and the task board
