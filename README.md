@@ -1,5 +1,6 @@
-# dashboard
-administrative dashboard made with PHP
+# Administrative dashboard
+
+Administrative dashboard made with PHP
 
 The first version of the dashboard will be to serve VoIP enterprise customers.
 
