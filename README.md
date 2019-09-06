@@ -11,6 +11,8 @@ administrators and users associated with customers.
 
 Users should log in to the system and view invoices and recording audios of all customers they have.
 
+The project needs to be internationalized. Do not display any text to the user that cannot be translated.
+
 ## Contributing
 
 Read the [contributing](/CONTRIBUTING.md) file first.
