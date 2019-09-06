@@ -15,4 +15,4 @@ Users should log in to the system and view invoices and recording audios of all 
 
 Read the [contributing](/CONTRIBUTING.md) file first.
 
-Check out the project issues and the task board
+Look the project issues and the task board
