@@ -1,0 +1,39 @@
+version: '3.3'
+services:
+  nginx:
+    image: nginx:latest
+    restart: always
+    env_file:
+      - .env
+    ports:
+      - ${PORT}:80
+    volumes:
+      - .:/app
+      - ./.docker/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf
+  php7:
+    build: ./.docker/php7
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - ~/.composer:/root/.composer
+      - .:/app
+    depends_on:
+      - db
+    links:
+      - db
+    environment:
+       XDEBUG_CONFIG: "remote_host=172.21.0.1 remote_enable=1"
+  db:
+    image: mariadb
+    ports:
+      - "3306:3306"
+    volumes:
+      -  ./.docker/mysql/conf:/etc/mysql/conf.d
+      - ./.docker/volumes/mysql/dump:/docker-entrypoint-initdb.d
+      - ./.docker/volumes/mysql/data:/var/lib/mysql
+    env_file:
+      - .env
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_DATABASE}
