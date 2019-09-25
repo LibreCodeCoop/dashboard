@@ -1,0 +1,17 @@
+{
+    "name": "samuelbretas/dashboard-vox-link",
+    "description": "Projeto de apresentação de dashboard para Voxlink",
+    "require": {
+        "php": ">=7.0.0",
+        "nezamy/route": "^1.2.2",
+        "twig/twig": "^2.0",
+        "illuminate/database": "~5.4.0",
+        "phpunit/phpunit": "^8",
+        "monolog/monolog": "^1.17"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/"
+        }
+    }
+}

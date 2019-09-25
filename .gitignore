@@ -1,4 +1,4 @@
 
-./www/dashboard/vendor/
+./www/vendor/
 .docker/volumes/mysql/*
 
