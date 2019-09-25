@@ -27,10 +27,14 @@ RUN git clone https://github.com/nikic/php-ast.git \
 RUN pecl install xdebug-2.8.0beta2 \
     && docker-php-ext-enable xdebug
 
+# Install ds
+RUN pecl install ds \   
+    && docker-php-ext-enable ds
+
 COPY config/php.ini /usr/local/etc/php/conf.d/
 
-RUN curl https://getcomposer.org/composer.phar --output /usr/bin/composer
-RUN chmod +x /usr/bin/composer
+RUN curl -sS https://getcomposer.org/installer | \
+    php -- --install-dir=/usr/bin/ --filename=composer
 
 WORKDIR /app
 COPY entrypoint.sh /usr/local/bin/entrypoint.sh
