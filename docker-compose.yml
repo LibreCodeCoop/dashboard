@@ -12,12 +12,11 @@ services:
       - php7  
 
   php7:
+    container_name: php7
     build: ./.docker/php7
     restart: always   
     volumes:
-      - ./www:/app
-    depends_on:
-      - db
+      - ./www/:/app   
     links:
       - db
     environment:
