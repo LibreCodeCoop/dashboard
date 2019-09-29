@@ -36,7 +36,7 @@ class Company extends Model
     
     public function customer()
     {
-        return $this->hasOne('App\Model\Customer', 'id', 'id_company');
+        return $this->hasOne('App\Model\Customer',  'id_company', 'id');
         
     }
 }
