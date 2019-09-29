@@ -29,7 +29,7 @@ class User extends Model
 
     public function customerUser()
     {
-        return $this->belongsToMany('App\Model\CustomerUser', 'id' , 'id_user');
+        return $this->belongsToMany('App\Model\CustomerUser',  'id_user', 'id');
     }
     
 }
