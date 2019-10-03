@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controllers;
 
 class PanelController extends BaseController
 {
-    $this->render('dashboard.html');
+    public function dashboard()
+    {
+        
+        $this->render('dashboard.html');
+    }
 }

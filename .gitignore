@@ -3,3 +3,4 @@
 .docker/volumes/mysql/*
 nbproject/*
 /nbproject/private/
+./www/app/Cache/*

@@ -28,7 +28,7 @@ $route->get(['/', 'index', 'home', 'default'], 'App\Controllers\AuthController@l
 /**
  * route control panel
  */
-$route->get('/panel', 'App\Controller\PanelController@dashboard');
+$route->get('panel', 'App\Controllers\PanelController@dashboard');
 
 /**
  * route group
