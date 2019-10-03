@@ -26,6 +26,11 @@ $route = $app->route;
 $route->get(['/', 'index', 'home', 'default'], 'App\Controllers\AuthController@login');
 
 /**
+ * route control panel
+ */
+$route->get('/panel', 'App\Controller\PanelController@dashboard');
+
+/**
  * route group
  */
 $route->group('/client', function(){
