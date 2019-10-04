@@ -23,7 +23,15 @@ $route = $app->route;
 /**
  * create routes and arrow main route
  */
-$route->get(['/', 'index', 'home', 'default'], 'App\Controllers\AuthController@login');
+/**
+ *  route group authentication
+ */
+$route->group(['/', 'index', 'home', 'default'], function(){
+    $this->get('/', 'App\Controllers\AuthController@login');
+    $this->get('/connect', 'App\Controller\AuthController@connect');
+    $this->get('/disconnect', 'App\Controller\AuthController@disconnect');
+});
+
 
 /**
  * route control panel
