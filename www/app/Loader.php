@@ -26,10 +26,11 @@ $route = $app->route;
 /**
  *  route group authentication
  */
-$route->group(['/', 'index', 'home', 'default'], function(){
-    $this->get('/', 'App\Controllers\AuthController@login');
-    $this->get('/connect', 'App\Controller\AuthController@connect');
-    $this->get('/disconnect', 'App\Controller\AuthController@disconnect');
+$route->get(['/', 'index', 'home', 'default'], 'App\Controllers\AuthController@login');
+
+$route->group('/auth', function(){
+    $this->post('/connect', 'App\Controllers\AuthController@connect');
+    $this->get('/disconnect', 'App\Controllers\AuthController@disconnect');
 });
 
 

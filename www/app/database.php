@@ -19,7 +19,8 @@ $connection = [
        'username'  =>  getenv('DB_USERNAME_DEVELOPMENT'),
        'password'  =>  getenv('DB_PASSWORD_DEVELOPMENT'),
        'charset'   =>  getenv('DB_CHARSET_DEVELOPMENT'),
-       'collation' =>  getenv('DB_CHARSET_COLLECTION')      
+       'collation' =>  getenv('DB_CHARSET_COLLECTION'),
+       'prefix'    => ''      
     ],
     'production' => [
         'driver'    =>  getenv('DB_DRIVER_PRODUCTION'),
@@ -28,7 +29,8 @@ $connection = [
         'username'  =>  getenv('DB_USERNAME_PRODUCTION'),
         'password'  =>  getenv('DB_PASSWORD_PRODUCTION'),
         'charset'   =>  getenv('DB_CHARSET_PRODUCTION'),
-        'collation' =>  getenv('DB_CHARSET_PRODUCTION')      
+        'collation' =>  getenv('DB_CHARSET_PRODUCTION'),
+        'prefix'    => ''     
     ]
 ];
 

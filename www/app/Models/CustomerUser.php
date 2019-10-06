@@ -7,6 +7,7 @@
  */
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -26,7 +27,7 @@ class CustomerUser extends Model
     
     public function user() 
     {
-        return $this->belongsToMany('App\Models\User', 'id_user', 'id');
+        return $this->belongsTo('App\Models\User', 'id_user');
     }
     
     public function customer()

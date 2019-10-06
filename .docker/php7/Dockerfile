@@ -27,6 +27,9 @@ RUN git clone https://github.com/nikic/php-ast.git \
 RUN pecl install xdebug-2.8.0beta2 \
     && docker-php-ext-enable xdebug
 
+RUN pecl install apcu \
+    && docker-php-ext-enable apcu
+
 # Install ds
 RUN pecl install ds \   
     && docker-php-ext-enable ds

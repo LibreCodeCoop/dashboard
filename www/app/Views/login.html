@@ -335,16 +335,16 @@
     <hgroup>
         <h1>Template Login</h1>
     </hgroup>
-    <form method="POST" action="{{ baseUrl }}/connect" >
+    <form method="POST" action="{{ baseUrl }}/{{ formAction }}" >
         <div class="group">
-            <input type="text"><span class="highlight"></span><span class="bar"></span>
+            <input type="text" name="mail"><span class="highlight"></span><span class="bar"></span>
             <label>E-mail</label>
         </div>
         <div class="group">
-            <input type="email"><span class="highlight"></span><span class="bar"></span>
+            <input type="password" name="password"><span class="highlight"></span><span class="bar"></span>
             <label>Senha</label>
         </div>
-        <button type="button" class="button buttonBlue">Entrar
+        <button type="submit" class="button buttonBlue">Entrar
             <div class="ripples buttonRipples"><span class="ripplesCircle"></span></div>
         </button>
     </form>

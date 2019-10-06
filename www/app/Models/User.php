@@ -7,6 +7,7 @@
  */
 
 namespace App\Models;
+
 use Illuminate\Database\Eloquent\Model;
 
 /**
@@ -27,9 +28,9 @@ class User extends Model
         'admin'
     ];
 
-    public function customerUser()
+    public function menu()
     {
-        return $this->belongsToMany('App\Model\CustomerUser',  'id_user', 'id');
+        return $this->hasMany('App\Models\Menu',  'id_user');
     }
     
 }

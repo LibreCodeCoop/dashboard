@@ -4,3 +4,5 @@
 nbproject/*
 /nbproject/private/
 ./www/app/Cache/*
+.vscode/*
+./www/app/Logs/*
