@@ -7,16 +7,15 @@ use Monolog\Logger;
 use Monolog\Handler\StreamHandler;
 use Monolog\Handler\FirePHPHandler;
 
+class BaseController
 
-class BaseController 
-{
-    
-    public  $request;
+{   
+    public $request;
     private $view;
     private $vars = [];
     private $logger;
     
-    function __construct() 
+    public function __construct() 
     {
         
         $stream = new StreamHandler(BASE_PATH . 'app/Logs/'. date('dmY') .'.log', Logger::DEBUG);
@@ -34,10 +33,8 @@ class BaseController
             'debug' => (ENVIRONMENT !== 'production')
         ]);
         
-        $this->setVar('baseUrl', (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST']);
-        
+        $this->setVar('baseUrl', (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST']);        
     }
-    
     
     public function log($message, $data = [])
     {
@@ -54,14 +51,13 @@ class BaseController
    
     public function setVar($key, $value = null)
     {
-        if (is_array($key))
-        {
-            foreach ($key as $k => $v)
+        if (is_array($key)) {     
+            foreach ($key as $k => $v) {
                 $this->vars[$k] = $v;
-        } else
+            }
+        } else {
             $this->vars[$key] = $value;
-        
+        }
         return $this;
-    }
-    
+    }    
 }

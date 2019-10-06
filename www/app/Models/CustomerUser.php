@@ -4,18 +4,16 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
-class CustomerUser extends Model 
+class CustomerUser extends Model
 {
-    protected  $table = 'customer_user';
+    protected $table = 'customer_user';
     
     protected $fillable = [
         'id_user',
         'id_customer'
     ];
-    
-    
-    public function user() 
+
+    public function user()
     {
         return $this->belongsTo('App\Models\User', 'id_user');
     }

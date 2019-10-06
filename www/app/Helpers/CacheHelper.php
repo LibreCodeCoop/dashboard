@@ -1,9 +1,7 @@
 <?php
 
-
 namespace App\Helpers;
 
- 
 class CacheHelper
 {
     
@@ -20,24 +18,21 @@ class CacheHelper
     }
 
     public static function create(string $name, \DS\Vector $data) : void
-    {        
+    {
         apcu_add($name, $data);
     }
 
     public static function invoke(string $name)
     {
-        if(apcu_exists($name)){
+        if (apcu_exists($name)) {
             return apcu_fetch($name);
         } else {
-            return FALSE;
+            return false;
         }
-        
     }
 
     public static function destroy(string $name)
     {
         apcu_delete($name);
     }
-
-
 }

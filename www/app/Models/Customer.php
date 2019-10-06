@@ -4,8 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
-class Customer extends Model 
+class Customer extends Model
 {
     protected $table = 'customer';
     
@@ -29,14 +28,11 @@ class Customer extends Model
     
     public function customerUser()
     {
-        return $this->belongsToMany('App\Model\CustomerUser', 'id' , 'id_customer');
-        
+        return $this->belongsToMany('App\Model\CustomerUser', 'id', 'id_customer');
     }
     
     public function company()
     {
         return $this->belongsTo('App\Model\Company', 'id_company', 'id');
     }
-    
-    
 }

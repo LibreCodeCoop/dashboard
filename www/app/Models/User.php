@@ -1,10 +1,8 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
-
 
 class User extends Model
 {
@@ -21,7 +19,6 @@ class User extends Model
 
     public function menu()
     {
-        return $this->hasMany('App\Models\Menu',  'id_user');
+        return $this->hasMany('App\Models\Menu', 'id_user');
     }
-    
 }

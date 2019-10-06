@@ -1,16 +1,14 @@
 <?php
 
-
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-
-class Company extends Model 
+class Company extends Model
 {
     protected $table = 'company';
     
-    protected  $fillable = [
+    protected $fillable = [
         'id',
         'name',
         'cnpj',
@@ -28,7 +26,6 @@ class Company extends Model
     
     public function customer()
     {
-        return $this->hasOne('App\Model\Customer',  'id_company', 'id');
-        
+        return $this->hasOne('App\Model\Customer', 'id_company', 'id');
     }
 }

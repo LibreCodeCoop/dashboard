@@ -1,19 +1,12 @@
 <?php
 
-/**
- * File loads project via autoload composer psr4, and database file. 
- * Instantiates router and directs routes with its verbs
- * 
- * @author Samuel Bretas <samuelbretas@gmail.com>
- */
-
 session_start();
 
 require BASE_PATH . 'vendor/autoload.php';
-require BASE_PATH . 'app/database.php';
 
 //invoke dotenv symfony package
 use Symfony\Component\Dotenv\Dotenv;
+
 $dotenv = new Dotenv();
 $dotenv->load(realpath('/app'). '/.env');
 
@@ -35,7 +28,7 @@ $route->get(['/', 'index', 'home', 'default'], 'App\Controllers\AuthController@l
 /**
  * route group authentication
  */
-$route->group('/auth', function(){
+$route->group('/auth', function () {
     $this->post('/connect', 'App\Controllers\AuthController@connect');
     $this->get('/disconnect', 'App\Controllers\AuthController@disconnect');
 });
@@ -49,20 +42,17 @@ $route->get('panel', 'App\Controllers\PanelController@dashboard');
 /**
  * route group
  */
-$route->group('/client', function(){
-    $this->get ('/',            'App\Controllers\ClientController@all');
-    $this->get ('/create',      'App\Controllers\ClientController@create');
-    $this->post('/create',      'App\Controllers\ClientController@save');
-    $this->get ('/{id}/edit',   'App\Controllers\ClientController@edit');
-    $this->post('/{id}/edit',   'App\Controllers\ClientController@save');
-    $this->get ('/{id}/delete', 'App\Controllers\ClientController@delete');
+$route->group('/client', function () {
+    $this->get('/', 'App\Controllers\ClientController@all');
+    $this->get('/create', 'App\Controllers\ClientController@create');
+    $this->post('/create', 'App\Controllers\ClientController@save');
+    $this->get('/{id}/edit', 'App\Controllers\ClientController@edit');
+    $this->post('/{id}/edit', 'App\Controllers\ClientController@save');
+    $this->get('/{id}/delete', 'App\Controllers\ClientController@delete');
 });
 
-
+require BASE_PATH . 'app/database.php';
 /**
  * run application
  */
 $route->end();
-
-
-

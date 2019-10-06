@@ -1,18 +1,12 @@
 <?php
 
-/**
- * front controller. Define timezone, project path, developer error message display * 
- * @author Samuel Bretas <samuelbretas@gmail.com>
- */
-
 define('ENVIRONMENT', 'development');
 date_default_timezone_set('Brazil/East');
-
 /**
  * define the project path
  */
-define('DS', DIRECTORY_SEPARATOR, TRUE);
-define('BASE_PATH', __DIR__ . DS . '..' . DS, TRUE);
+define('DS', DIRECTORY_SEPARATOR, true);
+define('BASE_PATH', __DIR__ . DS . '..' . DS, true);
 
 /**
  * handles display errors
