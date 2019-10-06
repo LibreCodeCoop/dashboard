@@ -20,9 +20,7 @@ services:
    
     environment:
        XDEBUG_CONFIG: "remote_host=172.17.0.1 remote_enable=1" 
-      
-     
-
+       
   #db:
   #  image: mariadb
   #  ports:

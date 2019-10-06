@@ -1,6 +1,6 @@
 {
     "name": "samuelbretas/dashboard-vox-link",
-    "description": "Projeto de apresentação de dashboard para Voxlink",
+    "description": "dashboard project",
     "require": {
         "php": ">=7.0.0",
         "nezamy/route": "^1.2.2",
