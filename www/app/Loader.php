@@ -12,6 +12,12 @@ session_start();
 require BASE_PATH . 'vendor/autoload.php';
 require BASE_PATH . 'app/database.php';
 
+use Symfony\Component\Dotenv\Dotenv;
+
+$dotenv = new Dotenv();
+$dotenv->load(realpath('/app'). '/.env');
+
+
 /**
  * Instancia o roteador.
  */

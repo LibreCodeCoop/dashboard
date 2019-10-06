@@ -20,20 +20,7 @@ services:
    
     environment:
        XDEBUG_CONFIG: "remote_host=172.17.0.1 remote_enable=1" 
-       DB_DRIVER_DEVELOPMENT: "mysql"
-       DB_HOST_DEVELOPMENT: "voxlink.mariadb.database.azure.com"
-       DB_DATABASE_DEVELOPMENT: "voxlink_whmcs_dev"
-       DB_USERNAME_DEVELOPMENT: "dev_voxlink@voxlink"
-       DB_PASSWORD_DEVELOPMENT: "#A12j6n5426#"
-       DB_CHARSET_DEVELOPMENT: "utf8"
-       DB_CHARSET_COLLECTION: "utf8_general_ci"
-       DB_DRIVER_PRODUCTION: "mysql"
-       DB_HOST_PRODUCTION: "db"
-       DB_DATABASE_PRODUCTION: "dashbord"
-       DB_USERNAME_PRODUCTION: "root"
-       DB_PASSWORD_PRODUCTION: "root"
-       DB_CHARSET_PRODUCTION: "utf8"
-       DB_CHARSET_PRODUCTION: "utf8_general_ci"
+      
      
 
   #db:

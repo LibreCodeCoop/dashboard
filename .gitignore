@@ -7,3 +7,4 @@ nbproject/*
 .vscode/*
 ./www/app/Logs/*
 ./www/public/assets/img/favicon-vox.png
+www/.env

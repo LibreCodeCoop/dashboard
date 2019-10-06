@@ -3,3 +3,4 @@ app/Cache/*
 app/Logs/*
 app/Logs/data
 public/assets/img/favicon-vox.png
+.env
