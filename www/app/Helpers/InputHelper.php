@@ -2,20 +2,10 @@
 
 namespace App\Helpers;
 
-/**
-
- * 
- */
 class InputHelper
 {
 
-    /**
-     
-     * 
-     * @param string $key
-     * @param boot $xss
-     * @return mixed
-     */
+   
     public static function Post($key, $xss = true)
     {
         $value = filter_input(INPUT_POST, $key);
@@ -25,13 +15,7 @@ class InputHelper
         return $value;
     }
     
-    /**
-    
-     * 
-     * @param string $key
-     * @param bool $xss
-     * @return mixed
-     */
+   
     public static function Get($key, $xss = true)
     {
         $value = filter_input(INPUT_GET, $key);

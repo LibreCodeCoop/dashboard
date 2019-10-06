@@ -1,27 +1,9 @@
 <?php
 
-/**
- * Class based in php 7.0.8
- * Database abstract class connect Mysql database thougth persistence layer pdo
- * It makes a connections whith the database;
-
- * @category   Adapter 
- * @filesource Adapter.php
- * @package Library\Db\Adapter
- * @author Samuel Bretas
- * @version 0.0.2 dev
- */
-
 
 namespace App\Helpers;
 
- /**
-     * User search method and return true if parameter user and password
-     * whit is equal form and file.
-     * @method invokeUserAccess
-     * @return boolean
-     * @since 0.0.1
-     */
+ 
 class CacheHelper
 {
     
@@ -57,10 +39,5 @@ class CacheHelper
         apcu_delete($name);
     }
 
-
-    public function information()
-    {
-        
-    }
 
 }

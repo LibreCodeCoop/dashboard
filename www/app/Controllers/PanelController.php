@@ -6,7 +6,6 @@ class PanelController extends BaseController
 {
     public function dashboard()
     {
-        
         $this->render('dashboard.html');
     }
 }

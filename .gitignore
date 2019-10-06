@@ -6,3 +6,4 @@ nbproject/*
 ./www/app/Cache/*
 .vscode/*
 ./www/app/Logs/*
+./www/public/assets/img/favicon-vox.png

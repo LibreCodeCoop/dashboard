@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Repository\AuthRepository as Auth;
 use App\Helpers\InputHelper as Input;
 USE App\Helpers\CacheHelper as Cache;
-use App\Helpers\SessionHelper;
 
 
 class AuthController extends BaseController
@@ -14,7 +13,7 @@ class AuthController extends BaseController
     public function login()
     {
         $this->setVar('formAction', 'auth/connect');
-        $this->setVar('pageTitle', 'Login');
+        $this->setVar('pageTitle', 'Template Login - VoxLink');
         $this->render('login.html');
     }
 
