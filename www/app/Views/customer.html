@@ -16,8 +16,8 @@
                                 <div class="col-md-12">
                                     <span class="bmd-form-group">
                                         <div class="input-group no-border">
-                                            <input type="text" value="" class="form-control" placeholder="Search...">
-                                            <button type="submit" class="btn btn-white btn-round btn-just-icon">
+                                            <input type="text" name="consultCode" id="consultCode" class="form-control" placeholder="Search...">
+                                            <button type="button" onclick="Customer.find()" id="buttonConsultCode" class="btn btn-white btn-round btn-just-icon">
                                                 <i class="material-icons">search</i>
                                                 <div class="ripple-container"></div>
                                                 <div class="ripple-container"></div>
@@ -50,7 +50,7 @@
                                                 </th>
                                             </thead>
                                             <tbody>
-                                                <div id="display_grid" class="table-responsive">
+                                                <div id="display_grid_customer" class="table-responsive">
                                                     {% for list in customerList %}
                                                     <tr>
                                                         <td>
@@ -81,4 +81,5 @@
     </div>
 </div>
 </div>
+
 {% endblock %}

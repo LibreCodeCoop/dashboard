@@ -1,14 +1,15 @@
 Customer = {
     
-    find : function(){
+    find : function() {
+ 
         $.ajax({
             method: "get",
-            url: "/customer/find",
-            data: $('form').serialize() ,
-            dataType: "html",
+            url: "/customer/find/" + $("#consultCode").val(),
+            dataType: "json",
             success: function(data) {
                 
+                console.log(data);
             }
         });
     }    
-}
+};

@@ -21,8 +21,8 @@ class CustomerController extends BaseController
         $this->render('customer.html');
     }
 
-    public function find()
-    { }
+    public function find(int $id)
+    {  echo $id;  }
     public function create()
     { }
 

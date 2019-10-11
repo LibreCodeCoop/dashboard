@@ -37,17 +37,17 @@ class CustomerTest extends TestCase
         $this->assertNotEmpty($result);
     }
     
+   
     public function testfindCustomer()
     {
         $id = 11;
 
         $customer = new CustomerRepository();
         $result = $customer->find($id);
-        
+      
         $this->assertNotEmpty($result->get('id'));
 
     }
-
 
 
 
