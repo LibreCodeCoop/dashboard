@@ -2,7 +2,29 @@
 
 namespace App\Models;
 
-class Clients
+use Illuminate\Database\Eloquent\Model;
+
+class Clients extends Model
 {
-    //put your code here
+   protected $table = 'tblClients';
+
+   protected $fillable = [
+        'id',
+        'uuid',
+        'firstname',
+        'lastname',
+        'companyname',
+        'email',
+        'address1',
+        'address2',
+        'city',
+        'state',
+        'postcode',
+        'country',
+        'phonenumber'       
+   ];
+
+   
+
+
 }

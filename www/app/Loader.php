@@ -42,13 +42,14 @@ $route->get('panel', 'App\Controllers\PanelController@dashboard');
 /**
  * route group
  */
-$route->group('/client', function () {
-    $this->get('/', 'App\Controllers\ClientController@all');
-    $this->get('/create', 'App\Controllers\ClientController@create');
-    $this->post('/create', 'App\Controllers\ClientController@save');
-    $this->get('/{id}/edit', 'App\Controllers\ClientController@edit');
-    $this->post('/{id}/edit', 'App\Controllers\ClientController@save');
-    $this->get('/{id}/delete', 'App\Controllers\ClientController@delete');
+$route->group('/customer', function () {
+    $this->get('/', 'App\Controllers\CustomerController@all');    
+    $this->get('/create', 'App\Controllers\CustomerController@create');
+    $this->post('/create', 'App\Controllers\CustomerController@save');
+    $this->get('/{id}/find', 'App\Controllers\CustomerController@find');
+    $this->get('/{id}/edit', 'App\Controllers\CustomerController@edit');
+    $this->post('/{id}/edit', 'App\Controllers\CustomerController@save');
+    $this->get('/{id}/delete', 'App\Controllers\CustomerController@delete');
 });
 
 require BASE_PATH . 'app/database.php';

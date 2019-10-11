@@ -28,11 +28,11 @@ class Customer extends Model
     
     public function customerUser()
     {
-        return $this->belongsToMany('App\Model\CustomerUser', 'id', 'id_customer');
+        return $this->belongsToMany('App\Models\CustomerUser', 'id', 'id_customer');
     }
     
     public function company()
     {
-        return $this->belongsTo('App\Model\Company', 'id_company', 'id');
+        return $this->belongsTo('App\Models\Company', 'id_company', 'id');
     }
 }
