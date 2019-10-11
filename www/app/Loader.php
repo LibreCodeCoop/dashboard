@@ -46,7 +46,7 @@ $route->group('/customer', function () {
     $this->get('/', 'App\Controllers\CustomerController@all');    
     $this->get('/create', 'App\Controllers\CustomerController@create');
     $this->post('/create', 'App\Controllers\CustomerController@save');
-    $this->get('/find/{id}', 'App\Controllers\CustomerController@find');
+    $this->post('/find', 'App\Controllers\CustomerController@find');
     $this->get('/{id}/edit', 'App\Controllers\CustomerController@edit');
     $this->post('/{id}/edit', 'App\Controllers\CustomerController@save');
     $this->get('/{id}/delete', 'App\Controllers\CustomerController@delete');

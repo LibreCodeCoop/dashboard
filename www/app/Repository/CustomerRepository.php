@@ -42,6 +42,7 @@ class CustomerRepository
     }
     public function find(int $idTblClient) : \Ds\Map
     {
+       
         $check = $this->checkconsultCustomerBaseCustomer($idTblClient);
 
         switch ($check) {
@@ -51,7 +52,7 @@ class CustomerRepository
                 $map = new \Ds\Map();
                 $map->put('id', $this->data->get('id'));
                 $map->put('name', $this->data->get('name'));
-                $map->put('company', $this->consultCompanyUser($this->data->get('id_company')));
+                $map->put('company', (null === $this->data->get('id_company')) ?  ' -' : $this->consultCompanyUser($this->data->get('id_company')));
 
                 break;
 
@@ -60,7 +61,7 @@ class CustomerRepository
                 $map = new \Ds\Map();
                 $map->put('id', $this->data->get('id'));
                 $map->put('name', $this->data->get('name'));
-                $map->put('company', $this->data->get('company'));
+                $map->put('company',(null === $this->data->get('id_company')) ?  ' -' : $this->consultCompanyUser($this->data->get('id_company')));
 
 
                 break;
@@ -72,9 +73,9 @@ class CustomerRepository
 
 
     private function checkconsultCustomerBaseCustomer(int $id): bool
-    {
-        $this->data = $this->collection->where('id_tblclient', $id)->get();
-
+    {     
+        $this->data = $this->collection->where('id_tblclient' ,  $id)->get();
+   
         return (empty($this->data->id)) ? true : false;
     }
 
@@ -87,8 +88,8 @@ class CustomerRepository
     }
     private function consultCustomerBaseCustomer(int $id)
     {
-        $this->data = $this->collection->where('id_tblclient'. '=' . $id)->get();
- 
+        $this->data = $this->collection->where('id_tblclient' ,  $id)->first();
+       
         if (!is_null($this->data)) {
             $map = new \Ds\Map();          
             $map->put('id', $this->data->id);

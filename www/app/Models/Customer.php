@@ -11,7 +11,7 @@ class Customer extends Model
     protected $fillable = [
         'id',
         'id_company',
-        'id_tbclient',
+        'id_tblclient',
         'uuid_tbclient',
         'first_name',
         'last_name',
