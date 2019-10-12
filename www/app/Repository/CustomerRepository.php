@@ -76,11 +76,20 @@ class CustomerRepository
 
                 $this->data = $this->consultCustomerBaseClients($idTblClient);
 
-                $map = new \Ds\Map();
-                $map->put('id_tblClient', $this->data->get('id'));
-                $map->put('name', $this->data->get('name'));
-                $map->put('company', $this->data->get('company'));
-
+                $this->map = new \Ds\Map();
+                $this->map->put('id_tblClient', $this->data->get('id'));
+                $this->map->put('name', $this->data->get('name'));
+                $this->map->put('company', $this->data->get('company'));
+                $this->map->put('email', $this->data->get('email'));
+                $this->map->put('address1', $this->data->get('address1'));
+                $this->map->put('address2', $this->data->get('address2'));
+                $this->map->put('city', $this->data->get('city'));
+                $this->map->put('state', $this->data->get('state'));
+                $this->map->put('postcode', $this->data->get('postcode'));
+                $this->map->put('country', $this->data->get('country'));
+                $this->map->put('phonenumber', $this->data->get('phonenumber'));
+                $this->map->put('id_company', null);   
+    
 
                 break;
         }
@@ -152,13 +161,22 @@ class CustomerRepository
         $this->data = $this->collectionClients->find($id);
 
         if (!is_null($this->data)) {
-            $map = new \Ds\Map();
-            $map->allocate(1);
-            $map->put('id', $this->data->id);
-            $map->put('company', $this->data->companyname);
-            $map->put('name', $this->data->firstname . ' ' . $this->data->lastname);
 
-            return $map;
+            $this->map = new \Ds\Map();
+            $this->map->allocate(11);
+            $this->map->put('id', $this->data->id);
+            $this->map->put('company', $this->data->companyname);
+            $this->map->put('name', $this->data->firstname . ' ' . $this->data->lastname);
+            $this->map->put('email', $this->data->email);
+            $this->map->put('address1', $this->data->address1);
+            $this->map->put('address2', $this->data->address2);
+            $this->map->put('city', $this->data->city);
+            $this->map->put('state', $this->data->state);
+            $this->map->put('postcode', $this->data->postcode);
+            $this->map->put('country', $this->data->country);
+            $this->map->put('phonenumber', $this->data->phonenumber);   
+
+            return $this->map;
         }
 
         return null;
