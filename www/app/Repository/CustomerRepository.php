@@ -6,7 +6,6 @@ use App\Models\Customer;
 use App\Models\Clients;
 use App\Models\Company;
 
-use Illuminate\Database\Query\Builder;
 
 class CustomerRepository
 {
