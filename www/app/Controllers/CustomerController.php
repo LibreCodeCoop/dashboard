@@ -11,13 +11,22 @@ class CustomerController extends BaseController
     private $customer;
     private $id;
     private $data;
+    private $company;
 
     public function all()
     {
         $this->customer = new Customer();
+       
         $fullCharge = $this->customer->list();
    
         foreach($fullCharge as $charge) {
+        
+            if(!empty($charge->get('id_company'))){
+                $this->company = new Customer();
+                $returnCompany = $this->company->consultCompanyUser($charge->get('id_company'));
+                $charge->put('company' , $returnCompany->get('company_name'));
+            }
+            
             $data[] = $charge->toArray();
         }
         
@@ -30,10 +39,19 @@ class CustomerController extends BaseController
     {  
         $this->id = (int) Input::Post('consultCode');
         $this->customer = new Customer();
-        $data = $this->customer->find($this->id);
+        $charge = $this->customer->find($this->id);
+        
+       
 
-      
-        $this->setVar('customerList', array($data->toArray()));
+       if(!empty($charge->get('id_company'))){
+                $this->company = new Customer();
+                $returnCompany = $this->company->consultCompanyUser($charge->get('id_company'));
+                $charge->put('company' , $returnCompany->get('company_name'));
+            }
+
+            $data[] = $charge->toArray();
+
+        $this->setVar('customerList', $data);
         $this->render('customer.html');
 
      }
@@ -42,8 +60,8 @@ class CustomerController extends BaseController
         $this->id = $id;
         $this->customer = new Customer();
         $this->data = $this->customer->find($this->id);
-
-        $this->setVar('form', array($this->data->toArray()));
+        
+        $this->setVar('form', $this->data->toArray());
         $this->render('formCustomer.html');
 
     }

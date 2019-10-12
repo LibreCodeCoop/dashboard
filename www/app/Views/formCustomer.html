@@ -24,7 +24,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Cpf</label>
-                                        <input type="text" name="customer_cpf" class="form-control">
+                                        <input type="text" name="customer_cpf" value="{{ form.cpf }}" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -32,13 +32,13 @@
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">E-mail</label>
-                                        <input type="text" name="customer_email" class="form-control">
+                                        <input type="text" name="customer_email" value="{{ form.email }}" class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Telefone</label>
-                                        <input type="text" name="customer_phone" class="form-control">
+                                        <input type="text" name="customer_phone" value="{{ form.phone }}" class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -46,24 +46,24 @@
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Endereco</label>
-                                        <input type="text" name="customer_address1" class="form-control">
+                                        <input type="text" name="customer_address1" value="{{ form.address1 }}"  class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Complemento</label>
-                                        <input type="text" name="customer_address2" class="form-control">
+                                        <input type="text" name="customer_address2" value="{{ form.address2 }}" class="form-control">
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-5">
+                                <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Cidade</label>
-                                        <input type="text" name="customer_city"  class="form-control">
+                                        <input type="text" name="customer_city" value="{{ form.city }}"  class="form-control">
                                     </div>
                                 </div>
-                                <div class="col-md-3">
+                                <div class="col-md-6">
                                     <div class="form-group">                                        
                                         <select name="customer_state"  title="UF" >
                                             <option selected> Selecione</option>
@@ -71,15 +71,25 @@
                                             <option value="RJ">Rio de Janeiro</option>
                                         </select>
                                     </div>
-                                </div>
-                                <div class="col-md-2">
-                                    <div class="form-group">
-                                        <label class="bmd-label-floating">Cep</label>
-                                        <input type="text" name="customer_postcode" class="form-control">
-                                    </div>
-                                </div>
-                                
+                                </div>                               
                             </div>
+
+                            <div class="row">
+                                    <div class="col-md-6">
+                                            <div class="form-group">
+                                                    <label class="bmd-label-floating">Cep</label>
+                                                    <input type="text" name="customer_postcode" value="{{ form.postcode }}" class="form-control">
+                                                </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                    <label class="bmd-label-floating">País</label>
+                                                    <input type="text" name="customer_country" value="{{ form.country }}" class="form-control">
+                                                </div>
+                                        </div>
+
+                            </div>
+
 
                             <div class="row">
                                 <div id="typography">
