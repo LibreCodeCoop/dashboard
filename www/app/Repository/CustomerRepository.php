@@ -29,9 +29,10 @@ class CustomerRepository
         $package = new \Ds\Vector();
 
         foreach($this->data as $data){
-          
+   
             $package->push(new \Ds\Map([
                 "id" => $data->id,
+                "id_tblClient" => $data->id_tblclient,
                 "name" => $data->first_name.' '. $data->last_name,
                 "company" => (null === $data->id_company) ?  ' -' : $this->consultCompanyUser($data->id_company)
                 ]
@@ -48,9 +49,10 @@ class CustomerRepository
         switch ($check) {
             case true:
                 $this->data = $this->consultCustomerBaseCustomer($idTblClient);
-               
+             
                 $map = new \Ds\Map();
                 $map->put('id', $this->data->get('id'));
+                $map->put('id_tblClient', $this->data->get('id_tblClient'));
                 $map->put('name', $this->data->get('name'));
                 $map->put('company', (null === $this->data->get('id_company')) ?  ' -' : $this->consultCompanyUser($this->data->get('id_company')));
 
@@ -58,10 +60,12 @@ class CustomerRepository
 
             case false:
 
+                $this->data = $this->consultCustomerBaseClients($idTblClient);
+
                 $map = new \Ds\Map();
-                $map->put('id', $this->data->get('id'));
+                $map->put('id_tblClient', $this->data->get('id'));
                 $map->put('name', $this->data->get('name'));
-                $map->put('company',(null === $this->data->get('id_company')) ?  ' -' : $this->consultCompanyUser($this->data->get('id_company')));
+                $map->put('company',$this->data->get('company'));
 
 
                 break;
@@ -70,13 +74,11 @@ class CustomerRepository
     }
 
 
-
-
     private function checkconsultCustomerBaseCustomer(int $id): bool
     {     
-        $this->data = $this->collection->where('id_tblclient' ,  $id)->get();
-   
-        return (empty($this->data->id)) ? true : false;
+        $this->data = (bool) $this->collection->where('id_tblclient' ,  $id)->get()->count('id_tblclient');
+        return $this->data;
+      
     }
 
     private  function consultCompanyUser(int $id): string
@@ -93,6 +95,7 @@ class CustomerRepository
         if (!is_null($this->data)) {
             $map = new \Ds\Map();          
             $map->put('id', $this->data->id);
+            $map->put('id_tblClient', $this->data->id_tblclient);
             $map->put('id_company', $this->data->id_company);
             $map->put('name', $this->data->first_name . ' ' . $this->data->last_name);
 
@@ -102,7 +105,7 @@ class CustomerRepository
         return null;
     }
 
-    public function consultCustomerBaseClients(id $id)
+    private function consultCustomerBaseClients(int $id)
     {
         $this->data = $this->collectionClients->find($id);
 
@@ -111,7 +114,7 @@ class CustomerRepository
             $map->allocate(1);
             $map->put('id', $this->data->id);
             $map->put('company', $this->data->companyname);
-            $map->put('name', $this->data->first_name . ' ' . $this->data->last_name);
+            $map->put('name', $this->data->firstname . ' ' . $this->data->lastname);
 
             return $map;
         }

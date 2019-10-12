@@ -9,12 +9,14 @@ use App\Helpers\InputHelper as Input;
 class CustomerController extends BaseController
 {
     private $customer;
+    private $id;
+    private $data;
 
     public function all()
     {
         $this->customer = new Customer();
         $fullCharge = $this->customer->list();
-      
+   
         foreach($fullCharge as $charge) {
             $data[] = $charge->toArray();
         }
@@ -26,22 +28,25 @@ class CustomerController extends BaseController
 
     public function find()
     {  
-        $id = (int) Input::Post('consultCode');
+        $this->id = (int) Input::Post('consultCode');
         $this->customer = new Customer();
-        $data = $this->customer->find($id);
+        $data = $this->customer->find($this->id);
 
       
         $this->setVar('customerList', array($data->toArray()));
         $this->render('customer.html');
 
-        
-       
      }
-    public function create()
-    { }
+    public function edit(int $id)
+    { 
+        $this->id = $id;
+        $this->customer = new Customer();
+        $this->data = $this->customer->find($this->id);
 
-    public function edit()
-    { }
+        $this->setVar('form', array($this->data->toArray()));
+        $this->render('formCustomer.html');
+
+    }
 
     public function save()
     { }

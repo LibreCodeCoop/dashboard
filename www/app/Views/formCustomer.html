@@ -1,0 +1,186 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Edit Profile</h4>
+                        <p class="card-category">Complete your profile</p>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Nome</label>
+                                        <input type="text" name="name" class="form-control" value="{{ form.name}}">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Cpf</label>
+                                        <input type="text" name="cpf" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">E-mail</label>
+                                        <input type="text" name="email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Telefone</label>
+                                        <input type="text" name="phone" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Endereco</label>
+                                        <input type="text" name="address1" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Complemento</label>
+                                        <input type="text" name="address2" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Cidade</label>
+                                        <input type="text" name="city"  class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">                                        
+                                        <select name="state"  title="UF" >
+                                            <option selected> Selecione</option>
+                                            <option value="SP">São Paulo</option>
+                                            <option value="RJ">Rio de Janeiro</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Cep</label>
+                                        <input type="text" name="postcode" class="form-control">
+                                    </div>
+                                </div>
+                                
+                            </div>
+
+                            <div class="row">
+                                <div id="typography">
+                                    <div class="tim-typo">
+                                        <h3>
+                                            <span class="tim-note">Header 3</span>Dados da empresa
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Nome</label>
+                                        <input type="text" name="company_name" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Cpf</label>
+                                        <input type="text" name="company_cnpj" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">E-mail</label>
+                                        <input type="text" name="company_email" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Telefone</label>
+                                        <input type="text" name="company_phone" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-9">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Endereco</label>
+                                        <input type="text" name="company_address1" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Complemento</label>
+                                        <input type="text" name="company_address2" class="form-control">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-5">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Cidade</label>
+                                        <input type="text" name="company_city" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                        <div class="form-group">                                        
+                                                <select name="company_state" title="UF" >
+                                                    <option selected> Selecione</option>
+                                                    <option value="SP">São Paulo</option>
+                                                    <option value="RJ">Rio de Janeiro</option>
+                                                </select>
+                                            </div>
+                                    
+                                </div>
+                                <div class="col-md-2">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Cep</label>
+                                        <input type="text" name="company_postcode" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-2">
+                                        <div class="form-group">
+                                            <label class="bmd-label-floating">Pais</label>
+                                            <input type="text" name="company_country" class="form-control">
+                                        </div>
+                                    </div>
+                            </div>
+
+
+
+
+                            <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                    </div>
+                   
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

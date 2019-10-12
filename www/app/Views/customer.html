@@ -54,7 +54,7 @@
                                                     {% for list in customerList %}
                                                     <tr>
                                                         <td>
-                                                            {{ list.id }}
+                                                            {{ list.id_tblClient }}
                                                         </td>
                                                         <td>
                                                             {{ list.name }}
@@ -63,7 +63,9 @@
                                                             {{ list.company}}
                                                         </td>
                                                         <td>
-                                                            <i class="material-icons">edit</i>
+                                                            <a href="{{ baseUrl }}/customer/edit/{{ list.id_tblClient }}">
+                                                                <i class="material-icons">edit</i>
+                                                            </a>
                                                         </td>
                                                     </tr>
                                                     {%endfor%}
