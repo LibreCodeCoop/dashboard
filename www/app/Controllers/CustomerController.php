@@ -55,13 +55,32 @@ class CustomerController extends BaseController
         $this->render('customer.html');
 
      }
-    public function edit(int $id)
+    public function edit(int $id, string $type)
     { 
         $this->id = $id;
         $this->customer = new Customer();
-        $this->data = $this->customer->find($this->id);
-        
-        $this->setVar('form', $this->data->toArray());
+        $charge = $this->customer->find($this->id);
+
+        if(!empty($charge->get('id_company'))){
+            $this->company = new Customer();
+            $returnCompany = $this->company->consultCompanyUser($charge->get('id_company'));
+
+            $charge->put('company_name' , $returnCompany->get('company_name'));
+            $charge->put('company_cnpj' , $returnCompany->get('company_cnpj'));
+            $charge->put('company_municipal_reg' , $returnCompany->get('company_municipal_reg'));
+            $charge->put('company_state_reg' , $returnCompany->get('company_state_reg'));
+            $charge->put('company_email' , $returnCompany->get('company_email'));
+            $charge->put('company_phone' , $returnCompany->get('company_phone'));
+            $charge->put('company_address1' , $returnCompany->get('company_address1'));
+            $charge->put('company_address2' , $returnCompany->get('company_address2'));
+            $charge->put('company_city' , $returnCompany->get('company_city'));
+            $charge->put('state' , $returnCompany->get('company_state'));
+            $charge->put('company_postcode' , $returnCompany->get('company_postcode'));
+            $charge->put('company_country' , $returnCompany->get('company_country'));
+           
+        }
+
+        $this->setVar('form', $charge->toArray());
         $this->render('formCustomer.html');
 
     }

@@ -46,7 +46,10 @@
                                                     EMPRESA
                                                 </th>
                                                 <th>
-
+                                                    Visualizar
+                                                </th>
+                                                <th>
+                                                    Usuários
                                                 </th>
                                             </thead>
                                             <tbody>
@@ -63,9 +66,12 @@
                                                             {{ list.company}}
                                                         </td>
                                                         <td>
-                                                            <a href="{{ baseUrl }}/customer/edit/{{ list.id_tblClient }}">
+                                                            <a href="{{ baseUrl }}/customer/edit/{{ list.id_tblClient }}/{{ list.type }}">
                                                                 <i class="material-icons">edit</i>
                                                             </a>
+                                                        </td>
+                                                        <td>
+                                                           <i class="material-icons">face</i> 
                                                         </td>
                                                     </tr>
                                                     {%endfor%}

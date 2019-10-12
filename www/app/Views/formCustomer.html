@@ -105,13 +105,13 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Nome</label>
-                                        <input type="text" name="company_name" class="form-control">
+                                        <input type="text" name="company_name" value="{{ form.company_name }}" {% if not form.company_name %} disabled {% endif %} class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label class="bmd-label-floating">Cpf</label>
-                                        <input type="text" name="company_cnpj" class="form-control">
+                                        <label class="bmd-label-floating">Cnpj</label>
+                                        <input type="text" name="company_cnpj" value="{{ form.company_cnpj }}"  {% if not form.company_cnpj %} disabled {% endif %} class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -119,13 +119,13 @@
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">E-mail</label>
-                                        <input type="text" name="company_email" class="form-control">
+                                        <input type="text" name="company_email" value="{{ form.company_email }}" {% if not form.company_email %} disabled {% endif %} class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Telefone</label>
-                                        <input type="text" name="company_phone" class="form-control">
+                                        <input type="text" name="company_phone"  value="{{ form.company_phone }}" {% if not form.company_phone %} disabled {% endif %} class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -133,13 +133,13 @@
                                 <div class="col-md-9">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Endereco</label>
-                                        <input type="text" name="company_address1" class="form-control">
+                                        <input type="text" name="company_address1" value="{{ form.company_address1 }}" {% if not form.company_address1 %} disabled {% endif %} class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Complemento</label>
-                                        <input type="text" name="company_address2" class="form-control">
+                                        <input type="text" name="company_address2" value="{{ form.company_address2 }}" {% if not form.company_address2 %} disabled {% endif %} class="form-control">
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +147,7 @@
                                 <div class="col-md-5">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Cidade</label>
-                                        <input type="text" name="company_city" class="form-control">
+                                        <input type="text" name="company_city" value="{{ form.company_city }}" {% if not form.company_city %} disabled {% endif %} class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-3">
@@ -163,19 +163,18 @@
                                 <div class="col-md-2">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Cep</label>
-                                        <input type="text" name="company_postcode" class="form-control">
+                                        <input type="text" name="company_postcode" value="{{ form.company_postcode }}" {% if not form.company_postcode %} disabled {% endif %}  class="form-control">
                                     </div>
                                 </div>
                                 <div class="col-md-2">
                                         <div class="form-group">
                                             <label class="bmd-label-floating">Pais</label>
-                                            <input type="text" name="company_country" class="form-control">
+                                            <input type="text" name="company_country" value="{{ form.company_country }}" {% if not form.company_country %} disabled {% endif %}  class="form-control">
                                         </div>
                                     </div>
                             </div>
-
-
-
+                            <input type="hidden" name="type" value="{{ form.type }}">
+                    
 
                             <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
                     </div>

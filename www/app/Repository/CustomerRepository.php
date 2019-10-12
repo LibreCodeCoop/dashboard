@@ -36,7 +36,8 @@ class CustomerRepository
                     "id" => $data->id,
                     "id_tblClient" => $data->id_tblclient,
                     "name" => $data->first_name . ' ' . $data->last_name,
-                    "id_company" => $data->id_company
+                    "id_company" => $data->id_company,
+                    "type" => 'CUS'
                 ]
             ));
         }
@@ -69,6 +70,7 @@ class CustomerRepository
                 $this->map->put('postcode', $this->data->get('postcode'));
                 $this->map->put('country', $this->data->get('country'));                
                 $this->map->put('id_company', $this->data->get('id_company') );
+                $this->map->put('type', 'CUS');
 
                 break;
 
@@ -89,6 +91,7 @@ class CustomerRepository
                 $this->map->put('country', $this->data->get('country'));
                 $this->map->put('phonenumber', $this->data->get('phonenumber'));
                 $this->map->put('id_company', null);   
+                $this->map->put('type', 'CLI');
     
 
                 break;
@@ -114,13 +117,13 @@ class CustomerRepository
             $this->map->put('company_municipal_reg', $this->data->municipal_reg);
             $this->map->put('company_state_reg', $this->data->state_reg);
             $this->map->put('company_email', $this->data->email);
-            $this->map->put('phone', $this->data->phone);
-            $this->map->put('address1', $this->data->address1);
-            $this->map->put('address2', $this->data->address2);
-            $this->map->put('city', $this->data->city);
-            $this->map->put('state', $this->data->state);
-            $this->map->put('postcode', $this->data->postcode);
-            $this->map->put('country', $this->data->country);
+            $this->map->put('company_phone', $this->data->phone);
+            $this->map->put('company_address1', $this->data->address1);
+            $this->map->put('company_address2', $this->data->address2);
+            $this->map->put('company_city', $this->data->city);
+            $this->map->put('company_state', $this->data->state);
+            $this->map->put('company_postcode', $this->data->postcode);
+            $this->map->put('company_country', $this->data->country);
 
             return $this->map;      
     }
