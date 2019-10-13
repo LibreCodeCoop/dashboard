@@ -66,4 +66,15 @@ class UserRepository
         $this->package->add($name->first_name . ' ' . $name->last_name);
         return $this->package;
     }
+
+    public function new(\Ds\Map $objectMap)
+    {
+        $this->collection->id_customer = $objectMap->get('id_customer');
+        $this->collection->id_user = $objectMap->get('id_user');
+
+        $result = $this->collection->save();
+
+        dd($result);
+
+    }
 }
