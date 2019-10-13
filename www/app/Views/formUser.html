@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header card-header-primary">
+                        <h4 class="card-title">Edit Profile</h4>
+                        <p class="card-category">Complete your profile</p>
+                    </div>
+                    <div class="card-body">
+                        <form method="post" action="">   
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">Customer</label>
+                                        <input type="text" name="customer_name" class="form-control" value="">
+                                    </div>
+                                </div>
+                            </div>  
+                            <div class="row">
+                                    <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="bmd-label-floating">Usuário</label>
+                                                <input type="text" name="customer_phone" value="" class="form-control">
+                                            </div>
+                                        </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="bmd-label-floating">E-mail</label>
+                                        <input type="text" name="customer_email" value="" class="form-control">
+                                    </div>
+                                </div>
+                                
+                            </div>
+                            <input type="hidden" name="id_customer" value="" />
+                            <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
+                    </div>
+                   
+                </div>
+                </form>
+
+                
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+
+
+
+
+
+
+{% endblock %}

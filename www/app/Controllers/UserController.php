@@ -28,7 +28,11 @@ class UserController extends BaseController
     }
 
     public function create(int $idCustomer)
-    { }
+    {
+
+        $this->render('formUser.html');
+
+     }
 
     public function save(int $id = null)
     { }
