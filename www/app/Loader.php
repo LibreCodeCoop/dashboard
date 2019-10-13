@@ -58,6 +58,7 @@ $route->group('/user', function () {
     $this->get('/list/{idCustomer}', 'App\Controllers\UserController@list');
     $this->get('/create/{idCustomer}', 'App\Controllers\UserController@create');
     $this->post('/create', 'App\Controllers\UserController@save');
+    $this->get('/edit/{id}', 'App\Controller\UserController@edit');
     $this->post('edit/{id}', 'App\Controllers\UserController@save');
     $this->get('delete/{id}', 'App\Controllers\UserController@delete');
 });
