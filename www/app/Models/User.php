@@ -21,4 +21,10 @@ class User extends Model
     {
         return $this->hasMany('App\Models\Menu', 'id_user');
     }
+
+    public function customeruser()
+    {
+        return $this->belongsToMany('App\Models\CustomerUser', 'id', 'id_customer');
+    }
+
 }

@@ -52,6 +52,18 @@ $route->group('/customer', function () {
     $this->get('/{id}/delete', 'App\Controllers\CustomerController@delete');
 });
 
+
+$route->group('/user', function () {
+
+    $this->post('/', 'App\Controllers\UserController@all');
+    $this->get('/create', 'App\Controllers\UserController@create');
+    $this->post('/create', 'App\Controllers\UserController@save');
+    $this->post('/{id}/edit', 'App\Controllers\UserController@save');
+    $this->get('/{id}/delete', 'App\Controllers\UserController@delete');
+});
+
+
+
 require BASE_PATH . 'app/database.php';
 /**
  * run application
