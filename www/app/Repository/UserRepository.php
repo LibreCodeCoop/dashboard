@@ -89,4 +89,18 @@ class UserRepository
             return $result;
 
     }
+
+    public function find(int $id) : \Ds\Map
+    {
+        $this->query = $this->collectionUser->find($id);
+        
+        $this->package = new \Ds\Map;
+        $this->package->allocate(3);
+        $this->package->put('id', $this->query->id);
+        $this->package->put('name', $this->query->name);
+        $this->package->put('email', $this->query->email);
+
+        return $this->package;
+
+    }
 }

@@ -24,18 +24,20 @@
                                     <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="bmd-label-floating">Usuário</label>
-                                                <input type="text" name="user_name" value="" class="form-control">
+                                                <input type="text" name="user_name" value="{{ form.name }}" class="form-control">
                                             </div>
                                         </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">E-mail</label>
-                                        <input type="text" name="user_mail" value="" class="form-control">
+                                        <input type="text" name="user_mail" value="{{ form.email }}" class="form-control">
                                     </div>
                                 </div>
                                 
                             </div>
                             <input type="hidden" name="id_customer" value="{{ id_customer }}" />
+                            <input type="hidden" name="id_user" value="{{ form.id }}" />
+
                             <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
                     </div>
                    
