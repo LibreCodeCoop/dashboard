@@ -11,12 +11,12 @@
                         <p class="card-category">Complete your profile</p>
                     </div>
                     <div class="card-body">
-                        <form method="post" action="">   
+                        <form method="post" action="{{ baseUrl }}/user/create">   
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">Customer</label>
-                                        <input type="text" name="customer_name" class="form-control" value="{{ customerName }}">
+                                        <input type="text" name="customer_name" class="form-control" value="{{ customerName }}" disabled >
                                     </div>
                                 </div>
                             </div>  
@@ -30,12 +30,12 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="bmd-label-floating">E-mail</label>
-                                        <input type="text" name="user_email" value="" class="form-control">
+                                        <input type="text" name="user_mail" value="" class="form-control">
                                     </div>
                                 </div>
                                 
                             </div>
-                            <input type="hidden" name="id_customer" value="{{ id_customer }}" />
+                            <input type="hidden" name="id" value="{{ id_customer }}" />
                             <button type="submit" class="btn btn-primary pull-right">Update Profile</button>
                     </div>
                    
