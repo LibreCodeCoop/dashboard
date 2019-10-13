@@ -24,7 +24,7 @@ class User extends Model
 
     public function customeruser()
     {
-        return $this->belongsToMany('App\Models\CustomerUser', 'id', 'id_customer');
+        return $this->hasMany('App\Models\CustomerUser', 'id', 'id_customer');
     }
 
 }

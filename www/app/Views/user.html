@@ -11,13 +11,22 @@
                         <p class="card-category">Complete your profile</p>
                     </div>
                     <div class="card-body">
+
+                        <div class="row">
+                            <div class="col-md-12">                           
+                                    <a href="{{ baseUrl }}/create/{{ id_customer }}" class="btn btn-primary pull-right">Novo</a>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-md-12">
-
                                 <div class="card-body">
                                     <div class="table-responsive">
                                         <table class="table table-hover">
                                             <thead class="">
+                                                <th>
+                                                    CÓDIGO
+                                                </th>
                                                 <th>
                                                     USUÁRIO
                                                 </th>
@@ -32,7 +41,29 @@
                                                 </th>
                                             </thead>
                                             <tbody>
-                                               
+                                                    {% for list in userList %}
+                                                    <tr>
+                                                        <td>
+                                                            {{ list.id }}
+                                                        </td>
+                                                        <td>
+                                                            {{ list.name }}
+                                                        </td>
+                                                        <td>
+                                                            {{ list.email}}
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ baseUrl }}/user/edit/{{ list.id }}">
+                                                                <i class="material-icons">edit</i>
+                                                            </a>
+                                                        </td>
+                                                        <td>
+                                                            <a href="{{ baseUrl }}/user/list/{{ list.id }}">
+                                                                <i class="material-icons">face</i> 
+                                                            </a>                                                         
+                                                        </td>
+                                                    </tr>
+                                                    {%endfor%}
                                                    
                                             </tbody>
                                         </table>

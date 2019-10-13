@@ -3,36 +3,36 @@
 namespace App\Controllers;
 
 use App\Helpers\InputHelper as Input;
-use App\Repository\UserRepostory;
+use App\Repository\UserRepository;
 
 class UserController extends BaseController
 {
+    private $user;
     private $list;
 
     public function list(int $idCustomer)
     {
-        $this->list = new UserRepostory($idCustomer);
+        $this->user = new UserRepository();
+        $this->list = $this->user->listDataUsersInCustomer($idCustomer);
 
-        dd($this->list);
-
-
+        $data = [];
+        foreach ($this->list as $list) {
+            $list->remove('admin');
+            $list->remove('master');
+            $data[] = $list->toArray();
+        }
+     
+        $this->setvar('id_customer', $data[0]['id_customer']);
+        $this->setvar('userList', $data);
         $this->render('user.html');
     }
 
     public function create(int $idCustomer)
-    {
-
-    }
+    { }
 
     public function save(int $id = null)
-    {
-
-    }
+    { }
 
     public function delete(int $id)
-    {
-
-    }
-
-    
+    { }
 }

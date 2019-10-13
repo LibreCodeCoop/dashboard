@@ -55,11 +55,11 @@ $route->group('/customer', function () {
 
 $route->group('/user', function () {
 
-    $this->post('/', 'App\Controllers\UserController@all');
-    $this->get('/create', 'App\Controllers\UserController@create');
+    $this->get('/list/{idCustomer}', 'App\Controllers\UserController@list');
+    $this->get('/create/{idCustomer}', 'App\Controllers\UserController@create');
     $this->post('/create', 'App\Controllers\UserController@save');
-    $this->post('/{id}/edit', 'App\Controllers\UserController@save');
-    $this->get('/{id}/delete', 'App\Controllers\UserController@delete');
+    $this->post('edit/{id}', 'App\Controllers\UserController@save');
+    $this->get('delete/{id}', 'App\Controllers\UserController@delete');
 });
 
 

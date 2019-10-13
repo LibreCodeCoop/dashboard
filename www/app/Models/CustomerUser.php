@@ -15,11 +15,11 @@ class CustomerUser extends Model
 
     public function user()
     {
-        return $this->belongsTo('App\Models\User', 'id_user' , 'id');
+        return $this->hasMany('App\Models\User', 'id_user' , 'id');
     }
     
     public function customer()
     {
-        return $this->belongsToMany('App\Models\Customer', 'id_customer', 'id');
+        return $this->belongsTo('App\Models\Customer',  'id_customer', 'id');
     }
 }
