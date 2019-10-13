@@ -13,6 +13,7 @@ class UserRepository
     protected $collectionUser;
     private $package;
     private $query;
+    const PASSWORD = '123mudar';
 
     public function __construct()
     {
@@ -77,7 +78,8 @@ class UserRepository
         $lastId = $this->collectionUser->insertGetId(
             [
                 'name' => $objectMap->get('name'),
-                'email' => $objectMap->get('mail')
+                'email' => $objectMap->get('mail'),
+                'password' => self::generatePassword(self::PASSWORD)
             ]
             );
 
@@ -111,5 +113,11 @@ class UserRepository
         $this->query->email = $objectMap->get('mail');
         
         return $this->query->save();
+    }
+
+    private static function generatePassword(string $phrase) : string
+    {
+        $options = [ 'cost' => 10 ];
+        return password_hash($phrase, PASSWORD_BCRYPT, $options); 
     }
 }
