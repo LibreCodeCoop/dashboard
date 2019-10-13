@@ -3,17 +3,21 @@
 namespace App\Repository;
 
 use App\Models\CustomerUser;
+use App\Models\User;
+
 use Illuminate\Database\Eloquent\Collection;
 
 class UserRepository
 {
     protected $collection;
+    protected $collectionUser;
     private $package;
     private $query;
 
     public function __construct()
     {
         $this->collection = new CustomerUser();
+        $this->collectionUser = new User();
     }
 
     public function listDataUsersInCustomer(int $idCustomer): \Ds\Vector
@@ -67,14 +71,22 @@ class UserRepository
         return $this->package;
     }
 
-    public function new(\Ds\Map $objectMap)
+    public function new(\Ds\Map $objectMap) : bool
     {
-        $this->collection->id_customer = $objectMap->get('id_customer');
-        $this->collection->id_user = $objectMap->get('id_user');
+       
+        $lastId = $this->collectionUser->insertGetId(
+            [
+                'name' => $objectMap->get('name'),
+                'email' => $objectMap->get('mail')
+            ]
+            );
 
-        $result = $this->collection->save();
+            $this->collection->id_user = $lastId;
+            $this->collection->id_customer = $objectMap->get('id_customer');
 
-        dd($result);
+            $result = $this->collection->save();
+
+            return $result;
 
     }
 }
