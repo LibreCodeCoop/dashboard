@@ -33,7 +33,8 @@ class UserController extends BaseController
         $this->list = $nameCustomer->returnCustomerName($idCustomer);
         
         $this->setvar('customerName',  $this->list->get(0));
-;        $this->render('formUser.html');
+        $this->setvar('id_customer', $idCustomer);
+        $this->render('formUser.html');
 
      }
 
