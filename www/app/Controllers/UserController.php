@@ -29,8 +29,11 @@ class UserController extends BaseController
 
     public function create(int $idCustomer)
     {
-
-        $this->render('formUser.html');
+        $nameCustomer = new UserRepository();
+        $this->list = $nameCustomer->returnCustomerName($idCustomer);
+        
+        $this->setvar('customerName',  $this->list->get(0));
+;        $this->render('formUser.html');
 
      }
 

@@ -16,7 +16,7 @@ class UserRepository
         $this->collection = new CustomerUser();
     }
 
-    public function listDataUsersInCustomer(int $idCustomer) : \Ds\Vector
+    public function listDataUsersInCustomer(int $idCustomer): \Ds\Vector
     {
         $this->query = $this->collection
             ->where('customer_user.id_customer', $idCustomer)
@@ -43,8 +43,27 @@ class UserRepository
                     "email" => $data->email,
                     "id_customer" => $data->id_customer
                 ]
-                ));
-         }
-         return $this->package;
+            ));
+        }
+        return $this->package;
+    }
+
+    public function returnCustomerName(int $id): \Ds\Set
+    {
+        $this->query = $this->collection
+            ->where('customer_user.id_customer', $id)
+            ->join('customer', 'customer.id', '=', 'customer_user.id_customer')
+            ->select(
+                'customer.first_name',
+                'customer.last_name'
+            )
+            ->get();
+
+        list($name) = $this->query;
+
+        $this->package = new \Ds\Set;
+        $this->package->allocate(1);
+        $this->package->add($name->first_name . ' ' . $name->last_name);
+        return $this->package;
     }
 }
