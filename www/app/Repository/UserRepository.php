@@ -93,7 +93,7 @@ class UserRepository
     public function find(int $id) : \Ds\Map
     {
         $this->query = $this->collectionUser->find($id);
-        
+
         $this->package = new \Ds\Map;
         $this->package->allocate(3);
         $this->package->put('id', $this->query->id);
@@ -102,5 +102,14 @@ class UserRepository
 
         return $this->package;
 
+    }
+
+    public function edit(\Ds\Map $objectMap) : bool
+    {
+        $this->query = $this->collectionUser->find($objectMap->get('id_user'));
+        $this->query->name = $objectMap->get('name');
+        $this->query->email = $objectMap->get('mail');
+        
+        return $this->query->save();
     }
 }

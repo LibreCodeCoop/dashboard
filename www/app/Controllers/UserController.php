@@ -40,17 +40,18 @@ class UserController extends BaseController
         $this->render('formUser.html');
     }
 
-    public function save(int $id = null)
+    public function save()
     {
         $this->user = new User();
 
         $this->objectMap = new \Ds\Map([
+            'id_user' => Input::post('id_user'),
             'id_customer' => Input::post('id_customer'),
             'name' => Input::post('user_name'),
             'mail' => Input::post('user_mail')
         ]);
 
-        if ($id === null) {
+        if (empty($this->objectMap->get('id_user'))) {
 
             if ($this->user->new($this->objectMap)) {
                 $this->log('User created successfully!', ['username' => 'Undefined', 'productName' => $this->objectMap->get('name')]);
@@ -61,7 +62,20 @@ class UserController extends BaseController
                 SessionHelper::set('msg', 'Error creating product.');
                 header('Location: /user/list/' . $this->objectMap->get('id_customer'));
             }
+        } else {
+            
+            if ($this->user->edit($this->objectMap)){
+                $this->log('Product updated successfully!', ['username' => 'Undefined', 'productName' => $this->objectMap->get('name')]);
+                SessionHelper::set('msg', 'Product updated successfully!');
+                header('Location: /user/list/' . $this->objectMap->get('id_customer'));
+            } else {
+                $this->log('Error updating product', ['username' => 'Undefined', 'productName' =>  $this->objectMap->get('name')]);
+                SessionHelper::set('msg', 'Error updating product.');
+                header('Location: /user/list/' . $this->objectMap->get('id_customer'));
+            }
+            
         }
+        
     }
 
     public function edit(int $id, int $idCustomer)
