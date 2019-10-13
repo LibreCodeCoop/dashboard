@@ -25,7 +25,8 @@ class UserController extends BaseController
             $data[] = $list->toArray();
         }
 
-        $this->setvar('id_customer', $data[0]['id_customer']);
+        
+        $this->setvar('id_customer',  $idCustomer);
         $this->setvar('userList', $data);
         $this->render('user.html');
     }

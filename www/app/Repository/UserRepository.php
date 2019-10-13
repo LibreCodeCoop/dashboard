@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Models\CustomerUser;
+use App\Models\Customer;
 use App\Models\User;
 
 use Illuminate\Database\Eloquent\Collection;
@@ -11,6 +12,7 @@ class UserRepository
 {
     protected $collection;
     protected $collectionUser;
+    protected $collectionCustomer;
     private $package;
     private $query;
     const PASSWORD = '123mudar';
@@ -19,6 +21,7 @@ class UserRepository
     {
         $this->collection = new CustomerUser();
         $this->collectionUser = new User();
+        $this->collectionCustomer = new Customer();
     }
 
     public function listDataUsersInCustomer(int $idCustomer): \Ds\Vector
@@ -55,20 +58,11 @@ class UserRepository
 
     public function returnCustomerName(int $id): \Ds\Set
     {
-        $this->query = $this->collection
-            ->where('customer_user.id_customer', $id)
-            ->join('customer', 'customer.id', '=', 'customer_user.id_customer')
-            ->select(
-                'customer.first_name',
-                'customer.last_name'
-            )
-            ->get();
-
-        list($name) = $this->query;
+        $this->query = $this->collectionCustomer->find($id);
 
         $this->package = new \Ds\Set;
         $this->package->allocate(1);
-        $this->package->add($name->first_name . ' ' . $name->last_name);
+        $this->package->add($this->query->first_name . ' ' . $this->query->last_name);
         return $this->package;
     }
 
