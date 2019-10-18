@@ -15,3 +15,4 @@ yarn-error.log
 .project
 .settings/
 /.docker/volumes
+/.docker/volumes/mysql/data
