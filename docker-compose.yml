@@ -9,6 +9,7 @@ services:
       - ${PORT}:80
     volumes:
       - .:/app
+      - ./.docker/volumes/storage/:/storage/
       - ./.docker/nginx/conf/default.conf:/etc/nginx/conf.d/default.conf
   php7:
     build: ./.docker/php7

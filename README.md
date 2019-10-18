@@ -13,6 +13,15 @@ Users should log in to the system and view invoices and recording audios of all 
 
 The project needs to be internationalized. Do not display any text to the user that cannot be translated.
 
+## Instructions to getting run
+
+Make sure port 3366 and 80 are free.
+
+run
+``docker-compose up -d``
+
+open http://localhost
+
 ## Contributing
 
 Read the [contributing](/CONTRIBUTING.md) file first.
