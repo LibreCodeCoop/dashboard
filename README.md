@@ -17,8 +17,16 @@ The project needs to be internationalized. Do not display any text to the user t
 
 Make sure port 3366 and 80 are free.
 
-run
-``docker-compose up -d``
+Create `.env` file from `.env.example`
+
+run:
+```bash
+docker-compose up
+docker-compose down
+docker-compose up
+```
+
+PS: Is necessary run up, down and up now because in the first up is created an environment.
 
 open http://localhost
 
