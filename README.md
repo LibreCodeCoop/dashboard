@@ -13,6 +13,23 @@ Users should log in to the system and view invoices and recording audios of all 
 
 The project needs to be internationalized. Do not display any text to the user that cannot be translated.
 
+## Instructions to getting run
+
+Make sure port 3366 and 80 are free.
+
+Create `.env` file from `.env.example`
+
+run:
+```bash
+docker-compose up
+docker-compose down
+docker-compose up
+```
+
+PS: Is necessary run up, down and up now because in the first up is created an environment.
+
+open http://localhost
+
 ## Contributing
 
 Read the [contributing](/CONTRIBUTING.md) file first.
