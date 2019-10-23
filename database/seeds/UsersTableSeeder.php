@@ -16,9 +16,13 @@ class UsersTableSeeder extends Seeder
             'name' => 'Admin Admin',
             'email' => 'admin@material.com',
             'email_verified_at' => now(),
+            'phone' => '+5521999999999',
+            'address' => '999 Brazil Av.',
             'password' => Hash::make('secret'),
             'created_at' => now(),
             'updated_at' => now()
         ]);
+
+        factory(App\User::class, 9)->create();
     }
 }

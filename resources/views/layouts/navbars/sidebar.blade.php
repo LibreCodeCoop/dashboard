@@ -41,10 +41,10 @@
           </ul>
         </div>
       </li>
-      <li class="nav-item{{ $activePage == 'table' ? ' active' : '' }}">
-        <a class="nav-link" href="{{ route('table') }}">
+      <li class="nav-item{{ $activePage == 'customer-management' ? ' active' : '' }}">
+        <a class="nav-link" href="{{ route('customer.index') }}">
           <i class="material-icons">content_paste</i>
-            <p>{{ __('Table List') }}</p>
+            <p>{{ __('Customer Management') }}</p>
         </a>
       </li>
     </ul>
