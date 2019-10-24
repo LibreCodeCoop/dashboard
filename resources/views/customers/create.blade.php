@@ -1,25 +1,36 @@
-@extends('layouts.app', ['activePage' => 'user-management', 'titlePage' => __('Customers Management')])
+@extends('layouts.app', ['activePage' => 'customer-management', 'titlePage' => __('Customers Management')])
 
 @section('content')
   <div class="content">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-12">
-          <form method="post" action="{{ route('user.store') }}" autocomplete="off" class="form-horizontal">
+          <form method="post" action="{{ route('customer.store') }}" autocomplete="off" class="form-horizontal">
             @csrf
             @method('post')
 
             <div class="card ">
               <div class="card-header card-header-primary">
-                <h4 class="card-title">{{ __('Add User') }}</h4>
+                <h4 class="card-title">{{ __('Add Customer') }}</h4>
                 <p class="card-category"></p>
               </div>
               <div class="card-body ">
                 <div class="row">
                   <div class="col-md-12 text-right">
-                      <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
+                      <a href="{{ route('customer.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
                   </div>
                 </div>
+                  <div class="row">
+                      <label class="col-sm-2 col-form-label">{{ __('Code') }}</label>
+                      <div class="col-sm-7">
+                          <div class="form-group{{ $errors->has('code') ? ' has-danger' : '' }}">
+                              <input class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}" name="code" id="input-code" type="text" placeholder="{{ __('Code') }}" value="{{ old('code') }}" required="true" aria-required="true"/>
+                              @if ($errors->has('code'))
+                                  <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('code') }}</span>
+                              @endif
+                          </div>
+                      </div>
+                  </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
                   <div class="col-sm-7">
@@ -63,7 +74,7 @@
                 </div>
               </div>
               <div class="card-footer ml-auto mr-auto">
-                <button type="submit" class="btn btn-primary">{{ __('Add User') }}</button>
+                <button type="submit" class="btn btn-primary">{{ __('Add Customer') }}</button>
               </div>
             </div>
           </form>
