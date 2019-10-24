@@ -29,5 +29,9 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
     Route::resource('customer', 'CustomerController');
+
+    Route::get('company/{code}/remote', ['as' => 'company.show.remote', function ($code, \App\Services\CompanyService $service) {
+        return $service->getRemote($code);
+    }]);
 });
 
