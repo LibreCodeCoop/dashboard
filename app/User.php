@@ -42,7 +42,7 @@ class User extends Authenticatable
         return $this->morphOne(Customer::class, 'typeable');
     }
 
-    public function companies()
+    public function customers()
     {
         return $this->belongsToMany(Customer::class);
     }

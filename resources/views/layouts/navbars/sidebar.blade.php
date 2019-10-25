@@ -38,6 +38,12 @@
                 <span class="sidebar-normal"> {{ __('User Management') }} </span>
               </a>
             </li>
+              <li class="nav-item{{ $activePage == 'call-history' ? ' active' : '' }}">
+                  <a class="nav-link" href="{{ route('call.index') }}">
+                      <span class="sidebar-mini"> UM </span>
+                      <span class="sidebar-normal"> {{ __('Call History') }} </span>
+                  </a>
+              </li>
           </ul>
         </div>
       </li>

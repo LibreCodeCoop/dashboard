@@ -15,4 +15,9 @@ class Customer extends Model
     {
         return $this->belongsToMany(User::class);
     }
+
+    public function calls()
+    {
+        return $this->hasMany(Call::class);
+    }
 }
