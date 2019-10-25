@@ -15,7 +15,7 @@ The project needs to be internationalized. Do not display any text to the user t
 
 ## Instructions to getting run
 
-Make sure port 3366 and 80 are free.
+Make sure port 3306 and 80 are free.
 
 Create `.env` file from `.env.example`
 
