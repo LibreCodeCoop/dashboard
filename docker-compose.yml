@@ -24,6 +24,10 @@ services:
       - db
     environment:
        XDEBUG_CONFIG: "remote_host=172.21.0.1 remote_enable=1"
+  mailhog:
+    image: blueimp/mailhog
+    ports:
+      - 8025:8025
   db:
     image: mariadb
     ports:
