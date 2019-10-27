@@ -13,6 +13,7 @@ if [ ! -d "vendor" ]; then
     php artisan db:seed
 fi
 php .docker/php7/wait-for-mysql.php
+php artisan migrate --force
 echo "+----------------------------+"
 echo "| Welcome to admin dashboard |"
 echo "+----------------------------+"
