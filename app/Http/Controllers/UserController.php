@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
 use App\User;
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -24,9 +26,19 @@ class UserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('users.create');
+        $code = $request->get('code');
+        if(!$code)
+            return view('users.code');
+
+        $customer = Customer::where('code', $code)->get()->first();
+
+        if(!$customer) {
+            return redirect()->route('user.create')->with('status', 'Customer does not exists');
+        }
+
+        return view('users.create', compact('customer'));
     }
 
     /**
@@ -38,7 +50,11 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
-        $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        $model->save($request->merge(['password' => Hash::make($request->get('password'))])->all());
+
+        $customer = Customer::where('code', $request->get('code'))->get()->first();
+
+        // $model->customers()->sync($customer->id);
 
         return redirect()->route('user.index')->withStatus(__('User successfully created.'));
     }

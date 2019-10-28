@@ -20,6 +20,17 @@
                       <a href="{{ route('user.index') }}" class="btn btn-sm btn-primary">{{ __('Back to list') }}</a>
                   </div>
                 </div>
+              <div class="row">
+                  <label class="col-sm-2 col-form-label">{{ __('Customer Code') }}</label>
+                  <div class="col-sm-7">
+                      <div class="form-group{{ $errors->has('code') ? ' has-danger' : '' }}">
+                          <input class="form-control{{ $errors->has('code') ? ' is-invalid' : '' }}" name="code" id="input-code" type="text" placeholder="{{ __('Code') }}" value="{{ old('code', $customer->code) }}" required="true" aria-required="true" readonly="readonly"/>
+                          @if ($errors->has('code'))
+                              <span id="code-error" class="error text-danger" for="input-code">{{ $errors->first('code') }}</span>
+                          @endif
+                      </div>
+                  </div>
+              </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label">{{ __('Name') }}</label>
                   <div class="col-sm-7">
@@ -42,6 +53,28 @@
                     </div>
                   </div>
                 </div>
+                  <div class="row">
+                      <label class="col-sm-2 col-form-label">{{ __('Phone') }}</label>
+                      <div class="col-sm-7">
+                          <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
+                              <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="phone" placeholder="{{ __('Phone') }}" value="{{ old('phone') }}" required />
+                              @if ($errors->has('phone'))
+                                  <span id="phone-error" class="error text-danger" for="input-phone">{{ $errors->first('phone') }}</span>
+                              @endif
+                          </div>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <label class="col-sm-2 col-form-label">{{ __('Address') }}</label>
+                      <div class="col-sm-7">
+                          <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}">
+                              <input class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" id="input-address" type="address" placeholder="{{ __('Address') }}" value="{{ old('address') }}" required />
+                              @if ($errors->has('address'))
+                                  <span id="address-error" class="error text-danger" for="input-address">{{ $errors->first('address') }}</span>
+                              @endif
+                          </div>
+                      </div>
+                  </div>
                 <div class="row">
                   <label class="col-sm-2 col-form-label" for="input-password">{{ __(' Password') }}</label>
                   <div class="col-sm-7">
