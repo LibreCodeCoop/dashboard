@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\CustomerLegacy;
 use Illuminate\Http\Request;
 
 class CustomerController extends Controller
@@ -22,9 +23,20 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('customers.create');
+        $code = (int) $request->get('code');
+        if(!$code)
+            return view('customers.code');
+
+        $customerLegacy = new CustomerLegacy();
+        $customer = $customerLegacy->find($code);
+
+        if(!$customer) {
+            return redirect()->route('customers.create')->with('status', 'Customer does not exists');
+        }
+
+        return view('customers.create', compact('customer'));
     }
 
     /**
