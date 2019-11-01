@@ -6,7 +6,9 @@ use App\Company;
 use Faker\Generator as Faker;
 
 $factory->define(Company::class, function (Faker $faker) {
+
     return [
+        'cnpj' => $faker->cnpj,
         'social_reason' => $faker->company,
         'municipal_registration' => $faker->numerify('###########'),
         'state' => $faker->state,

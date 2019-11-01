@@ -38,7 +38,7 @@
                           {{ __('Name') }}
                       </th>
                       <th>
-                        {{ __('Email') }}
+                        {{ __('Document') }}
                       </th>
                       <th>
                         {{ __('Creation date') }}
@@ -54,10 +54,10 @@
                                 {{ $user->code }}
                             </td>
                           <td>
-                            {{ $user->name }}
+                            {{ $user->typeable->name . $user->typeable->social_reason }}
                           </td>
                           <td>
-                            {{ $user->email }}
+                            {{ $user->typeable->cpf . $user->typeable->cnpj }}
                           </td>
                           <td>
                             {{ $user->created_at->format('Y-m-d') }}
