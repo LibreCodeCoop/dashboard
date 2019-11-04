@@ -105,6 +105,7 @@
                     </tbody>
                   </table>
                 </div>
+                {{ $calls->links() }}
               </div>
             </div>
         </div>

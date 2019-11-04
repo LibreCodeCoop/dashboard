@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Customer;
+use App\Company;
 use App\User;
 use App\Http\Requests\UserRequest;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -16,7 +19,7 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
-        return view('users.index', ['users' => $model->paginate(15)]);
+        return view('users.index', ['users' => $model->with('customers')->paginate(15)]);
     }
 
     /**
@@ -24,9 +27,11 @@ class UserController extends Controller
      *
      * @return \Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('users.create');
+        $customers = Customer::with('typeable')->where('typeable_type', Company::class)->get();
+
+        return view('users.create', compact('customers'));
     }
 
     /**
@@ -38,7 +43,11 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
-        $model->create($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        $user = new User($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        $user->save();
+
+        $user->customers()->sync($request->get('customers'));
+
 
         return redirect()->route('user.index')->withStatus(__('User successfully created.'));
     }
@@ -51,7 +60,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $customers = Customer::with('typeable')->where('typeable_type', Company::class)->get();
+        return view('users.edit', compact('user', 'customers'));
     }
 
     /**
@@ -68,6 +78,8 @@ class UserController extends Controller
             $request->merge(['password' => Hash::make($request->get('password'))])
                 ->except([$hasPassword ? '' : 'password']
         ));
+
+        $user->customers()->sync($request->get('customers'));
 
         return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
     }

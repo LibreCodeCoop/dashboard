@@ -1,6 +1,6 @@
 <?php
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 
@@ -16,6 +16,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('call', 'CallController');
     Route::resource('customer', 'CustomerController');
+    Route::post('customer/user/', ['as' => 'customer.user.store', 'uses' => 'CustomerController@storeUser']);
+    Route::put('customer/{customer}/user/', ['as' => 'customer.user.update', 'uses' => 'CustomerController@updateUser']);
 
     Route::get('company/{code}/remote', ['as' => 'company.show.remote', function ($code, \App\Services\CompanyService $service) {
         return $service->getRemote($code);

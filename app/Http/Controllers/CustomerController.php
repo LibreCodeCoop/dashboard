@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Company;
 use App\Customer;
+use App\CustomerLegacy;
+use App\Http\Requests\CustomerRequest;
+use App\Http\Requests\CustomerUserRequest;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class CustomerController extends Controller
 {
@@ -22,9 +28,29 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        return view('customers.create');
+        $code = (int) $request->get('code');
+        if(!$code)
+            return view('customers.code');
+
+        $customerLegacy = new CustomerLegacy();
+        $customer = $customerLegacy->find($code);
+        if((strlen($customer->cnpj_cpf) == 14)){
+            $isUser = true;
+            $routerStore = 'customer.user.store';
+        }else{
+            $isUser = false;
+            $routerStore = 'customer.store';
+        }
+
+
+
+        if(!$customer) {
+            return redirect()->route('customers.create')->with('status', 'Customer does not exists');
+        }
+
+        return view('customers.create', compact('customer', 'isUser', 'routerStore'));
     }
 
     /**
@@ -33,9 +59,34 @@ class CustomerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CustomerRequest $request)
     {
-        //
+        $company = Company::create($request->all());
+
+        $customer = new Customer($request->all());
+        $customer->typeable()->associate($company);
+
+        $customer->save();
+
+        return redirect()->route('customer.index')->withStatus(__('Customer successfully created.'));
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function storeUser(CustomerUserRequest $request)
+    {
+        $user = User::create($request->all());
+
+        $customer = new Customer($request->all());
+        $customer->typeable()->associate($user);
+
+        $customer->save();
+
+        return redirect()->route('customer.index')->withStatus(__('Customer successfully created.'));
     }
 
     /**
@@ -67,10 +118,29 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(CustomerRequest $request, Customer  $customer)
     {
-        //
+        $customer->update($request->all());
+
+        $customer->typeable()->update($request->all(['cnpj', 'social_reason', 'municipal_registration', 'state', 'phone', 'address']));
+
+        return redirect()->route('customer.index')->withStatus(__('Customer successfully updated.'));
     }
+
+
+    public function updateUser(CustomerUserRequest $request, Customer  $customer)
+    {
+        $customer->update($request->all());
+
+        $hasPassword = $request->get('password');
+
+        $attributes = $request->all(['name', 'email', 'cpf', 'phone', 'address']);
+        $attributes = ($hasPassword) ? array_merge($attributes, ['password']): $attributes;
+        $customer->typeable()->update($attributes);
+
+        return redirect()->route('customer.index')->withStatus(__('Customer successfully updated.'));
+    }
+
 
     /**
      * Remove the specified resource from storage.

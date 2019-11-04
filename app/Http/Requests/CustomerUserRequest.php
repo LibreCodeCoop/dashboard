@@ -3,10 +3,11 @@
 namespace App\Http\Requests;
 
 use App\User;
-use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
-class UserRequest extends FormRequest
+
+class CustomerUserRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,19 +27,21 @@ class UserRequest extends FormRequest
     public function rules()
     {
         return [
-            'cpf' => ['required',  'min:11', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)],
-            'address' => 'required',
-            'phone' => ['required',  'min:11'],
-            'customers' => ['required', Rule::exists('customers', 'id')],
+            'code' => 'required',
+            'cpf' => [
+                'required', Rule::unique((new User)->getTable())->ignore($this->route()->customer->typeable_id ?? null)
+            ],
             'name' => [
                 'required', 'min:3'
             ],
             'email' => [
-                'required', 'email', Rule::unique((new User)->getTable())->ignore($this->route()->user->id ?? null)
+                'required', 'email', Rule::unique((new User)->getTable())->ignore($this->route()->customer->typeable_id ?? null)
             ],
             'password' => [
-                $this->route()->user ? 'nullable' : 'required', 'confirmed', 'min:6'
-            ]
+                $this->route()->customer ? 'nullable' : 'required', 'min:6'
+            ],
+            'phone' => 'required',
+            'address' => 'required',
         ];
     }
 }

@@ -38,6 +38,9 @@
                         {{ __('Email') }}
                       </th>
                       <th>
+                          {{ __('Customers') }}
+                      </th>
+                      <th>
                         {{ __('Creation date') }}
                       </th>
                       <th class="text-right">
@@ -53,6 +56,9 @@
                           <td>
                             {{ $user->email }}
                           </td>
+                        <td>
+                            {{ $user->customers->map(function ($c) { return $c->typeable->social_reason; })->filter(function ($name) { return trim($name); })->implode(' | ') }}
+                        </td>
                           <td>
                             {{ $user->created_at->format('Y-m-d') }}
                           </td>
@@ -61,7 +67,7 @@
                               <form action="{{ route('user.destroy', $user) }}" method="post">
                                   @csrf
                                   @method('delete')
-                              
+
                                   <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('user.edit', $user) }}" data-original-title="" title="">
                                     <i class="material-icons">edit</i>
                                     <div class="ripple-container"></div>
@@ -83,6 +89,7 @@
                     </tbody>
                   </table>
                 </div>
+                    {{ $users->links() }}
               </div>
             </div>
         </div>
