@@ -122,6 +122,8 @@ class CustomerController extends Controller
     {
         $customer->update($request->all());
 
+        $customer->typeable()->update($request->all(['cnpj', 'social_reason', 'municipal_registration', 'state', 'phone', 'address']));
+
         return redirect()->route('customer.index')->withStatus(__('Customer successfully updated.'));
     }
 
