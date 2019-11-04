@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Customer;
+use App\Company;
 use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
-        return view('users.index', ['users' => $model->paginate(15)]);
+        return view('users.index', ['users' => $model->with('customers')->paginate(15)]);
     }
 
     /**
@@ -28,17 +29,9 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        $code = $request->get('code');
-        if(!$code)
-            return view('users.code');
+        $customers = Customer::with('typeable')->where('typeable_type', Company::class)->get();
 
-        $customer = Customer::where('code', $code)->get()->first();
-
-        if(!$customer) {
-            return redirect()->route('user.create')->with('status', 'Customer does not exists');
-        }
-
-        return view('users.create', compact('customer'));
+        return view('users.create', compact('customers'));
     }
 
     /**
@@ -50,11 +43,11 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
-        $model->save($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        $user = new User($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        $user->save();
 
-        $customer = Customer::where('code', $request->get('code'))->get()->first();
+        $user->customers()->sync($request->get('customers'));
 
-        // $model->customers()->sync($customer->id);
 
         return redirect()->route('user.index')->withStatus(__('User successfully created.'));
     }
@@ -67,7 +60,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('users.edit', compact('user'));
+        $customers = Customer::with('typeable')->where('typeable_type', Company::class)->get();
+        return view('users.edit', compact('user', 'customers'));
     }
 
     /**
@@ -84,6 +78,8 @@ class UserController extends Controller
             $request->merge(['password' => Hash::make($request->get('password'))])
                 ->except([$hasPassword ? '' : 'password']
         ));
+
+        $user->customers()->sync($request->get('customers'));
 
         return redirect()->route('user.index')->withStatus(__('User successfully updated.'));
     }

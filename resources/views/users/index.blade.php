@@ -38,6 +38,9 @@
                         {{ __('Email') }}
                       </th>
                       <th>
+                          {{ __('Customers') }}
+                      </th>
+                      <th>
                         {{ __('Creation date') }}
                       </th>
                       <th class="text-right">
@@ -53,6 +56,9 @@
                           <td>
                             {{ $user->email }}
                           </td>
+                        <td>
+                            {{ $user->customers->map(function ($c) { return $c->typeable->social_reason; })->filter(function ($name) { return trim($name); })->implode(' | ') }}
+                        </td>
                           <td>
                             {{ $user->created_at->format('Y-m-d') }}
                           </td>
