@@ -28,7 +28,7 @@ class CustomerRequest extends FormRequest
     public function rules()
     {
         return [
-            'code' => 'required',
+            'code' => ['required', Rule::unique((new Customer())->getTable())->ignore($this->route()->customer->id ?? null)],
             'cnpj' => [
                 'required', Rule::unique((new Company())->getTable())->ignore($this->route()->customer->id ?? null)
             ],

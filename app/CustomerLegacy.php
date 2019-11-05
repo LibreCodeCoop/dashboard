@@ -2,6 +2,7 @@
 
 namespace App;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\DB;
 
 class CustomerLegacy
 {
@@ -11,19 +12,17 @@ class CustomerLegacy
     }
 
     public function find(int $code = 0){
-        return (object) [
-            'firstname' => $this->faker->firstName(),
-            'lastname' => $this->faker->lastName(),
-            'code' => $code, //id
-            'social_reason' => $this->faker->company, //companyname
-            'municipal_registration' => $this->faker->numerify("#########"),
-            'address' => $this->faker->address, //address1 + address2
-            'city' => $this->faker->city,
-            'state' => $this->faker->numerify("#########"),
-            'postcode' => $this->faker->postcode,
-            'country' => $this->faker->country,
-            'phone' => $this->faker->phoneNumber, //phonenumber
-            'cnpj_cpf' => ($this->faker->boolean)? $this->faker->cpf : $this->faker->cnpj,
-        ];
+
+        return DB::connection('legacy')
+            ->table('tblclients')
+            ->select('firstname', 'lastname', 'tblclients.id as code', 'companyname as social_reason', DB::raw("concat(address1,address2) as address"), 'city', 'state',
+                    'postcode', 'country', 'phonenumber as phone', 'tblcustomfieldsvalues.value AS cnpj_cpf')
+            ->join('tblcustomfieldsvalues', function ($join) {
+                $join->on('tblclients.id', '=', 'tblcustomfieldsvalues.relid')
+                    ->where('tblcustomfieldsvalues.fieldid', 1);
+            })
+            ->where('tblclients.id', $code)
+            ->get()
+            ->first();
     }
 }
