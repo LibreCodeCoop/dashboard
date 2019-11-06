@@ -36,18 +36,14 @@ class CustomerController extends Controller
 
         $customerLegacy = new CustomerLegacy();
         $customer = $customerLegacy->find($code);
+        if(!$customer) return redirect()->route('customer.create')->with('status', 'Customer does not exists');
+
         if((strlen($customer->cnpj_cpf) == 14)){
             $isUser = true;
             $routerStore = 'customer.user.store';
         }else{
             $isUser = false;
             $routerStore = 'customer.store';
-        }
-
-
-
-        if(!$customer) {
-            return redirect()->route('customers.create')->with('status', 'Customer does not exists');
         }
 
         return view('customers.create', compact('customer', 'isUser', 'routerStore'));
