@@ -1,4 +1,6 @@
 <?php
+use \Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 
 Auth::routes(['register' => false]);
 
@@ -23,7 +25,10 @@ Route::group(['middleware' => 'auth'], function () {
         return $service->getRemote($code);
     }]);
 
-    Route::get('call/{id}/audio', ['as' => 'call.audio', function($id){
+    Route::get('call/audio/play', ['as' => 'call.audio', function(Request $request){
+//        USAR S3
+//        $fileUrl = $request->query('file');
+//        return Storage::disk('s3')->download($fileUrl);
 
         //Fake method
         $urls = [
