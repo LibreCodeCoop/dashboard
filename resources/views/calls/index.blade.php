@@ -118,9 +118,9 @@
         function showPlayerModal(id){
             player = document.getElementById('call-player');
 
-            urlRaw = '{{ route('call.audio', ["id" => "CALL_ID"]) }}';
+            urlRaw = '{{ route('call.audio') }}/?file=' + id;
 
-            player.src = urlRaw.replace('CALL_ID', id)
+            player.src = urlRaw;
             console.log(player.src)
             player.currentTime = 0;
             $('#playerModal').modal()

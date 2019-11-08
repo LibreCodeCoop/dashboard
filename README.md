@@ -30,6 +30,11 @@ PS: Is necessary run up, down and up now because in the first up is created an e
 
 open http://localhost
 
+## Settings
+
+### Logo
+Replace ```public/img/logo.png```
+
 ## Contributing
 
 Read the [contributing](/CONTRIBUTING.md) file first.

@@ -1,7 +1,7 @@
 <div class="sidebar" data-color="purple" data-background-color="white" data-image="{{ asset('material') }}/img/sidebar-1.jpg">
   <div class="logo">
     <a href="{{ route('home') }}" class="simple-text logo-normal">
-      {{ __('Dashboard') }}
+        <img src="{{ asset("img/logo.png") }}" style="width: 100%">
     </a>
   </div>
   <div class="sidebar-wrapper">

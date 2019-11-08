@@ -62,6 +62,11 @@ return [
             'region' => env('AWS_DEFAULT_REGION'),
             'bucket' => env('AWS_BUCKET'),
             'url' => env('AWS_URL'),
+            'cache' => [
+                'store' => 'file',
+                'expire' => 600,
+                'prefix' => 'cache-audio',
+            ],
         ],
 
     ],
