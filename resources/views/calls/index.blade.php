@@ -27,10 +27,7 @@
                   <table class="table">
                     <thead class=" text-primary">
                     <th>
-                        {{ __('Id') }}
-                    </th>
-                    <th>
-                        {{ __('Customer Code') }}
+                        {{ __('Customer') }}
                     </th>
                     <th>
                         {{ __('Start Time') }}
@@ -52,25 +49,22 @@
                       @foreach($calls as $call)
                         <tr>
                             <td>
-                                {{ $call->id }}
+                                {{ $call->cliente }}
                             </td>
                             <td>
-                                {{ $call->customer->code }}
-                            </td>
-                            <td>
-                                {{ $call->start->format('Y-m-d H:i:s') }}
+                                {{ $call->start_time }}
                             </td>
                           <td>
                             {{ $call->duration }} min
                           </td>
                           <td>
-                            {{ $call->source_phone }}
+                            {{ $call->origin_number }}
                           </td>
                           <td>
-                            {{ $call->destination_phone }}
+                            {{ $call->destination_number }}
                           </td>
                           <td class="td-actions text-right">
-                           <button type="button" class="btn btn-link" data-original-title="" title="" onclick="showPlayerModal({{ $call->id }})">
+                           <button type="button" class="btn btn-link" data-original-title="" title="" onclick="showPlayerModal({{ $call->path_s3 }})">
                             <i class="material-icons">play_circle_outline</i>
                             <div class="ripple-container"></div>
                            </button>
@@ -105,7 +99,7 @@
                     </tbody>
                   </table>
                 </div>
-                {{ $calls->links() }}
+{{--                {{ $calls->links() }}--}}
               </div>
             </div>
         </div>

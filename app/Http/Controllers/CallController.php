@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Call;
+use App\Services\CallService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -15,21 +16,24 @@ class CallController extends Controller
      */
     public function index(Call $model)
     {
-        $currentUser = Auth::user();
-        $userCustomers = $currentUser->customers;
+//        $currentUser = Auth::user();
+//        $userCustomers = $currentUser->customers;
+//
+//        if($currentUser->customer) $userCustomers->add($currentUser->customer);
+//
+//        $calls = $model
+//            ->whereIn(
+//                'customer_id',
+//                $userCustomers->map(function($c) {
+//                    return $c->id;
+//                })
+//            )
+//            ->with('customer')
+//            ->orderBy('start')
+//            ->paginate(15);
 
-        if($currentUser->customer) $userCustomers->add($currentUser->customer);
-
-        $calls = $model
-            ->whereIn(
-                'customer_id',
-                $userCustomers->map(function($c) {
-                    return $c->id;
-                })
-            )
-            ->with('customer')
-            ->orderBy('start')
-            ->paginate(15);
+        $service =  new CallService();
+        $calls = $service->find();
 
         return view('calls.index', ['calls' => $calls]);
     }
