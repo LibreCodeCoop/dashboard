@@ -2,6 +2,7 @@
 namespace App\Services;
 
 use App\Company;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 
@@ -22,15 +23,15 @@ class CallService
             ->join(env('DB_DATABASE_LEGACY') .".tblclients as c",  'c.id', '=', 'd.userid')
             ->join(env('DB_DATABASE_LEGACY') .".tblcustomfieldsvalues as cfv_doc1", function (JoinClause $join) {
                 $join->on('c.id', '=', 'cfv_doc1.relid')
-                    ->where('cfv_doc1.fieldid', '=', $fieldId = 1);
+                    ->where('cfv_doc1.fieldid', '=', $fieldId = '1');
             })->join(env('DB_DATABASE') .".customers as cs", 'cs.code', '=', 'd.userid')
             ->join(env('DB_DATABASE') .".customer_user as cu", 'cu.customer_id', '=', 'cs.id')
             ->leftjoin(env('DB_DATABASE') .".companies as co", function($join){
                 $join->on('co.id', '=', 'cs.typeable_id')
-                ->where("cs.typeable_type", '=', $typeableType = "App\\Company");
+                ->where("cs.typeable_type", '=', $typeableType = "App\Company");
             })->leftjoin(env('DB_DATABASE') .".users as u", function($join){
                 $join->on('u.id', '=', 'cs.typeable_id')
-                    ->where('cs.typeable_type', '=', $typeableType = "App\\User");
+                    ->where('cs.typeable_type', '=', $typeableType = "App\User");
             })->join(env('DB_DATABASE_VOIP') .".cdr as cdr", function(JoinClause $join){
                 $join->on('cdr.context', '=', 'context.value')
                     ->orOn(function(JoinClause $j){
@@ -41,7 +42,19 @@ class CallService
                             });
                     });
             })->leftjoin(env('DB_DATABASE_VOIP') .".gravacoes_s3", 'cdr.uuid', '=', 'gravacoes_s3.uuid')
-            ->get();
+//            ->where('u.id', '=',  1)
+//                ->where(function(Builder $query){
+//                    $query->where([
+//                        ['cs.typeable_id', '=', 1],
+//                        ['cs.typeable_type', '=', 'App\User'],
+//                    ]);
+//                })
+//            ->where('cdr.start_stamp',  '=', 1)
+//            ->where('cdr.caller_id_number',  '=', 1)
+//            ->where('cdr.destination_number',  '=', 1)
+            ->orderBy('start_time', 'DESC');
+
+
 
         return DB::select(
 "SELECT CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END as cliente,
@@ -86,7 +99,7 @@ ORDER BY
             [
                 'id' => 1,
                 'typeable_id' => 1,
-                'typeable_type' => 'App\\User',
+                'typeable_type' => 'App\User',
             ]
         );
     }

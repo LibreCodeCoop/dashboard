@@ -99,7 +99,7 @@
                     </tbody>
                   </table>
                 </div>
-{{--                {{ $calls->links() }}--}}
+                {{ $calls->links() }}
               </div>
             </div>
         </div>

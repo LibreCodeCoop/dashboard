@@ -16,24 +16,9 @@ class CallController extends Controller
      */
     public function index(Call $model)
     {
-//        $currentUser = Auth::user();
-//        $userCustomers = $currentUser->customers;
-//
-//        if($currentUser->customer) $userCustomers->add($currentUser->customer);
-//
-//        $calls = $model
-//            ->whereIn(
-//                'customer_id',
-//                $userCustomers->map(function($c) {
-//                    return $c->id;
-//                })
-//            )
-//            ->with('customer')
-//            ->orderBy('start')
-//            ->paginate(15);
 
         $service =  new CallService();
-        $calls = $service->find();
+        $calls = $service->find()->paginate(15);
 
         return view('calls.index', ['calls' => $calls]);
     }
