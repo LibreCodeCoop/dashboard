@@ -17,6 +17,7 @@ Route::group(['middleware' => 'auth'], function () {
 	Route::put('profile/password', ['as' => 'profile.password', 'uses' => 'ProfileController@password']);
 
     Route::resource('call', 'CallController');
+    Route::resource('invoice', 'InvoiceController');
     Route::resource('customer', 'CustomerController');
     Route::post('customer/user/', ['as' => 'customer.user.store', 'uses' => 'CustomerController@storeUser']);
     Route::put('customer/{customer}/user/', ['as' => 'customer.user.update', 'uses' => 'CustomerController@updateUser']);
