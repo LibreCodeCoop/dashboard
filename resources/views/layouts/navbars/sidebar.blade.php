@@ -24,6 +24,12 @@
                 <span class="sidebar-normal"> {{ __('Call History') }} </span>
             </a>
         </li>
+        <li class="nav-item{{ $activePage == 'invoice-listing' ? ' active' : '' }}">
+            <a class="nav-link" href="{{ route('invoice.index') }}">
+                <i class="material-icons">content_paste</i>
+                <span class="sidebar-normal"> {{ __('Invoice Listing') }} </span>
+            </a>
+        </li>
     </ul>
   </div>
 </div>
