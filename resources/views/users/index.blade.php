@@ -57,7 +57,7 @@
                             {{ $user->email }}
                           </td>
                         <td>
-                            {{ $user->customers->map(function ($c) { return $c->typeable->social_reason; })->filter(function ($name) { return trim($name); })->implode(' | ') }}
+                            {{ $user->customers->map(function ($c) { return $c->typeable->social_reason?:$c->typeable->name; })->filter(function ($name) { return trim($name); })->implode(' | ') }}
                         </td>
                           <td>
                             {{ $user->created_at->format('Y-m-d') }}
