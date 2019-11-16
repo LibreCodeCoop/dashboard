@@ -81,7 +81,7 @@
                           <div class="form-group{{ $errors->has('customers') ? ' has-danger' : '' }}">
                               <select multiple class="form-control{{ $errors->has('customers') ? ' is-invalid' : '' }} custom-select" name="customers[]" size="3" placeholder="{{ __('Customers') }}">
                                   @foreach($customers as $customer)
-                                      <option value="{{$customer->id}}"  {{ in_array($customer->id, old("customers") ?: $user->customers->map(function ($c) { return $c->id; })->toArray()) ? "selected": "" }} >{{ $customer->typeable->social_reason }}</option>
+                                      <option value="{{$customer->id}}"  {{ in_array($customer->id, old("customers") ?: $user->customers->map(function ($c) { return $c->id; })->toArray()) ? "selected": "" }} >{{ $customer->typeable->social_reason?:$customer->typeable->name}}</option>
                                   @endforeach
                               </select>
                               @if ($errors->has('customers'))

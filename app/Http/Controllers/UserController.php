@@ -60,7 +60,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $customers = Customer::with('typeable')->where('typeable_type', Company::class)->get();
+        $customers = Customer::with('typeable')->get();
         return view('users.edit', compact('user', 'customers'));
     }
 
