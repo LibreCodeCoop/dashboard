@@ -11,7 +11,7 @@ class CallService
     public function find()
     {
         return DB::table((env('DB_DATABASE_LEGACY') . '.tblcustomfieldsvalues as context'))
-        ->select(["cdr.start_stamp as start_time", "cdr.caller_id_number as origin_number"])
+        ->select(["u.id as us_id", "cs.id as customer_id","cdr.start_stamp as start_time", "cdr.caller_id_number as origin_number"])
             ->addSelect(["cdr.destination_number", "gravacoes_s3.path_s3"])
             ->selectRaw('CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END as cliente')
             ->selectRaw("CONCAT((cdr.billsec) DIV 60, ':', LPAD((FLOOR(cdr.billsec) MOD 60), 2, 0)) AS 'duration'")
@@ -42,16 +42,16 @@ class CallService
                             });
                     });
             })->leftjoin(env('DB_DATABASE_VOIP') .".gravacoes_s3", 'cdr.uuid', '=', 'gravacoes_s3.uuid')
-//            ->where('u.id', '=',  1)
-//                ->where(function(Builder $query){
-//                    $query->where([
-//                        ['cs.typeable_id', '=', 1],
-//                        ['cs.typeable_type', '=', 'App\User'],
-//                    ]);
-//                })
+            //->where('u.id', '=',  1)
+                ->where(function(Builder $query){
+                    $query->where([
+                        ['cs.typeable_id', '=', 51],
+                        ['cs.typeable_type', '=', 'App\Company'],
+                    ]);
+                })
 //            ->where('cdr.start_stamp',  '=', 1)
-//            ->where('cdr.caller_id_number',  '=', 1)
-//            ->where('cdr.destination_number',  '=', 1)
+//            ->where('cdr.caller_id_number',  '=', 2003)
+//            ->where('cdr.destination_number',  '=', 2001)
             ->orderBy('start_time', 'DESC');
 
 
