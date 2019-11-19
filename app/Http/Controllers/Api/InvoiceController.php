@@ -13,9 +13,4 @@ class InvoiceController extends Controller
         $service =  new InvoiceService();
         return $dataTables->query($service->find())->toJson();
     }
-
-    public function show()
-    {
-        return view('invoices.show');
-    }
 }

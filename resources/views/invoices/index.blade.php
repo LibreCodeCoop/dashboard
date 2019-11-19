@@ -24,7 +24,7 @@
                   </div>
                 @endif
                 <div class="table-responsive">
-                  <table class="table">
+                  <table class="table" id="invoices-table">
                     <thead class=" text-primary">
                     <th>
                         {{ __('Customer') }}
@@ -44,48 +44,12 @@
                     <th>
                         {{ __('Status') }}
                     </th>
-                      <th class="text-right">
-                        {{ __('Actions') }}
-                      </th>
+{{--                      <th class="text-right">--}}
+{{--                        {{ __('Actions') }}--}}
+{{--                      </th>--}}
                     </thead>
-                    <tbody>
-                      @foreach($invoices as $call)
-                        <tr>
-                            <td>
-                                {{ $call->client }}
-                            </td>
-                            <td>
-                                {{ $call->date }}
-                            </td>
-                          <td>
-                            {{ $call->duedate }}
-                          </td>
-                          <td>
-                            R$ {{ number_format($call->total, 2, ',', '.') }}
-                          </td>
-                          <td>
-                            {{ $call->code }}
-                          </td>
-                            <td>
-                                <span class="badge badge-@switch($call->status)
-                                @case('Em atraso')danger @break
-                                @case('Em aberto')warning @break
-                                @case('Pago')success @break
-                                @case('Cancelada')default @break
-                                @endswitch">{{ $call->status }}</span>
-                            </td>
-                          <td class="td-actions text-right">
-                          <button type="button" class="btn btn-link" data-original-title="" title="" onclick="alert('{{ __("Show invoice is an test, Nothing will happen") }}') ">
-                              <i class="material-icons">cloud_download</i>
-                              <div class="ripple-container"></div>
-                          </button>
-                          </td>
-                        </tr>
-                      @endforeach
-                    </tbody>
                   </table>
                 </div>
-                {{ $invoices->links() }}
               </div>
             </div>
         </div>
@@ -93,3 +57,62 @@
     </div>
   </div>
 @endsection
+@push('js')
+    <script>
+
+        function filterStatus(status) {
+            var color = 'default'
+
+            switch (status) {
+                case 'Em atraso':
+                    color = 'danger';
+                    break;
+                case 'Em aberto':
+                    color = 'warning';
+                    break;
+                case 'Pago':
+                    color = 'success';
+                    break;
+                default:
+                    'default';
+            }
+
+            return "<span class='badge badge-" + color + "'>" + status + "</span>";
+        }
+
+        $('#invoices-table').DataTable({
+            processing: true,
+            serverSide: true,
+            ajax: '{{ route('api_invoice.index') }}',
+            columns: [
+                {data: 'client', name: 'client'},
+                {data: 'date', name: 'date'},
+                {data: 'duedate', name: 'duedate'},
+                {data: 'total', name: 'total'},
+                {data: 'code', name: 'code'},
+                {data: 'status', name: 'status'},
+
+            ],
+            "columnDefs": [
+                {
+                    "render": function ( data, type, row ) {
+                        return filterStatus(data);
+                    },
+                    "targets": 5
+                },
+            ],
+            initComplete: function () {
+                this.api().columns().every(function () {
+                    var column = this;
+                    var input = document.createElement("input");
+                    $(input).appendTo($(column.footer()).empty())
+                        .on('change', function () {
+                            var val = $.fn.dataTable.util.escapeRegex($(this).val());
+
+                            column.search(val ? val : '', true, false).draw();
+                        });
+                });
+            }
+        });
+    </script>
+@endpush
