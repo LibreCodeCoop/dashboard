@@ -44,10 +44,33 @@
                     <th>
                         {{ __('Status') }}
                     </th>
-{{--                      <th class="text-right">--}}
-{{--                        {{ __('Actions') }}--}}
-{{--                      </th>--}}
+                      <th class="text-right">
+                        {{ __('Actions') }}
+                      </th>
                     </thead>
+                      <tfoot class=" text-primary">
+                      <th>
+                          {{ __('Customer') }}
+                      </th>
+                      <th>
+                          {{ __('Date') }}
+                      </th>
+                      <th>
+                          {{ __('Due Date') }}
+                      </th>
+                      <th>
+                          {{ __('Total') }}
+                      </th>
+                      <th>
+                          {{ __('Code') }}
+                      </th>
+                      <th>
+                          {{ __('Status') }}
+                      </th>
+                                            <th class="text-right">
+                                              {{ __('Actions') }}
+                                            </th>
+                      </tfoot>
                   </table>
                 </div>
               </div>
@@ -91,7 +114,7 @@
                 {data: 'total', name: 'total'},
                 {data: 'code', name: 'code'},
                 {data: 'status', name: 'status'},
-
+                {data: 'action', name: 'action', orderable: false, searchable: false}
             ],
             "columnDefs": [
                 {
@@ -102,7 +125,9 @@
                 },
             ],
             initComplete: function () {
-                this.api().columns().every(function () {
+                this.api().columns().every(function (index) {
+                    if(index === 6) return;
+
                     var column = this;
                     var input = document.createElement("input");
                     $(input).appendTo($(column.footer()).empty())

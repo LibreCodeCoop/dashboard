@@ -11,6 +11,10 @@ class InvoiceController extends Controller
     public function index(DataTables $dataTables)
     {
         $service =  new InvoiceService();
-        return $dataTables->query($service->find())->toJson();
+        return $dataTables->query($service->find())
+            ->addColumn('action', function ($invoice) {
+                return '<a href="#edit-' . 1 . '" ><i class="material-icons">edit</i></a>';
+            })
+            ->make(true);
     }
 }
