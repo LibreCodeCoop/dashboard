@@ -11,14 +11,14 @@ class InvoiceService
     public function find()
     {
         return DB::table(env('DB_DATABASE_LEGACY'). '.tblinvoices AS i')
-            ->select(["i.id AS code", "date", "duedate", "total"])
+            ->select(["i.id AS invoice_code", "date", "duedate", "total"])
             ->selectRaw("CASE WHEN status = 'Unpaid' AND duedate <= now() THEN 'Em atraso'
                             WHEN status = 'Unpaid' AND duedate > now() THEN 'Em aberto'
                             WHEN status = 'Paid' THEN 'Pago'
                             WHEN status = 'Cancelled' THEN 'Cancelada'
                             ELSE status END 
                         AS status")
-            ->selectRaw("CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END as client")
+            ->selectRaw("CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END AS client")
             ->join(env('DB_DATABASE'). '.customers AS c', 'c.code', '=', 'i.userid')
             ->leftJoin(env('DB_DATABASE').'.companies AS co', function (JoinClause $join){
                 $join->on('co.id', '=', 'c.typeable_id')
