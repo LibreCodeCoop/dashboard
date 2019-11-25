@@ -111,7 +111,24 @@
         $('#invoices-table thead tr').clone(true).appendTo( '#invoices-table thead' );
         $('#invoices-table thead tr:eq(1) th').each( function (i) {
             var title = $(this).text();
-            $(this).html( '<input type="text" />' );
+
+            if(i == 1) {
+                $(this).html('<select id="select-customer" class="custom-select custom-select-sm form-control form-control-sm"><option value="">TODOS</option></select>');
+                $.get('{{ route("api_customer.index") }}', function (data) {
+                    data.forEach(function (e) {
+
+                        $('#select-customer').append($('<option>',{
+                            value: e.id,
+                            text: (e.typeable_type == 'App\\User')? e.typeable.name : e.typeable.social_reason
+                        }))
+                    })
+
+
+                })
+
+            }else {
+                $(this).html('<input type="text" />');
+            }
 
             $( 'input', this ).on( 'keyup change', function () {
                 if ( table.column(i).search() !== this.value ) {

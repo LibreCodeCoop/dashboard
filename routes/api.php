@@ -18,4 +18,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('api_invoice', 'Api\InvoiceController');
-//Route::get('invoice/', ['as' => 'invoice', 'uses' => 'Api\InvoiceController@index']);
+Route::get('customer/', ['as' => 'api_customer.index', 'uses' => 'Api\CustomerController@index']);
