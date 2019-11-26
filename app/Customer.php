@@ -24,4 +24,12 @@ class Customer extends Model
     {
         return $this->hasMany(Call::class);
     }
+
+    public function getNameAttribute(){
+        return ($this->typeable_type == 'App\Company')? $this->typeable->social_reason : $this->typeable->name;
+    }
+
+    public function getDocumentAttribute(){
+        return ($this->typeable_type == 'App\Company')? $this->typeable->cnpj : $this->typeable->cpf;
+    }
 }
