@@ -10,7 +10,8 @@ class InvoiceService
 {
     public function find()
     {
-        return DB::table(env('DB_DATABASE_LEGACY'). '.tblinvoices AS i')
+        return DB::table(function (Builder $query){
+            $query->from(env('DB_DATABASE_LEGACY'). '.tblinvoices', 'i')
             ->select(["i.id AS invoice_code", "date", "duedate", "total"])
             ->selectRaw("CASE WHEN status = 'Unpaid' AND duedate <= now() THEN 'Em atraso'
                             WHEN status = 'Unpaid' AND duedate > now() THEN 'Em aberto'
@@ -30,6 +31,7 @@ class InvoiceService
             })
             ->join(env('DB_DATABASE'). '.customer_user AS cu', 'cu.customer_id', '=', 'c.id')
             ;
+        })->select(['invoice_code', 'date', 'duedate', 'total', 'status', 'client']);
 
 
         "SELECT i.id AS codigo_fatura,

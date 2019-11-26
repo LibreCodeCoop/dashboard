@@ -19,12 +19,6 @@ class InvoiceController extends Controller
                 return '<a href="#edit-' . 1 . '" ><i class="material-icons">edit</i></a>';
             });
 
-        if ($keyword = $request->get('columns')[1]['search']['value']) {
-            $query->filterColumn('client', function (Builder $builder) use ($keyword) {
-                $builder->where('client', 'like', "'%$keyword%'");
-            });
-        }
-
         return $query->make(true);
     }
 }
