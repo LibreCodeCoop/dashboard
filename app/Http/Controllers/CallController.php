@@ -20,6 +20,6 @@ class CallController extends Controller
         $service =  new CallService();
         $calls = $service->find()->paginate(15);
 
-        return view('calls.index', ['calls' => $calls]);
+        return view('calls.index_api', ['calls' => $calls]);
     }
 }

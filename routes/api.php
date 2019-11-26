@@ -18,4 +18,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::resource('api_invoice', 'Api\InvoiceController');
+Route::resource('api_call', 'Api\CallController');
 Route::get('customer/', ['as' => 'api_customer.index', 'uses' => 'Api\CustomerController@index']);
