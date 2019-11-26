@@ -16,7 +16,7 @@ class InvoiceController extends Controller
         $query = $dataTables->query($service->find())
             ->addIndexColumn()
             ->addColumn('action', function ($invoice) {
-                return '<a href="#edit-' . 1 . '" ><i class="material-icons">edit</i></a>';
+                return '<a href="' . route('invoice.show', ['invoice' => $invoice->invoice_code ]) . '" >' .  __('Show Invoice').'<i class="material-icons">insert_drive_file</i></a>';
             });
 
         return $query->make(true);
