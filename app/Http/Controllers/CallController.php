@@ -14,12 +14,8 @@ class CallController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Call $model)
+    public function index()
     {
-
-        $service =  new CallService();
-        $calls = $service->find()->paginate(15);
-
-        return view('calls.index_api', ['calls' => $calls]);
+        return view('calls.index');
     }
 }

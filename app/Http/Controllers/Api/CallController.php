@@ -11,8 +11,16 @@ class CallController
         $query = $dataTables->query($service->find());
 
         $query->addIndexColumn()
-            ->addColumn('action', function ($invoice) {
-                return '<a href="' . route('invoice.show', ['invoice' => $invoice->us_id ]) . '" >' .  __('Show Invoice').'<i class="material-icons">insert_drive_file</i></a>';
+            ->addColumn('action', function ($call) {
+                return
+                "<button type='button' class='btn btn-link' data-original-title='' title='' onclick='showPlayerModal(\"$call->path_s3\")'>
+                    <i class='material-icons'>play_circle_outline</i>
+                    <div class='ripple-container'></div>
+                   </button>
+                  <button type='button' class='btn btn-link' data-original-title='' title='' onclick='alert(\"" . __('Download Call is an test, Nothing will happen')."\")'>
+                      <i class='material-icons'>cloud_download</i>
+                      <div class='ripple-container'></div>
+                 </button>";
             });
 
         return $query->make(true);
