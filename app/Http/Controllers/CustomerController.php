@@ -143,8 +143,13 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Customer  $customer)
     {
-        //
+        if($customer->typeable_type == Company::class)
+            $customer->typeable->delete();
+
+        $customer->delete();
+
+        return redirect()->route('customer.index')->withStatus(__('Customer successfully deleted.'));
     }
 }
