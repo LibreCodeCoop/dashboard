@@ -2,13 +2,16 @@
 namespace App\Http\Controllers\Api;
 
 use App\Services\CallService;
+use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 
 class CallController
 {
-    public function index(DataTables $dataTables){
-        $service =  new CallService();
-        $query = $dataTables->query($service->find());
+    public function index(DataTables $dataTables, Request $request, CallService $service){
+
+        $user = $request->user();
+        $user = (!$user->is_admin)? $user : null;
+        $query = $dataTables->query($service->find($user));
 
         $query->addIndexColumn()
             ->addColumn('action', function ($call) {

@@ -2,15 +2,16 @@
 namespace App\Services;
 
 use App\Company;
+use App\User;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 
 class CallService
 {
-    public function find()
+    public function find(User $currentUser = null)
     {
-        return DB::table(function (Builder $query) {
+        return DB::table(function (Builder $query) use ($currentUser){
             $query->from((env('DB_DATABASE_LEGACY') . '.tblcustomfieldsvalues as context'))
                 ->select(["u.id as us_id", "cs.id as customer_id", "cdr.start_stamp as start_time", "cdr.caller_id_number as origin_number"])
                 ->addSelect(["cdr.destination_number", "gravacoes_s3.path_s3"])
@@ -41,18 +42,21 @@ class CallService
                                         ->orWhereRaw("cdr.destination_number = SUBSTRING_INDEX(context.value, '/', - 1)");
                                 });
                         });
-                })->leftjoin(env('DB_DATABASE_VOIP') . ".gravacoes_s3", 'cdr.uuid', '=', 'gravacoes_s3.uuid')
-                //->where('u.id', '=',  1)
-                ->where(function (Builder $query) {
-                    $query->where([
-                        ['cs.typeable_id', '=', 51],
-                        ['cs.typeable_type', '=', 'App\Company'],
-                    ]);
-                })
+                })->leftjoin(env('DB_DATABASE_VOIP') . ".gravacoes_s3", 'cdr.uuid', '=', 'gravacoes_s3.uuid');
+
+                if ($currentUser) {
+                    //$query->where('u.id', '=',  $currentUser->id);
+                    $query->where(function (Builder $query) use ($currentUser) {
+                        $query->where([
+                            ['cs.typeable_id', '=', '11'],
+                            ['cs.typeable_type', '=', "App\Company"],
+                        ]);
+                    });
+                }
 //            ->where('cdr.start_stamp',  '=', 1)
 //            ->where('cdr.caller_id_number',  '=', 2003)
 //            ->where('cdr.destination_number',  '=', 2001)
-                ->orderBy('start_time', 'DESC');
+            $query->orderBy('start_time', 'DESC');
         })->select(['us_id', 'customer_id', 'start_time', 'origin_number', 'destination_number', 'path_s3', 'cliente', 'duration']);
 
 

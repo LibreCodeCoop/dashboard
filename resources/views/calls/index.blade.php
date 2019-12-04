@@ -134,6 +134,32 @@
                         return;
                     }
 
+                    if( i == 0) {
+                        var select = $(document.createElement("select"));
+                        select.addClass("custom-select custom-select-sm form-control form-control-sm");
+                        select.append($('<option>'))
+                        $.get('{{ route("api_usercustomers.index", ['user' => $userId]) }}', function (data) {
+                            data.forEach(function (e) {
+                                select.append($('<option>',{
+                                    text: e.name,
+                                    value: e.name
+
+                                }))
+                            })
+                        })
+                        select.on( 'keyup change', function () {
+                            if ( table.column(i).search() !== this.value ) {
+                                table
+                                    .column(i)
+                                    .search( this.value )
+                                    .draw();
+                            }
+                        });
+
+                        $(this).html(select)
+                        return;
+                    }
+
                     var title = $(this).text();
                     $(this).html( '<input type="text" />' );
 

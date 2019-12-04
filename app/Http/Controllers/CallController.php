@@ -16,6 +16,7 @@ class CallController extends Controller
      */
     public function index()
     {
-        return view('calls.index');
+        $userId = Auth::id();
+        return view('calls.index', compact('userId'));
     }
 }
