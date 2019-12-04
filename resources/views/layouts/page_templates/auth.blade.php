@@ -6,3 +6,14 @@
     @include('layouts.footers.auth')
   </div>
 </div>
+@push('load_js')
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'Authorization': "Bearer {{ Auth::user()->api_token }}"
+                }
+            });
+        });
+    </script>
+@endpush
