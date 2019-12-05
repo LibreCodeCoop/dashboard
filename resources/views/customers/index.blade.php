@@ -29,8 +29,9 @@
                   </div>
                 </div>
                 <div class="table-responsive">
-                  <table class="table">
-                    <thead class=" text-primary">
+                  <table class="table" id="customer-table">
+                    <tfooter class=" text-primary">
+                    <tr>
                         <th>
                             {{ __('Code') }}
                         </th>
@@ -46,42 +47,29 @@
                       <th class="text-right">
                         {{ __('Actions') }}
                       </th>
-                    </thead>
-                    <tbody>
-                      @foreach($users as $user)
-                        <tr>
-                            <td>
-                                {{ $user->code }}
-                            </td>
-                          <td>
-                            {{ $user->typeable->name . $user->typeable->social_reason }}
-                          </td>
-                          <td>
-                            {{ $user->typeable->cpf . $user->typeable->cnpj }}
-                          </td>
-                          <td>
-                            {{ $user->created_at->format('Y-m-d') }}
-                          </td>
-                          <td class="td-actions text-right">
-                              <form action="{{ route('customer.destroy', $user) }}" method="post">
-                                  @csrf
-                                  @method('delete')
-                                  <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('customer.edit', $user) }}" data-original-title="" title="">
-                                    <i class="material-icons">edit</i>
-                                    <div class="ripple-container"></div>
-                                  </a>
-                                  <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Are you sure you want to delete this customer?") }}') ? this.parentElement.submit() : ''">
-                                      <i class="material-icons">close</i>
-                                      <div class="ripple-container"></div>
-                                  </button>
-                              </form>
-                          </td>
-                        </tr>
-                      @endforeach
-                    </tbody>
+                    </tr>
+                    </tfooter>
+                      <thead class=" text-primary">
+                      <tr>
+                          <th>
+                              {{ __('Code') }}
+                          </th>
+                          <th>
+                              {{ __('Name') }}
+                          </th>
+                          <th>
+                              {{ __('Document') }}
+                          </th>
+                          <th>
+                              {{ __('Creation date') }}
+                          </th>
+                          <th class="text-right">
+                              {{ __('Actions') }}
+                          </th>
+                      </tr>
+                      </thead>
                   </table>
                 </div>
-                    {{ $users->links() }}
               </div>
             </div>
         </div>
@@ -89,3 +77,66 @@
     </div>
   </div>
 @endsection
+@push('js')
+    <script>
+        function submitExcludeUser(userForm){
+            $('input[name=_token]', userForm).val($('meta[name="csrf-token"]').attr('content'));
+            userForm.submit();
+        }
+
+        $(document).ready(function() {
+
+            var table = $('#customer-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('api_customer.index') }}',
+                orderCellsTop: true,
+                columns: [
+                    {data: 'code', name: 'code', width: '20%'},
+                    {data: 'name', name: 'name', width: '45%'},
+                    {data: 'document', name: 'document', width: '20%'},
+                    {data: 'created_at', name: 'created_at', width: '20%'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false, width: '5%'}
+                ],
+                initComplete: function () {
+                    $('#customer-table thead tr').clone().appendTo( '#customer-table thead' );
+                    $('#customer-table thead tr:eq(1) th').each( function (i) {
+
+                        if( i >= 4) {
+                            $(this).html( '<span />' );
+                            return;
+                        }
+
+                        var title = $(this).text();
+                        $(this).html( '<input type="text" />' );
+
+                        $( 'input', this ).on( 'keyup change', function () {
+                            if ( table.column(i).search() !== this.value ) {
+                                table
+                                    .column(i)
+                                    .search( this.value )
+                                    .draw();
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+        thead input {
+            width: 100%;
+        }
+        table#customer-table {
+            width: 100%;
+        }
+        .user-form a,
+        .user-form button{
+            padding: 0;
+        }
+    </style>
+@endpush
+

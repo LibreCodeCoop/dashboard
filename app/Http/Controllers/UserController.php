@@ -20,7 +20,7 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
-        return view('users.index', ['users' => $model->with('customers')->paginate(15)]);
+        return view('users.index');
     }
 
     /**

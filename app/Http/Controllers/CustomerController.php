@@ -18,9 +18,9 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Customer $model)
+    public function index()
     {
-        return view('customers.index', ['users' => $model->paginate(15)]);
+        return view('customers.index');
     }
 
     /**

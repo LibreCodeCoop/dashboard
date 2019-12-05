@@ -39,10 +39,10 @@
                             {{ __('Email') }}
                           </th>
                           <th>
-                              {{ __('Customers') }}
+                             {{ __('Creation date') }}
                           </th>
                           <th>
-                            {{ __('Creation date') }}
+                              {{ __('Customers') }}
                           </th>
                           <th class="text-right">
                             {{ __('Actions') }}
@@ -58,10 +58,10 @@
                               {{ __('Email') }}
                           </th>
                           <th>
-                              {{ __('Customers') }}
+                              {{ __('Creation date') }}
                           </th>
                           <th>
-                              {{ __('Creation date') }}
+                              {{ __('Customers') }}
                           </th>
                           <th class="text-right">
                               {{ __('Actions') }}
