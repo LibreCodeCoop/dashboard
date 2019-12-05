@@ -29,67 +29,47 @@
                   </div>
                 </div>
                 <div class="table-responsive">
-                  <table class="table">
+                  <table class="table" id="user-table">
                     <thead class=" text-primary">
-                      <th>
-                          {{ __('Name') }}
-                      </th>
-                      <th>
-                        {{ __('Email') }}
-                      </th>
-                      <th>
-                          {{ __('Customers') }}
-                      </th>
-                      <th>
-                        {{ __('Creation date') }}
-                      </th>
-                      <th class="text-right">
-                        {{ __('Actions') }}
-                      </th>
-                    </thead>
-                    <tbody>
-                      @foreach($users as $user)
                         <tr>
-                          <td>
-                            {{ $user->name }}
-                          </td>
-                          <td>
-                            {{ $user->email }}
-                          </td>
-                        <td>
-                            {{ $user->customers->map(function ($c) { return $c->typeable->social_reason?:$c->typeable->name; })->filter(function ($name) { return trim($name); })->implode(' | ') }}
-                        </td>
-                          <td>
-                            {{ $user->created_at->format('Y-m-d') }}
-                          </td>
-                          <td class="td-actions text-right">
-                            @if ($user->id != auth()->id())
-                              <form action="{{ route('user.destroy', $user) }}" method="post">
-                                  @csrf
-                                  @method('delete')
-
-                                  <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('user.edit', $user) }}" data-original-title="" title="">
-                                    <i class="material-icons">edit</i>
-                                    <div class="ripple-container"></div>
-                                  </a>
-                                  <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                      <i class="material-icons">close</i>
-                                      <div class="ripple-container"></div>
-                                  </button>
-                              </form>
-                            @else
-                              <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('profile.edit') }}" data-original-title="" title="">
-                                <i class="material-icons">edit</i>
-                                <div class="ripple-container"></div>
-                              </a>
-                            @endif
-                          </td>
+                          <th>
+                              {{ __('Name') }}
+                          </th>
+                          <th>
+                            {{ __('Email') }}
+                          </th>
+{{--                          <th>--}}
+{{--                              {{ __('Customers') }}--}}
+{{--                          </th>--}}
+                          <th>
+                            {{ __('Creation date') }}
+                          </th>
+                          <th class="text-right">
+                            {{ __('Actions') }}
+                          </th>
                         </tr>
-                      @endforeach
-                    </tbody>
+                    </thead>
+                      <tfoot class=" text-primary">
+                      <tr>
+                          <th>
+                              {{ __('Name') }}
+                          </th>
+                          <th>
+                              {{ __('Email') }}
+                          </th>
+{{--                          <th>--}}
+{{--                              {{ __('Customers') }}--}}
+{{--                          </th>--}}
+                          <th>
+                              {{ __('Creation date') }}
+                          </th>
+                          <th class="text-right">
+                              {{ __('Actions') }}
+                          </th>
+                      </tr>
+                      </tfoot>
                   </table>
                 </div>
-                    {{ $users->links() }}
               </div>
             </div>
         </div>
@@ -97,3 +77,24 @@
     </div>
   </div>
 @endsection
+@push('js')
+    <script>
+
+        $(document).ready(function() {
+
+            var table = $('#user-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('api_user.index') }}',
+                orderCellsTop: true,
+                columns: [
+                    {data: 'name', name: 'name'},
+                    {data: 'email', name: 'email'},
+                    // {data: 'customers', name: 'customers'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ],
+            });
+        });
+    </script>
+@endpush

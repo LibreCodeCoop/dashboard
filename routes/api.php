@@ -26,3 +26,4 @@ Route::middleware('auth:api')->group(function () {
 
 
 });
+Route::resource('api_user', 'Api\UserController');

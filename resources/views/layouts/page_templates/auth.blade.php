@@ -11,7 +11,8 @@
         $(document).ready(function() {
             $.ajaxSetup({
                 headers: {
-                    'Authorization': "Bearer {{ Auth::user()->api_token }}"
+                    'Authorization': "Bearer {{ Auth::user()->api_token }}",
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
         });
