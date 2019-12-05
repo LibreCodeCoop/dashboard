@@ -38,9 +38,9 @@
                           <th>
                             {{ __('Email') }}
                           </th>
-{{--                          <th>--}}
-{{--                              {{ __('Customers') }}--}}
-{{--                          </th>--}}
+                          <th>
+                              {{ __('Customers') }}
+                          </th>
                           <th>
                             {{ __('Creation date') }}
                           </th>
@@ -57,9 +57,9 @@
                           <th>
                               {{ __('Email') }}
                           </th>
-{{--                          <th>--}}
-{{--                              {{ __('Customers') }}--}}
-{{--                          </th>--}}
+                          <th>
+                              {{ __('Customers') }}
+                          </th>
                           <th>
                               {{ __('Creation date') }}
                           </th>
@@ -79,6 +79,10 @@
 @endsection
 @push('js')
     <script>
+        function submitExcludeUser(userForm){
+            $('input[name=_token]', userForm).val($('meta[name="csrf-token"]').attr('content'));
+            userForm.submit();
+        }
 
         $(document).ready(function() {
 
@@ -88,13 +92,50 @@
                 ajax: '{{ route('api_user.index') }}',
                 orderCellsTop: true,
                 columns: [
-                    {data: 'name', name: 'name'},
-                    {data: 'email', name: 'email'},
-                    // {data: 'customers', name: 'customers'},
-                    {data: 'created_at', name: 'created_at'},
-                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                    {data: 'name', name: 'name', width: '20%'},
+                    {data: 'email', name: 'email', width: '20%'},
+                    {data: 'created_at', name: 'created_at', width: '10%'},
+                    {data: 'customers', name: 'customers', width: '45%'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false, width: '5%'}
                 ],
+                initComplete: function () {
+                    $('#user-table thead tr').clone().appendTo( '#user-table thead' );
+                    $('#user-table thead tr:eq(1) th').each( function (i) {
+
+                        if( i >= 3) {
+                            $(this).html( '<span />' );
+                            return;
+                        }
+
+                        var title = $(this).text();
+                        $(this).html( '<input type="text" />' );
+
+                        $( 'input', this ).on( 'keyup change', function () {
+                            if ( table.column(i).search() !== this.value ) {
+                                table
+                                    .column(i)
+                                    .search( this.value )
+                                    .draw();
+                            }
+                        });
+                    });
+                }
             });
         });
     </script>
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+        thead input {
+            width: 100%;
+        }
+        table#user-table {
+            width: 100%;
+        }
+        .user-form a,
+        .user-form button{
+            padding: 0;
+        }
+    </style>
 @endpush
