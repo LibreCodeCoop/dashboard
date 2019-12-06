@@ -8,6 +8,7 @@ use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends Controller
 {
@@ -19,7 +20,7 @@ class UserController extends Controller
      */
     public function index(User $model)
     {
-        return view('users.index', ['users' => $model->with('customers')->paginate(15)]);
+        return view('users.index');
     }
 
     /**
@@ -43,7 +44,11 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
-        $user = new User($request->merge(['password' => Hash::make($request->get('password'))])->all());
+        $user = new User($request->merge([
+            'password' => Hash::make($request->get('password')),
+            'api_token' => Str::random(80),
+            ]
+        )->all());
         $user->save();
 
         $user->customers()->sync($request->get('customers'));

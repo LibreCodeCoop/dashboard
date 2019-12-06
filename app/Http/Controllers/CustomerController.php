@@ -18,9 +18,9 @@ class CustomerController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Customer $model)
+    public function index()
     {
-        return view('customers.index', ['users' => $model->paginate(15)]);
+        return view('customers.index');
     }
 
     /**
@@ -143,8 +143,13 @@ class CustomerController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Customer  $customer)
     {
-        //
+        if($customer->typeable_type == Company::class)
+            $customer->typeable->delete();
+
+        $customer->delete();
+
+        return redirect()->route('customer.index')->withStatus(__('Customer successfully deleted.'));
     }
 }

@@ -6,3 +6,15 @@
     @include('layouts.footers.auth')
   </div>
 </div>
+@push('load_js')
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'Authorization': "Bearer {{ Auth::user()->api_token }}",
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+        });
+    </script>
+@endpush

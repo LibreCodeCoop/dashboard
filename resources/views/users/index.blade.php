@@ -29,67 +29,47 @@
                   </div>
                 </div>
                 <div class="table-responsive">
-                  <table class="table">
+                  <table class="table" id="user-table">
                     <thead class=" text-primary">
-                      <th>
-                          {{ __('Name') }}
-                      </th>
-                      <th>
-                        {{ __('Email') }}
-                      </th>
-                      <th>
-                          {{ __('Customers') }}
-                      </th>
-                      <th>
-                        {{ __('Creation date') }}
-                      </th>
-                      <th class="text-right">
-                        {{ __('Actions') }}
-                      </th>
-                    </thead>
-                    <tbody>
-                      @foreach($users as $user)
                         <tr>
-                          <td>
-                            {{ $user->name }}
-                          </td>
-                          <td>
-                            {{ $user->email }}
-                          </td>
-                        <td>
-                            {{ $user->customers->map(function ($c) { return $c->typeable->social_reason?:$c->typeable->name; })->filter(function ($name) { return trim($name); })->implode(' | ') }}
-                        </td>
-                          <td>
-                            {{ $user->created_at->format('Y-m-d') }}
-                          </td>
-                          <td class="td-actions text-right">
-                            @if ($user->id != auth()->id())
-                              <form action="{{ route('user.destroy', $user) }}" method="post">
-                                  @csrf
-                                  @method('delete')
-
-                                  <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('user.edit', $user) }}" data-original-title="" title="">
-                                    <i class="material-icons">edit</i>
-                                    <div class="ripple-container"></div>
-                                  </a>
-                                  <button type="button" class="btn btn-danger btn-link" data-original-title="" title="" onclick="confirm('{{ __("Are you sure you want to delete this user?") }}') ? this.parentElement.submit() : ''">
-                                      <i class="material-icons">close</i>
-                                      <div class="ripple-container"></div>
-                                  </button>
-                              </form>
-                            @else
-                              <a rel="tooltip" class="btn btn-success btn-link" href="{{ route('profile.edit') }}" data-original-title="" title="">
-                                <i class="material-icons">edit</i>
-                                <div class="ripple-container"></div>
-                              </a>
-                            @endif
-                          </td>
+                          <th>
+                              {{ __('Name') }}
+                          </th>
+                          <th>
+                            {{ __('Email') }}
+                          </th>
+                          <th>
+                             {{ __('Creation date') }}
+                          </th>
+                          <th>
+                              {{ __('Customers') }}
+                          </th>
+                          <th class="text-right">
+                            {{ __('Actions') }}
+                          </th>
                         </tr>
-                      @endforeach
-                    </tbody>
+                    </thead>
+                      <tfoot class=" text-primary">
+                      <tr>
+                          <th>
+                              {{ __('Name') }}
+                          </th>
+                          <th>
+                              {{ __('Email') }}
+                          </th>
+                          <th>
+                              {{ __('Creation date') }}
+                          </th>
+                          <th>
+                              {{ __('Customers') }}
+                          </th>
+                          <th class="text-right">
+                              {{ __('Actions') }}
+                          </th>
+                      </tr>
+                      </tfoot>
                   </table>
                 </div>
-                    {{ $users->links() }}
               </div>
             </div>
         </div>
@@ -97,3 +77,65 @@
     </div>
   </div>
 @endsection
+@push('js')
+    <script>
+        function submitExcludeUser(userForm){
+            $('input[name=_token]', userForm).val($('meta[name="csrf-token"]').attr('content'));
+            userForm.submit();
+        }
+
+        $(document).ready(function() {
+
+            var table = $('#user-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('api_user.index') }}',
+                orderCellsTop: true,
+                columns: [
+                    {data: 'name', name: 'name', width: '20%'},
+                    {data: 'email', name: 'email', width: '20%'},
+                    {data: 'created_at', name: 'created_at', width: '10%'},
+                    {data: 'customers', name: 'customers', width: '45%'},
+                    {data: 'action', name: 'action', orderable: false, searchable: false, width: '5%'}
+                ],
+                initComplete: function () {
+                    $('#user-table thead tr').clone().appendTo( '#user-table thead' );
+                    $('#user-table thead tr:eq(1) th').each( function (i) {
+
+                        if( i >= 3) {
+                            $(this).html( '<span />' );
+                            return;
+                        }
+
+                        var title = $(this).text();
+                        $(this).html( '<input type="text" />' );
+
+                        $( 'input', this ).on( 'keyup change', function () {
+                            if ( table.column(i).search() !== this.value ) {
+                                table
+                                    .column(i)
+                                    .search( this.value )
+                                    .draw();
+                            }
+                        });
+                    });
+                }
+            });
+        });
+    </script>
+    <style>
+        .dataTables_filter {
+            display: none;
+        }
+        thead input {
+            width: 100%;
+        }
+        table#user-table {
+            width: 100%;
+        }
+        .user-form a,
+        .user-form button{
+            padding: 0;
+        }
+    </style>
+@endpush
