@@ -1,3 +1,13 @@
+@extends('layouts.invoice')
+@section('content')
+<header>
+    <img src="{{ asset("img/logo.png") }}" class="logo">
+    <section>
+        <p>{{ env('COMPANY_SOCIAL_REASON', 'Dashboard LTDA') }}</p>
+        <p>{{ env('COMPANY_CNPJ', '##.###.###/####-##') }}</p>
+        <p>{{ env('COMPANY_PHONE', '(XX) XXXX-XXXX') }}</p>
+    </section>
+</header>
 <table border="1" width="100%">
     <caption>{{ __('Detailed Invoice of Client services') }}</caption>
     <thead>
@@ -86,3 +96,21 @@ Total: {{ $subTotal - $invoice->credit }}
 </table>
 <hr>
 @endforeach
+@endsection
+@push('js')
+    <style>
+        header {
+            height: 200px;
+            display: flex;
+            justify-content: space-between;
+        }
+        header img.logo{
+            height: 180px;
+        }
+        section{
+            height: 180px;
+            margin-bottom: auto;
+            margin-top: auto;
+        }
+    </style>
+@endpush
