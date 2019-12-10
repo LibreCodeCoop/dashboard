@@ -1,0 +1,43 @@
+.btn.btn-primary {
+    background-color: var(--app-background-color);
+    border-color: var(--app-background-color);
+}
+
+.btn.btn-primary:hover {
+    background-color: var(--app-background-color);
+    border-color: var(--app-background-color);
+}
+
+.card .card-header-primary:not(.card-header-icon):not(.card-header-text){
+    background: linear-gradient(60deg, var(--app-background-color-light), var(--app-background-color));
+}
+
+.sidebar[data-color="purple"] li.active>a {
+    background-color: var(--app-background-color);
+}
+
+.text-primary {
+    color: var(--app-background-color) !important;
+}
+
+.page-item.active .page-link {
+    background-color: var(--app-background-color);
+    border-color: var(--app-background-color);
+}
+
+.page-link {
+    color: var(--app-background-color);
+}
+
+a {
+    color: var(--app-background-color);
+}
+
+.page-link:hover {
+    color: var(--app-background-color);
+}
+
+.dropdown-menu .dropdown-item:hover,
+.dropdown-menu a:hover {
+    background-color: var(--app-background-color);
+}
