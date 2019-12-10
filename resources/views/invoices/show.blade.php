@@ -1,5 +1,6 @@
 @extends('layouts.invoice')
 @section('content')
+    <div class="container">
 <header>
     <img src="{{ asset("img/logo.png") }}" class="logo">
     <section>
@@ -8,6 +9,8 @@
         <p>{{ env('COMPANY_PHONE', '(XX) XXXX-XXXX') }}</p>
     </section>
 </header>
+
+<h1>{{ __('Detailed Invoice') }}</h1>
 <table border="1" width="100%">
     <caption>{{ __('Detailed Invoice of Client services') }}</caption>
     <thead>
@@ -39,7 +42,7 @@
     <tbody>
     @foreach($itens as $item)
         <tr>
-            <td>{{ $item->description }}</td>
+            <td>{!! nl2br($item->description) !!}</td>
             <td>{{ $item->amount }}</td>
         </tr>
     @endforeach
@@ -96,21 +99,62 @@ Total: {{ $subTotal - $invoice->credit }}
 </table>
 <hr>
 @endforeach
+    </div>
 @endsection
 @push('js')
     <style>
+        :root {
+            --app-background-color: {{ env('APP_BACKGROUND_COLOR', '#f15a22') }};
+            --app-background-color-light: {{ env('APP_BACKGROUND_COLOR_LIGHT', '#f17959') }};
+        }
         header {
             height: 200px;
             display: flex;
             justify-content: space-between;
         }
+        table {
+            border: 3px solid var(--app-background-color);
+            margin: 30px auto;
+
+        }
+
+        table thead tr th ,
+        table tbody tr td {
+            padding: 12px 8px;
+            vertical-align: middle;
+        }
+        table thead tr th {
+            background-color: var(--app-background-color);
+            color: #fff;
+            height: 60px;
+        }
+
+        tr:nth-child(2n) {
+            background-color: #fce4d6;
+        }
+
+        td {
+            border: 3px solid var(--app-background-color);
+        }
+
+        h1{
+            margin-top: 20px;
+            font-weight: 700;
+            font-size: 14pt;
+            background-color: var(--app-background-color);
+            text-align: center;
+            color: #fff;
+            padding: 8px;
+        }
         header img.logo{
             height: 180px;
         }
         section{
-            height: 180px;
             margin-bottom: auto;
             margin-top: auto;
+            line-height: 1.5;
+            font-weight: 900;
+            font-size: 17px;
         }
     </style>
 @endpush

@@ -27,26 +27,8 @@ Route::group(['middleware' => 'auth'], function () {
     }]);
 
     Route::get('call/audio/play', ['as' => 'call.audio', function(Request $request){
-//        USAR S3
-//        $fileUrl = $request->query('file');
-//        return Storage::disk('s3')->download($fileUrl);
-
-        //Fake method
-        $urls = [
-            'http://www.testsounds.com/track18.mp3',
-            'http://www.testsounds.com/track26.mp3',
-            'http://www.testsounds.com/track37.mp3',
-            'http://www.testsounds.com/track06.mp3',
-        ];
-        shuffle($urls);
-        $info = pathinfo($urls[0]);
-        $contents = file_get_contents($urls[0]);
-        $file = '/tmp/' . $info['basename'];
-        file_put_contents($file, $contents);
-        //$uploaded_file = new UploadedFile($file, $info['basename']);
-        //dd($uploaded_file);
-
-        return response()->file($file);
+        $fileUrl = $request->query('file');
+        return Storage::disk('s3')->download($fileUrl);
     }]);
 });
 
