@@ -39,7 +39,7 @@
     <tbody>
     @foreach($itens as $item)
         <tr>
-            <td>{{ $item->description }}</td>
+            <td>{!! nl2br($item->description) !!}</td>
             <td>{{ $item->amount }}</td>
         </tr>
     @endforeach
