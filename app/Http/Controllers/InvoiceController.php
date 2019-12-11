@@ -4,13 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use App\Services\InvoiceService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class InvoiceController extends Controller
 {
     public function index()
     {
-        return view('invoices.index');
+        $userId = Auth::id();
+        return view('invoices.index', compact('userId'));
     }
 
     public function show($id){

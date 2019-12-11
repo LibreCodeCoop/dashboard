@@ -130,70 +130,78 @@
                 ],
                 initComplete: function () {
                     $('#invoices-table thead tr').clone().appendTo('#invoices-table thead');
-                    this.api().columns().every(function (index) {
-                        var column = this;
-
-                        if (index === 6) {
-                            $(document.createElement("span")).appendTo($(column.header()).empty())
+                    $('#invoices-table thead tr:eq(1) th').each( function (i) {
+                        if( i === 6) {
+                            $(this).html( '<span />' );
                             return;
-                        } else if (index === 5) {
-                            var select = $(document.createElement("select"));
-                            select.addClass("custom-select custom-select-sm form-control form-control-sm");
-                            ['', 'Em atraso', 'Em aberto', 'Pago', 'Cancelada'].forEach(function (e) {
-                                select.append($('<option>', {
+                        } else if( i === 5 ) {
+                            var selectStatus = $(document.createElement("select"));
+                            selectStatus.addClass("custom-select custom-select-sm form-control form-control-sm");
+                            selectStatus.append($('<option>').val('').text('{{ __('All') }}'));
+                            ['Em atraso', 'Em aberto', 'Pago', 'Cancelada'].forEach(function (e) {
+                                selectStatus.append($('<option>', {
                                     value: e,
                                     text: e
                                 }))
-                            })
-                            select.appendTo($(column.header()).empty())
-                            select.on('change', function () {
-                                var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                                );
-
-                                column
-                                    .search(val ? '^' + val + '$' : '', true, false)
-                                    .draw();
                             });
 
-                        } else if (index === 1) {
+                            selectStatus.on( 'keyup change', function () {
+                                if ( table.column(i).search() !== this.value ) {
+                                    table
+                                        .column(i)
+                                        .search( this.value )
+                                        .draw();
+                                }
+                            });
+                            $(this).html(selectStatus)
+                            return;
+                        } else if (i === 1) {
 
                             var select = $(document.createElement("select"));
                             select.addClass("custom-select custom-select-sm form-control form-control-sm");
-                            select.append($('<option>'))
-                            $.get('{{ route("api_customer.index") }}', function (data) {
+                            select.append($('<option>').val('').text('{{ __('All') }}'));
+                            $.get('{{ route("api_usercustomers.index", ['user' => $userId]) }}', function (data) {
+
+                                if(data.length === 1) {
+                                    $('#invoices-table thead tr:eq(1) th:eq(1)').css('display', 'none');
+                                    table.column(1).visible(false);
+                                    return;
+                                }
+
                                 data.forEach(function (e) {
-                                    select.append($('<option>', {
-                                        // value: e.id,
-                                        text: (e.typeable_type == 'App\\User') ? e.typeable.name : e.typeable.social_reason,
-                                        value: (e.typeable_type == 'App\\User') ? e.typeable.name : e.typeable.social_reason
+                                    select.append($('<option>',{
+                                        text: e.name,
+                                        value: e.name
 
                                     }))
                                 })
-                            })
-                            select.appendTo($(column.header()).empty())
-                            select.on('change', function () {
-                                var val = $.fn.dataTable.util.escapeRegex(
-                                    $(this).val()
-                                );
 
-                                column
-                                    .search(val ? '^' + val + '$' : '', true, false)
-                                    .draw();
-                            });
-
-                        } else {
-
-                            var input = document.createElement("input");
-                            $(input).appendTo($(column.header()).empty())
-                                .on('keyup change clear', function () {
-                                    if (column.search() !== this.value) {
-                                        column
-                                            .search(this.value)
+                                select.on( 'keyup change', function () {
+                                    if ( table.column(i).search() !== this.value ) {
+                                        table
+                                            .column(i)
+                                            .search( this.value )
                                             .draw();
                                     }
                                 });
+                            })
+
+                            $(this).html(select)
+                            return;
                         }
+
+                        var title = $(this).text();
+                        $(this).html( '<input type="text" />' );
+
+                        $( 'input', this ).on( 'keyup change', function () {
+                            if ( table.column(i).search() !== this.value ) {
+                                table
+                                    .column(i)
+                                    .search( this.value )
+                                    .draw();
+                            }
+                        } );
+
                     });
                 }
             });
