@@ -6,6 +6,7 @@
   </div>
   <div class="sidebar-wrapper">
     <ul class="nav">
+        @can('isAdmin')
         <li class="nav-item{{ $activePage == 'customer-management' ? ' active' : '' }}">
             <a class="nav-link" href="{{ route('customer.index') }}">
                 <i class="material-icons">content_paste</i>
@@ -18,6 +19,7 @@
                 <span class="sidebar-normal"> {{ __('User Management') }} </span>
             </a>
         </li>
+        @endcan
         <li class="nav-item{{ $activePage == 'call-history' ? ' active' : '' }}">
             <a class="nav-link" href="{{ route('call.index') }}">
                 <i class="material-icons">content_paste</i>
