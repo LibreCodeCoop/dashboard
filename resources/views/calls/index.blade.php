@@ -137,8 +137,14 @@
                     if( i == 0) {
                         var select = $(document.createElement("select"));
                         select.addClass("custom-select custom-select-sm form-control form-control-sm");
-                        select.append($('<option>'))
+                        select.append($('<option>').val('').text('{{ __('All') }}'));
                         $.get('{{ route("api_usercustomers.index", ['user' => $userId]) }}', function (data) {
+
+                            if(data.length === 1) {
+                                $('#call-table thead tr:eq(1) th:first').css('display', 'none');
+                                table.column(0).visible(false);
+                            }
+
                             data.forEach(function (e) {
                                 select.append($('<option>',{
                                     text: e.name,
@@ -146,15 +152,16 @@
 
                                 }))
                             })
+
+                            select.on( 'keyup change', function () {
+                                if ( table.column(i).search() !== this.value ) {
+                                    table
+                                        .column(i)
+                                        .search( this.value )
+                                        .draw();
+                                }
+                            });
                         })
-                        select.on( 'keyup change', function () {
-                            if ( table.column(i).search() !== this.value ) {
-                                table
-                                    .column(i)
-                                    .search( this.value )
-                                    .draw();
-                            }
-                        });
 
                         $(this).html(select)
                         return;
