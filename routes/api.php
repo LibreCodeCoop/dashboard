@@ -21,7 +21,7 @@ Route::middleware('auth:api')->group(function () {
 
     Route::resource('api_invoice', 'Api\InvoiceController');
     Route::resource('api_call', 'Api\CallController');
-    Route::get('customer/', ['as' => 'api_customer.index', 'uses' => 'Api\CustomerController@index']);
+    Route::get('customer/', ['as' => 'api_customer.index', 'uses' => 'Api\CustomerController@index'])->middleware('can:isAdmin');
     Route::get('user/{user}/customers/', ['as' => 'api_usercustomers.index', 'uses' => 'Api\UserCustomersController@index']);
 
 
