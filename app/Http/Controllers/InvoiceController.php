@@ -26,7 +26,7 @@ class InvoiceController extends Controller
 
         $itens = DB::connection('legacy')
             ->table('tblinvoiceitems')
-            ->where('id', '=', $id)
+            ->where('invoiceid', '=', $id)
             ->get();
 
         $products = DB::select( DB::raw("
