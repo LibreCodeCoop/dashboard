@@ -15,7 +15,7 @@ class CustomerLegacy
 
         return DB::connection('legacy')
             ->table('tblclients')
-            ->select('firstname', 'lastname', 'tblclients.id as code', 'companyname as social_reason', DB::raw("concat(address1,address2) as address"), 'city', 'state',
+            ->select('firstname', 'lastname', 'tblclients.id as code', 'companyname as social_reason', DB::raw("concat(address1,'".env(  'APP_ADDRESS_SEPARATOR', ' - ')."',address2) as address"), 'city', 'state',
                     'postcode', 'country', 'phonenumber as phone', 'tblcustomfieldsvalues.value AS cnpj_cpf')
             ->join('tblcustomfieldsvalues', function ($join) {
                 $join->on('tblclients.id', '=', 'tblcustomfieldsvalues.relid')
