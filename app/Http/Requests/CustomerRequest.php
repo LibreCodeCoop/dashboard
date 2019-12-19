@@ -33,10 +33,6 @@ class CustomerRequest extends FormRequest
                 'required', Rule::unique((new Company())->getTable())->ignore($this->route()->customer->typeable_id ?? null)
             ],
             'social_reason' => 'required',
-            'municipal_registration' => 'required',
-            'state' => 'required',
-            'phone' => 'required',
-            'address' => 'required',
         ];
     }
 }

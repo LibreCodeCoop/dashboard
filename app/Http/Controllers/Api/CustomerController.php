@@ -42,7 +42,7 @@ class CustomerController extends Controller
 
             ->addColumn('action', function ($customer) {
                 return
-                    "<form action='" . route('user.destroy', $customer) . "' method='post' class='user-form'>
+                    "<form action='" . route('customer.destroy', $customer) . "' method='post' class='user-form'>
                       " . csrf_field() . "
                       " . method_field('delete') . "
                       <a rel='tooltip' class='btn btn-success btn-link' href='" . route('customer.edit', $customer) ."' data-original-title='' title=''>
