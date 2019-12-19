@@ -24,7 +24,7 @@
     <label class="col-sm-2 col-form-label">{{ __('Municipal Registration') }}</label>
     <div class="col-sm-7">
         <div class="form-group{{ $errors->has('municipal_registration') ? ' has-danger' : '' }}">
-            <input class="form-control{{ $errors->has('municipal_registration') ? ' is-invalid' : '' }}" name="municipal_registration" id="input-municipal_registration" type="text" placeholder="{{ __('municipal_registration') }}" value="{{ old('municipal_registration', isset($customer->typeable) ?? $customer->typeable->municipal_registration ) }}" />
+            <input class="form-control{{ $errors->has('municipal_registration') ? ' is-invalid' : '' }}" name="municipal_registration" id="input-municipal_registration" type="text" placeholder="{{ __('municipal_registration') }}" value="{{ old('municipal_registration', $customer->municipal_registration ?? $customer->typeable->municipal_registration ) }}" />
             @if ($errors->has('municipal_registration'))
                 <span id="municipal_registration-error" class="error text-danger" for="input-municipal_registration">{{ $errors->first('municipal_registration') }}</span>
             @endif

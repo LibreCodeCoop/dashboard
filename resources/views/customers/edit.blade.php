@@ -40,7 +40,7 @@
                       <label class="col-sm-2 col-form-label">{{ __('Phone Number') }}</label>
                       <div class="col-sm-7">
                           <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
-                              <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="text" placeholder="{{ __('Phone') }}" value="{{ old('phone', $customer->typeable->phone) }}" required="true" aria-required="true" />
+                              <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="text" placeholder="{{ __('Phone') }}" value="{{ old('phone', $customer->typeable->phone) }}" aria-required="true" />
                               @if ($errors->has('phone'))
                                   <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('phone') }}</span>
                               @endif
@@ -51,7 +51,7 @@
                       <label class="col-sm-2 col-form-label">{{ __('Address') }}</label>
                       <div class="col-sm-7">
                           <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}">
-                              <input class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" id="input-address" type="text" placeholder="{{ __('Address') }}" value="{{ old('address', $customer->typeable->address) }}" required="true" aria-required="true" />
+                              <input class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" id="input-address" type="text" placeholder="{{ __('Address') }}" value="{{ old('address', $customer->typeable->address) }}" aria-required="true" />
                               @if ($errors->has('address'))
                                   <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('address') }}</span>
                               @endif
