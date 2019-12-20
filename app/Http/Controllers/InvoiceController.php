@@ -31,7 +31,7 @@ class InvoiceController extends Controller
 
         $products = DB::select( DB::raw("
         SELECT DISTINCT
-            CONCAT (name, '(', f.context,')') AS product,
+            CONCAT (name, ' (', f.context,')') AS product,
             f.productid,
             f.invoiceid,
             f.context
