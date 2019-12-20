@@ -24,7 +24,7 @@
                       <label class="col-sm-2 col-form-label">{{ __('CPF') }}</label>
                       <div class="col-sm-7">
                           <div class="form-group{{ $errors->has('cpf') ? ' has-danger' : '' }}">
-                              <input class="form-control{{ $errors->has('cpf') ? ' is-invalid' : '' }}" name="cpf" id="input-cpf" type="text" placeholder="{{ __('CPF') }}" value="{{ old('cpf') }}" required="true" aria-required="true" />
+                              <input class="form-control{{ $errors->has('cpf') ? ' is-invalid' : '' }}" name="cpf" id="input-cpf" type="text" placeholder="{{ __('CPF') }}" value="{{ old('cpf') }}"  aria-required="true" />
                               @if ($errors->has('cpf'))
                                   <span id="cpf-error" class="error text-danger" for="input-cpf">{{ $errors->first('cpf') }}</span>
                               @endif
