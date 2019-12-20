@@ -32,6 +32,8 @@ class UserController extends Controller
     {
         $customers = Customer::with('typeable')->where('typeable_type', Company::class)->get();
 
+        $customers = $customers->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE );
+
         return view('users.create', compact('customers'));
     }
 
@@ -65,7 +67,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $customers = Customer::with('typeable')->get();
+        $customers = Customer::with('typeable')->where('typeable_type', Company::class)->get();
+        $customers = $customers->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE );
         return view('users.edit', compact('user', 'customers'));
     }
 
