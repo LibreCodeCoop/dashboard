@@ -65,4 +65,15 @@ class InvoiceController extends Controller
         };
         return response()->stream($callback, 200, $headers);
     }
+
+    public function billet($id){
+        $billet = DB::connection('voip')
+            ->table('autourlfaturas')
+            ->where('invoiceid', $id)
+            ->orderBy('datahora','DESC')
+            ->limit(1)
+            ->get()
+            ->first();
+        return response()->redirectTo($billet->url);
+    }
 }

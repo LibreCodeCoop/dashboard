@@ -102,6 +102,15 @@ Total: @money($subTotal - $invoice->credit)
     </div>
 @endsection
 @push('js')
+    <script>
+        var urlParams = new URLSearchParams(window.location.search);
+        var isPrint = urlParams.get('print');
+
+        if(isPrint) {
+            window.addEventListener("afterprint", function(event) { self.close(); });
+            window.print();
+        }
+    </script>
     <style>
         :root {
             --app-background-color: {{ env('APP_BACKGROUND_COLOR', '#f15a22') }};
