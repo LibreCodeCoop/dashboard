@@ -153,7 +153,7 @@
                                         .draw();
                                 }
                             });
-                            $(this).html(selectStatus)
+                            $(this).html(selectStatus).addClass('hide-sort');
                             return;
                         } else if (i === 1) {
 
@@ -186,7 +186,7 @@
                                 });
                             })
 
-                            $(this).html(select)
+                            $(this).html(select).addClass('hide-sort');
                             return;
                         }
 

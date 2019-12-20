@@ -103,7 +103,7 @@
                     $('#user-table thead tr:eq(1) th').each( function (i) {
 
                         if( i >= 3) {
-                            $(this).html( '<span />' );
+                            $(this).html( '<span />' ).addClass('hide-sort');
                             return;
                         }
 

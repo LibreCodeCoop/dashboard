@@ -163,7 +163,7 @@
                             });
                         })
 
-                        $(this).html(select)
+                        $(this).html(select).addClass('hide-sort');
                         return;
                     }
 
