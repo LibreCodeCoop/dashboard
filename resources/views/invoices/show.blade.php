@@ -43,16 +43,16 @@
     @foreach($itens as $item)
         <tr>
             <td>{!! nl2br($item->description) !!}</td>
-            <td>{{ $item->amount }}</td>
+            <td>@money($item->amount)</td>
         </tr>
     @endforeach
     </tbody>
 </table>
-Sub Total: {{ $subTotal = $itens->reduce(function ($carry, $item){ return $item->amount +  $carry; } ) }}
+Sub Total: @money($subTotal = $itens->reduce(function ($carry, $item){ return $item->amount +  $carry; } ))
 <br>
-Credit: {{ $invoice->credit }}
+Credit: @money($invoice->credit)
 <br>
-Total: {{ $subTotal - $invoice->credit }}
+Total: @money($subTotal - $invoice->credit)
 
 @foreach($products as $product)
 <table border="1" width="100%">
@@ -92,7 +92,7 @@ Total: {{ $subTotal - $invoice->credit }}
         <td>{{ $detail->tarifa }}</td>
         <td>{{ $detail->duracao }}</td>
         <td>{{ $detail->duracao_faturado }}</td>
-        <td>{{ $detail->valor_faturado }}</td>
+        <td>@money($detail->valor_faturado)</td>
     </tr>
     @endforeach
     </tbody>
