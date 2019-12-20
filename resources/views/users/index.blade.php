@@ -28,7 +28,7 @@
                     <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">{{ __('Add user') }}</a>
                   </div>
                 </div>
-                <div class="table-responsive">
+                <div class="table table-striped table-sm">
                   <table class="table" id="user-table">
                     <thead class=" text-primary">
                         <tr>
@@ -103,7 +103,7 @@
                     $('#user-table thead tr:eq(1) th').each( function (i) {
 
                         if( i >= 3) {
-                            $(this).html( '<span />' );
+                            $(this).html( '<span />' ).addClass('hide-sort');
                             return;
                         }
 

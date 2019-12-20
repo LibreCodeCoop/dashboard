@@ -28,7 +28,7 @@
                     <a href="{{ route('customer.create') }}" class="btn btn-sm btn-primary">{{ __('Add customer') }}</a>
                   </div>
                 </div>
-                <div class="table-responsive">
+                <div class="table table-striped table-sm">
                   <table class="table" id="customer-table">
                     <tfooter class=" text-primary">
                     <tr>

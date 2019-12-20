@@ -18,6 +18,8 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::resource('call', 'CallController');
     Route::resource('invoice', 'InvoiceController');
+    Route::get('invoice/{invoice}/csv', ['as' => 'invoice.csv', 'uses' => 'InvoiceController@csv']);
+    Route::get('invoice/{invoice}/billet', ['as' => 'invoice.billet', 'uses' => 'InvoiceController@billet']);
     Route::resource('customer', 'CustomerController')->middleware('can:isAdmin');
     Route::post('customer/user/', ['as' => 'customer.user.store', 'uses' => 'CustomerController@storeUser']);
     Route::put('customer/{customer}/user/', ['as' => 'customer.user.update', 'uses' => 'CustomerController@updateUser']);

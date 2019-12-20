@@ -15,7 +15,7 @@ class InvoiceController extends Controller
         return view('invoices.index', compact('userId'));
     }
 
-    public function show($id){
+    public function show($id, InvoiceService $service){
         $invoice = DB::connection('legacy')
             ->table('tblinvoices')
             ->where('id', '=', $id)
@@ -29,46 +29,51 @@ class InvoiceController extends Controller
             ->where('invoiceid', '=', $id)
             ->get();
 
-        $products = DB::select( DB::raw("
-        SELECT DISTINCT
-            CONCAT (name, '(', f.context,')') AS product,
-            f.productid,
-            f.invoiceid,
-            f.context
-        FROM voxlink_whmcs_dev.tblproducts AS p
-        join voxlink_voip_report_dev.cdr_faturadas AS f on p.id = f.productid
-        WHERE f.invoiceid = {$id}
-        ORDER BY product ASC;
-        "));
-
-        foreach ($products as $product){
-            ;
-            $product->details = DB::select( DB::raw("
-            SELECT
-                datahora,
-                origem,
-                destino,
-                RIGHT(tarifa,
-                      LENGTH(tarifa) - INSTR(tarifa, '/')) AS tarifa,
-                duracao,
-                duracao_faturado,
-                valor_faturado
-            FROM
-                voxlink_voip_report_dev.cdr_faturadas
-            WHERE
-                invoiceid = $id AND context = '$product->context'
-            ORDER BY datahora ASC
-            "));
-
-            $product->total_duration = array_reduce($product->details, function($carry, $item){
-                return $carry += $item->duracao;
-            });
-
-            $product->total_excedent = array_reduce($product->details, function($carry, $item){
-                return $carry += $item->duracao_faturado;
-            });
-        }
+        $products = $service->products($id);
 
         return view('invoices.show', compact('invoice', 'itens', 'products', 'customer'));
+    }
+
+    public function csv($id, InvoiceService $service)
+    {
+        $headers = array(
+            "Content-type" => "text/csv",
+            "Content-Disposition" => "attachment; filename=file.csv",
+            "Pragma" => "no-cache",
+            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
+            "Expires" => "0"
+        );
+
+        $products = $service->products($id);
+        $columns = ['datahora', 'origem', 'destino', 'tarifa', 'duracao', 'duracao_faturado', 'valor_faturado'];
+
+        $callback = function() use ($products, $columns)
+        {
+            $file = fopen('php://output', 'w');
+            fputcsv($file, $columns);
+
+            foreach ($products as $product){
+                foreach($product->details as $detail) {
+                    fputcsv($file, [
+                        $detail->datahora, $detail->origem, $detail->destino, $detail->tarifa,
+                        $detail->duracao, $detail->duracao_faturado,
+                        number_format($detail->valor_faturado, 2, ',', '.')
+                    ]);
+                }
+            }
+            fclose($file);
+        };
+        return response()->stream($callback, 200, $headers);
+    }
+
+    public function billet($id){
+        $billet = DB::connection('voip')
+            ->table('autourlfaturas')
+            ->where('invoiceid', $id)
+            ->orderBy('datahora','DESC')
+            ->limit(1)
+            ->get()
+            ->first();
+        return response()->redirectTo($billet->url);
     }
 }

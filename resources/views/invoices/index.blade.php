@@ -23,7 +23,7 @@
                     </div>
                   </div>
                 @endif
-                <div class="table-responsive">
+                <div class="table table-striped table-sm">
                   <table class="table" id="invoices-table">
                     <thead class=" text-primary">
                     <tr>
@@ -80,6 +80,23 @@
       </div>
     </div>
   </div>
+  <div class="modal" id="modalInvoice" tabindex="-1" role="dialog">
+      <div class="modal-dialog  modal-full" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title">{{ __('Invoice') }}</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Fechar">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body"></div>
+              <div class="modal-footer">
+                  <button type="button" class="btn" data-dismiss="modal">{{ __('Fechar') }}</button>
+              </div>
+          </div>
+      </div>
+  </div>
+  <iframe id="iprint" name="iprint" scrolling="yes" style="display:none"></iframe>
 @endsection
 @push('js')
     <script>
@@ -102,6 +119,13 @@
             }
 
             return "<span class='badge badge-" + color + "'>" + status + "</span>";
+        }
+
+        function printInvoice(e, anchor){
+            var win = window.open(anchor, '_blank');
+            win.focus();
+            e.preventDefault();
+            return false;
         }
         $(document).ready(function() {
 
@@ -153,7 +177,7 @@
                                         .draw();
                                 }
                             });
-                            $(this).html(selectStatus)
+                            $(this).html(selectStatus).addClass('hide-sort');
                             return;
                         } else if (i === 1) {
 
@@ -186,7 +210,7 @@
                                 });
                             })
 
-                            $(this).html(select)
+                            $(this).html(select).addClass('hide-sort');
                             return;
                         }
 
@@ -205,11 +229,35 @@
                     });
                 }
             });
+
+            $('#modalInvoice').on('show.bs.modal', function (e) {
+                var button = $(e.relatedTarget);
+                var modal = $(this);
+                modal.find('.modal-body').load(button.data("remote"));
+            });
         });
     </script>
     <style>
         .dataTables_filter {
             display: none;
+        }
+        thead input {
+            width: 100%;
+        }
+        table#invoices-table {
+            width: 100%;
+        }
+        .modal-full {
+            min-width: 100%;
+            margin: 0;
+        }
+
+        .modal-full .modal-content {
+            min-height: 100vh;
+        }
+        .badge-default {
+            color: #ffffff;
+            background-color: #000000;
         }
     </style>
 @endpush
