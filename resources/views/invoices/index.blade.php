@@ -23,7 +23,7 @@
                     </div>
                   </div>
                 @endif
-                <div class="table-responsive">
+                <div class="table table-striped table-sm">
                   <table class="table" id="invoices-table">
                     <thead class=" text-primary">
                     <tr>
@@ -210,6 +210,12 @@
     <style>
         .dataTables_filter {
             display: none;
+        }
+        thead input {
+            width: 100%;
+        }
+        table#invoices-table {
+            width: 100%;
         }
     </style>
 @endpush

@@ -23,7 +23,7 @@
                     </div>
                   </div>
                 @endif
-                <div class="table-responsive">
+                <div class="table table-striped table-sm">
                   <table class="table" id="call-table">
                     <thead class=" text-primary">
                     <tr>
