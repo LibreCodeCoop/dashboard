@@ -21,6 +21,6 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return redirect()->route('customer.index');
+        return redirect()->route('profile.edit');
     }
 }
