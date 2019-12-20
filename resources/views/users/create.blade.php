@@ -57,7 +57,7 @@
                       <label class="col-sm-2 col-form-label">{{ __('Phone') }}</label>
                       <div class="col-sm-7">
                           <div class="form-group{{ $errors->has('phone') ? ' has-danger' : '' }}">
-                              <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="phone" placeholder="{{ __('Phone') }}" value="{{ old('phone') }}" required />
+                              <input class="form-control{{ $errors->has('phone') ? ' is-invalid' : '' }}" name="phone" id="input-phone" type="phone" placeholder="{{ __('Phone') }}" value="{{ old('phone') }}"/>
                               @if ($errors->has('phone'))
                                   <span id="phone-error" class="error text-danger" for="input-phone">{{ $errors->first('phone') }}</span>
                               @endif
@@ -68,7 +68,7 @@
                       <label class="col-sm-2 col-form-label">{{ __('Address') }}</label>
                       <div class="col-sm-7">
                           <div class="form-group{{ $errors->has('address') ? ' has-danger' : '' }}">
-                              <input class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" id="input-address" type="address" placeholder="{{ __('Address') }}" value="{{ old('address') }}" required />
+                              <input class="form-control{{ $errors->has('address') ? ' is-invalid' : '' }}" name="address" id="input-address" type="address" placeholder="{{ __('Address') }}" value="{{ old('address') }}"/>
                               @if ($errors->has('address'))
                                   <span id="address-error" class="error text-danger" for="input-address">{{ $errors->first('address') }}</span>
                               @endif
