@@ -42,6 +42,7 @@ class CustomerController extends Controller
             $routerStore = 'customer.user.store';
         }else{
             $isUser = false;
+            $customer->municipal_registration = '';
             $routerStore = 'customer.store';
         }
 
