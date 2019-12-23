@@ -115,6 +115,7 @@
                 serverSide: true,
                 ajax: '{{ route('api_call.index') }}',
                 orderCellsTop: true,
+                order: [[ 1, 'desc' ]],
                 columns: [
                     {data: 'cliente', name: 'cliente'},
                     {data: 'start_time', name: 'start_time'},
