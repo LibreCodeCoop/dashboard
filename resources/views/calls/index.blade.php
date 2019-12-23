@@ -99,12 +99,9 @@
 @endsection
 @push('js')
     <script>
-        function showPlayerModal(id){
+        function showPlayerModal(link){
             player = document.getElementById('call-player');
-
-            urlRaw = '{{ route('call.audio') }}/?file=' + id;
-
-            player.src = urlRaw;
+            player.src = $(link).attr('data-url');
             console.log(player.src)
             player.currentTime = 0;
             $('#playerModal').modal()

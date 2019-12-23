@@ -1,6 +1,6 @@
 <?php
 use \Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
+use \Illuminate\Support\Facades\DB;
 
 Auth::routes(['register' => false]);
 
@@ -28,8 +28,12 @@ Route::group(['middleware' => 'auth'], function () {
         return $service->getRemote($code);
     }]);
 
-    Route::get('call/audio/play', ['as' => 'call.audio', function(Request $request){
-        $fileUrl = $request->query('file');
+    Route::get('call/audio/{uuid}/play', ['as' => 'call.audio', function($uuid){
+        $bucket = env('AWS_BUCKET');
+        $record = DB::table(env('DB_DATABASE_VOIP') . '.gravacoes_s3')
+            ->where('uuid', $uuid)->limit('1')->get()->first();
+
+        $fileUrl = explode($bucket , $record->path_s3)[1];
         return Storage::disk('s3')->download($fileUrl);
     }]);
 });

@@ -15,15 +15,21 @@ class CallController
 
         $query->addIndexColumn()
             ->addColumn('action', function ($call) {
-                return
-                "<button type='button' class='btn btn-link' data-original-title='' title='' onclick='showPlayerModal(\"$call->path_s3\")'>
+                $call->uuid = '9089dd5f-8eb0-4029-98d3-8a26608517bc';
+                if($call->uuid){
+                    $url = route('call.audio',['uuid' => $call->uuid]);
+                    return
+                        "<button type='button' class='btn btn-link' data-original-title='' title='' onclick='showPlayerModal(this)' data-url='$url'>
                     <i class='material-icons'>play_circle_outline</i>
                     <div class='ripple-container'></div>
                    </button>
-                  <button type='button' class='btn btn-link' data-original-title='' title='' onclick='alert(\"" . __('Download Call is an test, Nothing will happen')."\")'>
+                  <a type='button' class='btn btn-link' data-original-title='' title='' href='$url'>
                       <i class='material-icons'>cloud_download</i>
                       <div class='ripple-container'></div>
-                 </button>";
+                 </a>";
+
+                }
+                return __("No audio");
             });
 
         return $query->make(true);
