@@ -99,12 +99,9 @@
 @endsection
 @push('js')
     <script>
-        function showPlayerModal(id){
+        function showPlayerModal(link){
             player = document.getElementById('call-player');
-
-            urlRaw = '{{ route('call.audio') }}/?file=' + id;
-
-            player.src = urlRaw;
+            player.src = $(link).attr('data-url');
             console.log(player.src)
             player.currentTime = 0;
             $('#playerModal').modal()
@@ -118,6 +115,7 @@
                 serverSide: true,
                 ajax: '{{ route('api_call.index') }}',
                 orderCellsTop: true,
+                order: [[ 1, 'desc' ]],
                 columns: [
                     {data: 'cliente', name: 'cliente'},
                     {data: 'start_time', name: 'start_time'},
