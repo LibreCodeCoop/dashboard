@@ -1,27 +1,26 @@
 <?php
 namespace App\Http\Controllers\Api;
 
-use App\Services\CallService;
 use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\DataTables;
 
 class UserController
 {
     public function index(DataTables $dataTables, Request $request){
 
-//        $user = $request->user();
-//        $user = (!$user->is_admin)? $user : null;
-        $query = $dataTables->eloquent(User::query());
+        $user = Auth::guard('api')->user();
+        $user = (!$user->is_admin)? $user : null;
 
+        $query = $dataTables->eloquent(User::query());
         $query->addIndexColumn()
             ->addColumn('customers', function ($user) {
-             return $user->customers->map(function ($c) {
-                 return $c->name;
-             })->filter(function ($name) {
-                 return trim($name);
-             })->implode(' | ');
-
+                return $user->customers->map(function ($c) {
+                    return $c->name;
+                })->filter(function ($name) {
+                    return trim($name);
+                })->implode(' | ');
             })
             ->addColumn('action', function ($user) {
                 return

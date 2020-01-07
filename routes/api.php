@@ -18,6 +18,7 @@ Route::middleware('auth:api')->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
+    Route::resource('api_user', 'Api\UserController');
 
     Route::resource('api_invoice', 'Api\InvoiceController');
     Route::resource('api_call', 'Api\CallController');
@@ -26,4 +27,4 @@ Route::middleware('auth:api')->group(function () {
 
 
 });
-Route::resource('api_user', 'Api\UserController');
+// Route::resource('api_user', 'Api\UserController');
