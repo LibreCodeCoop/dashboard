@@ -30,10 +30,18 @@ PS: Is necessary run up, down and up now because in the first up is created an e
 
 open http://localhost
 
-## Settings
+## Customize
 
 ### Logo
-Replace ```public/img/logo.png```
+`public/img/logo.png`
+
+### Login background
+`public/material/img/login.jpg`
+
+### Colors
+  Change the file `public/material/scss/material-dashboard/variables/_brand.scss`
+
+  using the vars from `public/material/scss/material-dashboard/variables/_colors.scss`
 
 ## Contributing
 
