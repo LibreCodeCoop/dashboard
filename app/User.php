@@ -38,11 +38,6 @@ class User extends Authenticatable
         'is_admin' => 'boolean',
     ];
 
-    public function customer()
-    {
-        return $this->morphOne(Customer::class, 'typeable');
-    }
-
     public function customers()
     {
         return $this->belongsToMany(Customer::class);
