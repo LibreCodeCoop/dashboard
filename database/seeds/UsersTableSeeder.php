@@ -15,7 +15,7 @@ class UsersTableSeeder extends Seeder
 
         factory(App\User::class)->create([
             'name' => 'Admin Admin',
-            'email' => 'admin@material.com',
+            'email' => 'admin@lt.coop.br',
             'email_verified_at' => now(),
             'password' => Hash::make('secret'),
             'is_admin' => true,
