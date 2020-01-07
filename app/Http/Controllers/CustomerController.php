@@ -81,6 +81,8 @@ class CustomerController extends Controller
 
         $customer->save();
 
+        $user->customers()->sync($customer);
+
         return redirect()->route('customer.index')->withStatus(__('Customer successfully created.'));
     }
 
