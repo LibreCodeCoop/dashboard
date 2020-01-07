@@ -67,8 +67,7 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $customers = Customer::with('typeable')->where('typeable_type', Company::class)->get();
-        $customers = $customers->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE );
+        $customers = Customer::all()->sortBy('name');
         return view('users.edit', compact('user', 'customers'));
     }
 
