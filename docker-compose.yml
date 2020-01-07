@@ -23,7 +23,7 @@ services:
     links:
       - db
     environment:
-       XDEBUG_CONFIG: "remote_host=172.21.0.1 remote_enable=1"
+       XDEBUG_CONFIG: "remote_host=172.17.0.1 remote_enable=1"
   mailhog:
     image: blueimp/mailhog
     ports:
