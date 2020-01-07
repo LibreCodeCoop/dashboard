@@ -30,7 +30,7 @@ class UserController extends Controller
      */
     public function create(Request $request)
     {
-        $customers = Customer::with('typeable')->where('typeable_type', Company::class)->get();
+        $customers = Customer::with('typeable')->get();
 
         $customers = $customers->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE );
 
