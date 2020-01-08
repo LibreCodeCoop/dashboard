@@ -96,6 +96,7 @@
           </div>
       </div>
   </div>
+  <iframe id="downloadIFrame" src="" style="display:none; visibility:hidden;"></iframe>
 @endsection
 @push('js')
     <script>
@@ -105,10 +106,14 @@
             urlRaw = '{{ route('call.audio') }}/?uuid=' + id;
 
             player.src = urlRaw;
-            console.log(player.src)
             player.currentTime = 0;
             $('#playerModal').modal()
             player.play();
+        }
+        function downloadAudio(id){
+            urlRaw = '{{ route('call.audio.download') }}/?uuid=' + id;
+            console.log(urlRaw);
+            $("#downloadIFrame").attr("src",urlRaw);
         }
 
         $(document).ready(function() {

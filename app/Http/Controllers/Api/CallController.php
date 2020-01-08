@@ -22,7 +22,7 @@ class CallController
                         <i class='material-icons'>play_circle_outline</i>
                         <div class='ripple-container'></div>
                     </button>
-                    <button type='button' class='btn btn-link' data-original-title='' title='' onclick='alert(\"" . __('Download Call is an test, Nothing will happen')."\")'>
+                    <button type='button' class='btn btn-link' data-original-title='' title='' onclick='downloadAudio(\"$call->uuid\")'>
                         <i class='material-icons'>cloud_download</i>
                         <div class='ripple-container'></div>
                     </button>";

@@ -27,5 +27,6 @@ Route::group(['middleware' => 'auth'], function () {
     }]);
 
     Route::get('call/audio/play', ['as' => 'call.audio', 'uses' => 'CallController@play']);
+    Route::get('call/audio/download', ['as' => 'call.audio.download', 'uses' => 'CallController@play']);
 });
 
