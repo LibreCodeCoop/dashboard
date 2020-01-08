@@ -67,7 +67,7 @@ Total: @money($subTotal - $invoice->credit)
         <tr>
             <td>{{ $product->product }}</td>
             <td>@totalduration($product->total_duration)</td>
-            <td>{{ $product->total_excedent }}</td>
+            <td>@totalduration($product->total_excedent)</td>
         </tr>
     </tbody>
 </table>
