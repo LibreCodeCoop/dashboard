@@ -89,6 +89,7 @@
             var table = $('#customer-table').DataTable({
                 processing: true,
                 serverSide: true,
+                pageLength: {{ env('DEFAULT_PAGE_LENGTH') }},
                 ajax: '{{ route('api_customer.index') }}',
                 orderCellsTop: true,
                 columns: [

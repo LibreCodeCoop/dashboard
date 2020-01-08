@@ -129,6 +129,7 @@
             var table = $('#invoices-table').DataTable({
                 processing: true,
                 serverSide: true,
+                pageLength: {{ env('DEFAULT_PAGE_LENGTH') }},
                 ajax: '{{ route('api_invoice.index') }}',
                 orderCellsTop: true,
                 order: [[2, 'desc']],

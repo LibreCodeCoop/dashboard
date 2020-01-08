@@ -121,6 +121,7 @@
             var table = $('#call-table').DataTable({
                 processing: true,
                 serverSide: true,
+                pageLength: {{ env('DEFAULT_PAGE_LENGTH') }},
                 ajax: '{{ route('api_call.index') }}',
                 orderCellsTop: true,
                 order: [[1, 'desc']],
