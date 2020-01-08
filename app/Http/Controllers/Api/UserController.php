@@ -12,7 +12,6 @@ class UserController
     public function index(DataTables $dataTables, Request $request){
 
         $user = Auth::guard('api')->user();
-        $user = (!$user->is_admin)? $user : null;
 
         $query = User::query();
         $query->select('users.id', 'users.name', 'users.email', 'users.created_at',
@@ -33,16 +32,18 @@ class UserController
                     return trim($name);
                 })->implode(' | ');
             })
-            ->addColumn('action', function ($user) {
-                $html = "<form action='" . route('user.destroy', $user) . "' method='post' class='user-form'>";
+            ->addColumn('action', function ($row) use($user) {
+                $html = "<form action='" . route('user.destroy', $row) . "' method='post' class='user-form'>";
                 $html.= csrf_field();
+                $id = $user->id;
+                $rowId = $row->id;
                 $html.= method_field('delete');
                 $html.= "
-                      <a rel='tooltip' class='btn btn-success btn-link' href='" . route('user.edit', $user) ."' data-original-title='' title=''>
+                      <a rel='tooltip' class='btn btn-success btn-link' href='" . route('user.edit', $row) ."' data-original-title='' title=''>
                         <i class='material-icons'>edit</i>
                         <div class='ripple-container'></div>
                       </a>";
-                if (!$user->primary) {
+                if (!$row->primary && $row->id != $user->id) {
                     $html.= "
                         <button type='button' class='btn btn-danger btn-link' data-original-title='' title=''
                             onclick=\"confirm('" . __("Are you sure you want to delete this user?") . " ') ? submitExcludeUser(this.parentElement) : ''\">
