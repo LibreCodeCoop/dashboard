@@ -83,6 +83,7 @@ class InvoiceService
                 RIGHT(tarifa,
                       LENGTH(tarifa) - INSTR(tarifa, '/')) AS tarifa,
                 duracao,
+                duracao_faturar,
                 duracao_faturado,
                 valor_faturado
             FROM
@@ -93,7 +94,7 @@ class InvoiceService
             "));
 
             $product->total_duration = array_reduce($product->details, function ($carry, $item) {
-                return $carry += $item->duracao;
+                return $carry += $item->duracao_faturar;
             });
 
             $product->total_excedent = array_reduce($product->details, function ($carry, $item) {
