@@ -36,7 +36,7 @@ class InvoiceService
                 $join->on('u.id', '=', 'c.typeable_id')
                     ->where("c.typeable_type", '=', $typeableType = "App\\User");
             })
-            ->join(env('DB_DATABASE'). '.customer_user AS cu', 'cu.customer_id', '=', 'c.id')
+            ->leftJoin(env('DB_DATABASE'). '.customer_user AS cu', 'cu.customer_id', '=', 'c.id')
             ->leftJoin(DB::raw(
                 <<<QUERY
                 (

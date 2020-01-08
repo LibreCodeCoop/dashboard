@@ -10,6 +10,7 @@ use App\Http\Requests\CustomerUserRequest;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class CustomerController extends Controller
 {
@@ -74,7 +75,11 @@ class CustomerController extends Controller
      */
     public function storeUser(CustomerUserRequest $request)
     {
-        $user = User::create($request->all());
+        $user = User::create($request->merge([
+            'password' => Hash::make($request->get('password')),
+            'api_token' => Str::random(80)
+            ])->all()
+        );
 
         $customer = new Customer($request->all());
         $customer->typeable()->associate($user);

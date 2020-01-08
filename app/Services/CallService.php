@@ -53,7 +53,7 @@ class CallService
                 })->leftjoin(env('DB_DATABASE_VOIP') . ".gravacoes_s3", 'cdr.uuid', '=', 'gravacoes_s3.uuid');
 
                 if ($currentUser) {
-                    $query->where('u.id', '=',  $currentUser->id);
+                    $query->where('cu.user_id', '=',  $currentUser->id);
                 }
         })->select(['us_id', 'customer_id', 'start_time', 'origin_number', 'destination_number', 'uuid', 'cliente', 'duration']);
     }

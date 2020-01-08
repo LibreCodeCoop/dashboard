@@ -35,8 +35,6 @@ class UserController
             ->addColumn('action', function ($row) use($user) {
                 $html = "<form action='" . route('user.destroy', $row) . "' method='post' class='user-form'>";
                 $html.= csrf_field();
-                $id = $user->id;
-                $rowId = $row->id;
                 $html.= method_field('delete');
                 $html.= "
                       <a rel='tooltip' class='btn btn-success btn-link' href='" . route('user.edit', $row) ."' data-original-title='' title=''>
