@@ -46,7 +46,6 @@ class CallService
                 if ($currentUser) {
                     $query->where('u.id', '=',  $currentUser->id);
                 }
-            $query->orderBy('start_time', 'DESC');
         })->select(['us_id', 'customer_id', 'start_time', 'origin_number', 'destination_number', 'path_s3', 'cliente', 'duration']);
     }
 }
