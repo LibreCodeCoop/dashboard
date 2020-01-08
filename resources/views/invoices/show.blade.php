@@ -90,8 +90,8 @@ Total: @money($subTotal - $invoice->credit)
         <td>{{ $detail->origem }}</td>
         <td>{{ $detail->destino }}</td>
         <td>{{ $detail->tarifa }}</td>
-        <td>{{ $detail->duracao }}</td>
-        <td>{{ $detail->duracao_faturar }}</td>
+        <td>@totalduration($detail->duracao)</td>
+        <td>@totalduration($detail->duracao_faturar)</td>
         <td>@money($detail->valor_faturado)</td>
     </tr>
     @endforeach
