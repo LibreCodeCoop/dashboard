@@ -134,6 +134,7 @@
                 serverSide: true,
                 ajax: '{{ route('api_invoice.index') }}',
                 orderCellsTop: true,
+                order: [[2, 'desc']],
                 fixedHeader: true,
                 columns: [
                     {data: 'invoice_code', name: 'invoice_code'},
