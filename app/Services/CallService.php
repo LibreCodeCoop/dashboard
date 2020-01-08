@@ -13,8 +13,15 @@ class CallService
         return DB::table(function (Builder $query) use ($currentUser){
             $query->from((env('DB_DATABASE_LEGACY') . '.tblcustomfieldsvalues as context'))
                 ->select(["u.id as us_id", "cs.id as customer_id", "cdr.start_stamp as start_time", "cdr.caller_id_number as origin_number"])
-                ->addSelect(["cdr.destination_number"])
-                ->selectRaw("CASE WHEN LENGTH(gravacoes_s3.path_s3) > 0 AND cs.listen_records = 1 THEN cdr.uuid END AS uuid")
+                ->addSelect(["cdr.destination_number"]);
+            if ($currentUser) {
+                $query
+                    ->selectRaw("CASE WHEN LENGTH(gravacoes_s3.path_s3) > 0 AND cs.listen_records = 1 THEN cdr.uuid END AS uuid");
+            } else {
+                $query
+                    ->selectRaw("CASE WHEN LENGTH(gravacoes_s3.path_s3) > 0 THEN cdr.uuid END AS uuid");
+            }
+            $query
                 ->selectRaw('CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END as cliente')
                 ->selectRaw("CONCAT((cdr.billsec) DIV 60, ':', LPAD((FLOOR(cdr.billsec) MOD 60), 2, 0)) AS 'duration'")
                 ->join(env('DB_DATABASE_LEGACY') . ".tblcustomfields as context_field", function (JoinClause $join) {
