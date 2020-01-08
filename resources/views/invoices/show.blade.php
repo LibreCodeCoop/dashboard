@@ -1,6 +1,6 @@
 @extends('layouts.invoice')
 @section('content')
-    <div class="container">
+    <div class="container" style="max-width: 100%">
 <header>
     <img src="{{ asset("img/logo.png") }}" class="logo">
     <section>
@@ -115,6 +115,9 @@ Total: @money($subTotal - $invoice->credit)
         :root {
             --app-background-color: {{ env('APP_BACKGROUND_COLOR', '#f15a22') }};
             --app-background-color-light: {{ env('APP_BACKGROUND_COLOR_LIGHT', '#f17959') }};
+        }
+        html, body {
+            overflow-x: unset;
         }
         header {
             height: 200px;
