@@ -12,14 +12,20 @@ class InvoiceService
     public function find(User $currentUser = null)
     {
         return DB::table(function (Builder $query) use ($currentUser) {
-            $query->from(env('DB_DATABASE_LEGACY'). '.tblinvoices', 'i')
+            $legacy = env('DB_DATABASE_LEGACY');
+            $voip = env('DB_DATABASE_VOIP');
+            $query->from($legacy . '.tblinvoices', 'i')
             ->select(["i.id AS invoice_code", "date", "duedate", "total"])
-            ->selectRaw("CASE WHEN status = 'Unpaid' AND duedate <= now() THEN 'Em atraso'
-                            WHEN status = 'Unpaid' AND duedate > now() THEN 'Em aberto'
-                            WHEN status = 'Paid' THEN 'Pago'
-                            WHEN status = 'Cancelled' THEN 'Cancelada'
-                            ELSE status END
-                        AS status")
+            ->selectRaw('CASE WHEN faturas.invoiceid IS NOT NULL THEN 1 ELSE 0 END AS has_billet')
+            ->selectRaw(<<<RAW
+                CASE WHEN status = 'Unpaid' AND duedate <= now() THEN 'Em atraso'
+                     WHEN status = 'Unpaid' AND duedate > now() THEN 'Em aberto'
+                     WHEN status = 'Paid' THEN 'Pago'
+                     WHEN status = 'Cancelled' THEN 'Cancelada'
+                     ELSE status END
+                  AS status
+                RAW
+                )
             ->selectRaw("CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END AS client")
             ->join(env('DB_DATABASE'). '.customers AS c', 'c.code', '=', 'i.userid')
             ->leftJoin(env('DB_DATABASE').'.companies AS co', function (JoinClause $join){
@@ -31,11 +37,22 @@ class InvoiceService
                     ->where("c.typeable_type", '=', $typeableType = "App\\User");
             })
             ->join(env('DB_DATABASE'). '.customer_user AS cu', 'cu.customer_id', '=', 'c.id')
+            ->leftJoin(DB::raw(
+                <<<QUERY
+                (
+                    SELECT invoiceid
+                      FROM {$voip}.autourlfaturas
+                      JOIN {$legacy}.tblinvoices i ON i.id = autourlfaturas.invoiceid
+                     WHERE i.status NOT IN ('Cancelled', 'Paid')
+                      GROUP BY invoiceid
+                ) faturas
+                QUERY
+                ), 'faturas.invoiceid', 'i.id')
             ;
             if ($currentUser) {
                 $query->where('cu.user_id', $currentUser->id);
             }
-        })->select(['invoice_code', 'date', 'duedate', 'total', 'status', 'client']);
+        })->select(['invoice_code', 'date', 'duedate', 'total', 'status', 'client', 'has_billet']);
     }
 
     /**

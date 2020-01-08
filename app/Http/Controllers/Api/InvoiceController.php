@@ -18,10 +18,13 @@ class InvoiceController extends Controller
         $query = $dataTables->query($service->find($user))
             ->addIndexColumn()
             ->addColumn('action', function ($invoice) {
-                return '<a data-toggle="modal" data-target="#modalInvoice" href="#modalInvoice" data-remote="' . route('invoice.show', ['invoice' => $invoice->invoice_code ]) . '" >' .  __('Show Invoice').'</a>'
-                    . ((!in_array($invoice->status, ['Cancelada', 'Pago']) )? ' | <a target="_blank" href="' . route('invoice.billet', ['invoice' => $invoice->invoice_code ]) . '" >' .  __('Billet').'</a>' : '')
-                    . ' | <a class="invoice-print" target="_blank" href="' . route('invoice.show', ['invoice' => $invoice->invoice_code ]) . '?print=true" >' .  __('Print').'</a>'
-                    . ' | <a href="' . route('invoice.csv', ['invoice' => $invoice->invoice_code ]) . '" >' .  __('CSV').'</a>';
+                $html[]= '<a data-toggle="modal" data-target="#modalInvoice" href="#modalInvoice" data-remote="' . route('invoice.show', ['invoice' => $invoice->invoice_code ]) . '" >' .  __('Show Invoice').'</a>';
+                if ($invoice->has_billet) {
+                    $html[]= '<a target="_blank" href="' . route('invoice.billet', ['invoice' => $invoice->invoice_code ]) . '" >' .  __('Billet').'</a>';
+                }
+                $html[]= '<a class="invoice-print" target="_blank" href="' . route('invoice.show', ['invoice' => $invoice->invoice_code ]) . '?print=true" >' .  __('Print').'</a>';
+                $html[]= '<a href="' . route('invoice.csv', ['invoice' => $invoice->invoice_code ]) . '" >' .  __('CSV').'</a>';
+                return implode(' | ', $html);
             });
 
         return $query->make(true);
