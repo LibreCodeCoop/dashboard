@@ -89,7 +89,7 @@ class InvoiceService
                 voxlink_voip_report_dev.cdr_faturadas
             WHERE
                 invoiceid = $id AND context = '$product->context'
-            ORDER BY datahora ASC
+            ORDER BY datahora DESC
             "));
 
             $product->total_duration = array_reduce($product->details, function ($carry, $item) {
