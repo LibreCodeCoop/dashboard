@@ -91,7 +91,7 @@
               </div>
               <div class="modal-body h-100"><iframe src="" frameborder="0" style="width: 100%;height: 100%;position: relative;" ></iframe></div>
               <div class="modal-footer">
-                <button type="button" class="btn btn-primary" id="print">{{ __('Print') }}</button>
+                <button type="button" class="btn btn-primary" id="print">{!! __('<i class="material-icons">print</i> Print') !!}</button>
                 <button type="button" class="btn" data-dismiss="modal">{{ __('Close') }}</button>
               </div>
           </div>
