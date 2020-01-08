@@ -79,7 +79,7 @@
                       <label class="col-sm-2 col-form-label">{{ __('Customers') }}</label>
                       <div class="col-sm-7">
                           <div class="form-group{{ $errors->has('customers') ? ' has-danger' : '' }}">
-                              <select multiple class="form-control{{ $errors->has('customers') ? ' is-invalid' : '' }} custom-select" name="customers[]" size="3" placeholder="{{ __('Customers') }}">
+                              <select id="customers" multiple class="form-control{{ $errors->has('customers') ? ' is-invalid' : '' }} custom-select" name="customers[]" size="3" placeholder="{{ __('Customers') }}">
                                   @foreach($customers as $customer)
                                       <option value="{{$customer->id}}"  {{ in_array($customer->id, old("customers") ?: $user->customers->map(function ($c) { return $c->id; })->toArray()) ? "selected": "" }} >{{ $customer->typeable->social_reason?:$customer->typeable->name}}</option>
                                   @endforeach
@@ -120,3 +120,15 @@
     </div>
   </div>
 @endsection
+@push('js')
+<link rel="stylesheet" href="/css/bootstrap-multiselect.css" type="text/css"/>
+<script type="text/javascript" src="/js/bootstrap-multiselect.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('#customers').multiselect({
+          maxHeight: 200,
+          buttonWidth: '312px'
+        });
+    });
+</script>
+@endpush
