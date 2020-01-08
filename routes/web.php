@@ -1,6 +1,4 @@
 <?php
-use \Illuminate\Support\Facades\Storage;
-use Illuminate\Http\Request;
 
 Auth::routes(['register' => false]);
 
@@ -28,9 +26,6 @@ Route::group(['middleware' => 'auth'], function () {
         return $service->getRemote($code);
     }]);
 
-    Route::get('call/audio/play', ['as' => 'call.audio', function(Request $request){
-        $fileUrl = $request->query('file');
-        return Storage::disk('s3')->download($fileUrl);
-    }]);
+    Route::get('call/audio/play', ['as' => 'call.audio', 'uses' => 'CallController@play']);
 });
 

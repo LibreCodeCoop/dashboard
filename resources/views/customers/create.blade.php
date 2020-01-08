@@ -58,6 +58,17 @@
                           </div>
                       </div>
                   </div>
+                  <div class="row">
+                      <label class="col-sm-2 col-form-label">{{ __('Listen records') }}</label>
+                      <div class="col-sm-7">
+                          <div class="form-group{{ $errors->has('listen_records') ? ' has-danger' : '' }} pull-left">
+                              <input class="form-control{{ $errors->has('listen_records') ? ' is-invalid' : '' }}" name="listen_records" id="input-listen_records" type="checkbox" placeholder="{{ __('Listen records') }}" value="1" {{ old('listen_records', $customer->listen_records?'checked':'') }} required="true" aria-required="true"/>
+                              @if ($errors->has('listen_records'))
+                                  <span id="name-error" class="error text-danger" for="input-name">{{ $errors->first('listen_records') }}</span>
+                              @endif
+                          </div>
+                      </div>
+                  </div>
               </div>
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Add Customer') }}</button>

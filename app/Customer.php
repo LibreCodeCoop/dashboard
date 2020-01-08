@@ -8,7 +8,7 @@ use Mockery\Exception;
 class Customer extends Model
 {
     protected $fillable = [
-        'code',
+        'code','listen_records'
     ];
 
     public function typeable()

@@ -102,7 +102,7 @@
         function showPlayerModal(id){
             player = document.getElementById('call-player');
 
-            urlRaw = '{{ route('call.audio') }}/?file=' + id;
+            urlRaw = '{{ route('call.audio') }}/?uuid=' + id;
 
             player.src = urlRaw;
             console.log(player.src)
