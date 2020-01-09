@@ -47,6 +47,12 @@ class UserController extends Controller
      */
     public function store(UserRequest $request, User $model)
     {
+        if (Auth::user()->is_admin) {
+            $is_admin = $request->get('is_admin');
+            $request->merge([
+                'is_admin' => $is_admin??0
+            ]);
+        }
         $user = new User($request->merge([
             'password' => Hash::make($request->get('password')),
             'api_token' => Str::random(80),
