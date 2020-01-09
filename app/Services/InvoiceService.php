@@ -69,20 +69,21 @@ class InvoiceService
      */
     public function products($id): array
     {
+        $legacy = env('DB_DATABASE_LEGACY');
+        $voip = env('DB_DATABASE_VOIP');
         $products = DB::select(DB::raw("
         SELECT DISTINCT
             CONCAT (name, ' (', f.context,')') AS product,
             f.productid,
             f.invoiceid,
             f.context
-        FROM voxlink_whmcs_dev.tblproducts AS p
-        join voxlink_voip_report_dev.cdr_faturadas AS f on p.id = f.productid
+        FROM {$legacy}.tblproducts AS p
+        join {$voip}.cdr_faturadas AS f on p.id = f.productid
         WHERE f.invoiceid = {$id}
         ORDER BY product ASC;
         "));
 
         foreach ($products as $product) {
-            ;
             $product->details = DB::select(DB::raw("
             SELECT
                 datahora,
@@ -95,7 +96,7 @@ class InvoiceService
                 duracao_faturado,
                 valor_faturado
             FROM
-                voxlink_voip_report_dev.cdr_faturadas
+                {$voip}.cdr_faturadas
             WHERE
                 invoiceid = $id AND context = '$product->context'
             ORDER BY datahora DESC
