@@ -7,6 +7,7 @@ use App\Company;
 use App\User;
 use App\Http\Requests\UserRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
@@ -80,11 +81,17 @@ class UserController extends Controller
      */
     public function update(UserRequest $request, User  $user)
     {
+        if (Auth::user()->is_admin) {
+            $is_admin = $request->get('is_admin');
+            $request->merge([
+                'is_admin' => $is_admin??0
+            ]);
+        }
         $hasPassword = $request->get('password');
         $user->update(
             $request->merge(['password' => Hash::make($request->get('password'))])
-                ->except([$hasPassword ? '' : 'password']
-        ));
+                ->except([$hasPassword ? '' : 'password'])
+        );
 
         $user->customers()->sync($request->get('customers'));
 

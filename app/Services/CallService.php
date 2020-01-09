@@ -22,7 +22,7 @@ class CallService
                     ->selectRaw("CASE WHEN LENGTH(gravacoes_s3.path_s3) > 0 THEN cdr.uuid END AS uuid");
             }
             $query
-                ->selectRaw('CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END as cliente')
+                ->selectRaw('CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END as client')
                 ->selectRaw("CONCAT((cdr.billsec) DIV 60, ':', LPAD((FLOOR(cdr.billsec) MOD 60), 2, 0)) AS 'duration'")
                 ->from((env('DB_DATABASE_LEGACY') . '.tblcustomfieldsvalues as context'))
                 ->join(env('DB_DATABASE_LEGACY') . ".tblcustomfields as context_field", function (JoinClause $join) {
@@ -58,6 +58,6 @@ class CallService
                         ->join(env('DB_DATABASE') . ".customer_user as cu", 'cu.customer_id', '=', 'cs.id')
                         ->where('cu.user_id', '=',  $currentUser->id);
                 }
-        })->select(['customer_id', 'start_time', 'origin_number', 'destination_number', 'uuid', 'cliente', 'duration']);
+        })->select(['customer_id', 'start_time', 'origin_number', 'destination_number', 'uuid', 'client', 'duration']);
     }
 }

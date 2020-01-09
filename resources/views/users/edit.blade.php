@@ -109,6 +109,14 @@
                     </div>
                   </div>
                 </div>
+                <div class="row">
+                  <label class="col-sm-2 col-form-label" for="input-is-admin">{{ __('Is admin') }}</label>
+                  <div class="col-sm-7">
+                    <div class="form-group pull-left">
+                      <input class="form-control" name="is_admin" id="input-is-admin" type="checkbox"value="1" {{ old('listen_records', $user->is_admin?'checked':'') }} />
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="card-footer ml-auto mr-auto">
                 <button type="submit" class="btn btn-primary">{{ __('Save') }}</button>

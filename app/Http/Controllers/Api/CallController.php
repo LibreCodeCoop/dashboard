@@ -2,8 +2,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Services\CallService;
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Yajra\DataTables\DataTables;
 
 class CallController
@@ -27,6 +27,18 @@ class CallController
                         <div class='ripple-container'></div>
                     </button>";
                 }
+            })
+            ->filterColumn('start_time', function(Builder $builder, $keyword) {
+                $keyword = explode('|', $keyword);
+                if ($keyword[0]) {
+                    $builder->where('start_time', '>=', $keyword[0]);
+                }
+                if ($keyword[1]) {
+                    $builder->where('start_time', '<=', $keyword[0]);
+                }
+            })
+            ->filterColumn('client', function(Builder $builder, $keyword) {
+                $builder->where('customer_id', '=', $keyword);
             });
 
         return $query->make(true);

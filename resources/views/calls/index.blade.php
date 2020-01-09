@@ -23,13 +23,53 @@
                     </div>
                   </div>
                 @endif
+                <div class="row">
+                  @if (!empty($customers))
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="customer">{{ __('Customer') }}</label>
+                    <select id="customer" class="form-control custom-select" name="customer">
+                      <option value="" selected>{{ __('All') }}</option>
+                      @foreach($customers as $id => $name)
+                          <option value="{{$id}}"  {{ $id == old("customer") }} >{{ $name }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  @endif
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="source">{{ __('Source Phone') }}</label>
+                    <input id="source" class="form-control" name="source" placeholder="{{ __('Source Phone') }}">
+                  </div>
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="destination">{{ __('Destination Phone') }}</label>
+                    <input id="destination" class="form-control" name="destination" placeholder="{{ __('Destination Phone') }}">
+                  </div>
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="from-date">{{ __('Date') }}</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="from-date">{{__('From')}}</label>
+                      </div>
+                      <input type="date" class="form-control" id="from-date">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="to-date">{{__('To')}}</label>
+                      </div>
+                      <input type="date" class="form-control" id="to-date">
+                    </div>
+                  </div>
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="invoices-table_length">{{ __('Limit') }}</label>
+                    <select name="invoices-table_length" id="invoices-table_length" aria-controls="invoices-table" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select>
+                  </div>
+                </div>
                 <div class="table table-striped table-sm">
                   <table class="table" id="call-table">
                     <thead class=" text-primary">
                     <tr>
+                    @if (!empty($customers))
                     <th>
                         {{ __('Customer') }}
                     </th>
+                    @endif
                     <th>
                         {{ __('Start Time') }}
                     </th>
@@ -42,33 +82,11 @@
                       <th>
                           {{ __('Destination Phone') }}
                       </th>
-                      <th class="text-right">
+                      <th>
                         {{ __('Actions') }}
                       </th>
                     </tr>
                     </thead>
-                      <tfoot>
-                      <tr>
-                      <th>
-                          {{ __('Customer') }}
-                      </th>
-                      <th>
-                          {{ __('Start Time') }}
-                      </th>
-                      <th>
-                          {{ __('Duration') }}
-                      </th>
-                      <th>
-                          {{ __('Source Phone') }}
-                      </th>
-                      <th>
-                          {{ __('Destination Phone') }}
-                      </th>
-                      <th class="text-right">
-                          {{ __('Actions') }}
-                      </th>
-                      </tr>
-                      </tfoot>
                   </table>
                 </div>
               </div>
@@ -123,10 +141,13 @@
                 serverSide: true,
                 pageLength: {{ env('DEFAULT_PAGE_LENGTH') }},
                 ajax: '{{ route('api_call.index') }}',
+                sDom: '<"top">tr<"bottom"ip><"clear">',
                 orderCellsTop: true,
                 order: [[1, 'desc']],
                 columns: [
-                    {data: 'cliente', name: 'cliente'},
+                    @if (!empty($customers))
+                    {data: 'client', name: 'client'},
+                    @endif
                     {data: 'start_time', name: 'start_time'},
                     {data: 'duration', name: 'duration'},
                     {data: 'origin_number', name: 'origin_number'},
@@ -134,58 +155,33 @@
                     {data: 'action', name: 'action', orderable: false, searchable: false}
                 ],
                 initComplete: function () {
-                $('#call-table thead tr').clone().appendTo( '#call-table thead' );
-                $('#call-table thead tr:eq(1) th').each( function (i) {
-                    if( i == 5) {
-                        $(this).html( '<span />' );
-                        return;
-                    }
-
-                    if( i == 0) {
-                        var select = $(document.createElement("select"));
-                        select.addClass("custom-select custom-select-sm form-control form-control-sm");
-                        select.append($('<option>').val('').text('{{ __('All') }}'));
-                        $.get('{{ route("api_usercustomers.index", ['user' => $userId]) }}', function (data) {
-
-                            if(data.length === 1) {
-                                $('#call-table thead tr:eq(1) th:first').css('display', 'none');
-                                table.column(0).visible(false);
-                            }
-
-                            data.forEach(function (e) {
-                                select.append($('<option>',{
-                                    text: e.name,
-                                    value: e.name
-
-                                }))
-                            })
-
-                            select.on( 'keyup change', function () {
-                                if ( table.column(i).search() !== this.value ) {
-                                    table
-                                        .column(i)
-                                        .search( this.value )
-                                        .draw();
-                                }
-                            });
-                        })
-
-                        $(this).html(select).addClass('hide-sort');
-                        return;
-                    }
-
-                    var title = $(this).text();
-                    $(this).html( '<input type="text" />' );
-
-                    $( 'input', this ).on( 'keyup change', function () {
-                        if ( table.column(i).search() !== this.value ) {
-                            table
-                                .column(i)
-                                .search( this.value )
-                                .draw();
-                        }
-                    } );
-                });
+                    $('#customer').on( 'keyup change', function () {
+                        table
+                            .column('client:name')
+                            .search( this.value )
+                            .draw();
+                    });
+                    $('#source').on( 'keyup change', function () {
+                        table
+                            .column('origin_number:name')
+                            .search( this.value )
+                            .draw();
+                    });
+                    $('#destination').on( 'keyup change', function () {
+                        table
+                            .column('destination_number:name')
+                            .search( this.value )
+                            .draw();
+                    });
+                    $('#from-date,#to-date').on( 'keyup change', function () {
+                        table
+                            .column('start_time:name')
+                            .search( $('#from-date').val()+'|'+$('#to-date').val() )
+                            .draw();
+                    });
+                    $('#invoices-table_length').on( 'keyup change', function () {
+                        table.page.len( this.value ).draw();
+                    });
                 }
             });
 

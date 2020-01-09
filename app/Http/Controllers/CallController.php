@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Call;
+use App\Customer;
 use App\Services\CallService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -19,8 +20,21 @@ class CallController extends Controller
      */
     public function index()
     {
-        $userId = Auth::id();
-        return view('calls.index', compact('userId'));
+        $user = Auth::user();
+        if ($user->is_admin) {
+            foreach (Customer::all() as $customer) {
+                $data['customers'][$customer->id] = $customer->name;
+            }
+            $listen_records = true;
+        } else {
+            $user->customers->load('typeable');
+            foreach($user->customers as $customer) {
+                $listen_records = $listen_records??$customer->listen_records;
+            }
+        }
+
+        $data['userId'] = $user->id;
+        return view('calls.index', $data);
     }
 
     public function play(Request $request) {

@@ -222,6 +222,9 @@
                             .search( $('#from-duedate').val()+'|'+$('#to-duedate').val() )
                             .draw();
                     });
+                    $('#invoices-table_length').on( 'keyup change', function () {
+                        table.page.len( this.value ).draw();
+                    });
                 }
             });
 
