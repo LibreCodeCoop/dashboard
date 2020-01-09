@@ -42,7 +42,7 @@ class InvoiceController extends Controller
                     $builder->where('date', '>=', $keyword[0]);
                 }
                 if ($keyword[1]) {
-                    $builder->where('date', '<=', $keyword[0]);
+                    $builder->where('date', '<=', $keyword[1]);
                 }
             })
             ->filterColumn('duedate', function(Builder $builder, $keyword) {
@@ -51,7 +51,7 @@ class InvoiceController extends Controller
                     $builder->where('duedate', '>=', $keyword[0]);
                 }
                 if ($keyword[1]) {
-                    $builder->where('duedate', '<=', $keyword[0]);
+                    $builder->where('duedate', '<=', $keyword[1]);
                 }
             });
 
