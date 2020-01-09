@@ -12,7 +12,7 @@ class CallService
     {
         return DB::table(function (Builder $query) use ($currentUser){
             $query
-                ->select(["u.id as us_id", "cs.id as customer_id", "cdr.start_stamp as start_time", "cdr.caller_id_number as origin_number"])
+                ->select(["cs.id as customer_id", "cdr.start_stamp as start_time", "cdr.caller_id_number as origin_number"])
                 ->addSelect(["cdr.destination_number"]);
             if ($currentUser) {
                 $query
@@ -34,14 +34,15 @@ class CallService
                     $join->on('c.id', '=', 'cfv_doc1.relid')
                         ->where('cfv_doc1.fieldid', '=', $fieldId = '1');
                 })->join(env('DB_DATABASE') . ".customers as cs", 'cs.code', '=', 'd.userid')
-                ->join(env('DB_DATABASE') . ".customer_user as cu", 'cu.customer_id', '=', 'cs.id')
                 ->leftjoin(env('DB_DATABASE') . ".companies as co", function ($join) {
                     $join->on('co.id', '=', 'cs.typeable_id')
                         ->where("cs.typeable_type", '=', $typeableType = "App\Company");
-                })->leftjoin(env('DB_DATABASE') . ".users as u", function ($join) {
+                })
+                ->leftjoin(env('DB_DATABASE') . ".users as u", function ($join) {
                     $join->on('u.id', '=', 'cs.typeable_id')
                         ->where('cs.typeable_type', '=', $typeableType = "App\User");
-                })->join(env('DB_DATABASE_VOIP') . ".cdr as cdr", function (JoinClause $join) {
+                })
+                ->join(env('DB_DATABASE_VOIP') . ".cdr as cdr", function (JoinClause $join) {
                     $join->on('cdr.context', '=', 'context.value')
                         ->orOn(function (JoinClause $j) {
                             $j->whereRaw("cdr.context = SUBSTRING_INDEX(context.value, '/', 1)")
@@ -53,8 +54,10 @@ class CallService
                 })->leftjoin(env('DB_DATABASE_VOIP') . ".gravacoes_s3", 'cdr.uuid', '=', 'gravacoes_s3.uuid');
 
                 if ($currentUser) {
-                    $query->where('cu.user_id', '=',  $currentUser->id);
+                    $query
+                        ->join(env('DB_DATABASE') . ".customer_user as cu", 'cu.customer_id', '=', 'cs.id')
+                        ->where('cu.user_id', '=',  $currentUser->id);
                 }
-        })->select(['us_id', 'customer_id', 'start_time', 'origin_number', 'destination_number', 'uuid', 'cliente', 'duration']);
+        })->select(['customer_id', 'start_time', 'origin_number', 'destination_number', 'uuid', 'cliente', 'duration']);
     }
 }
