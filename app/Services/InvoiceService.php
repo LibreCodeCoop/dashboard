@@ -9,17 +9,21 @@ use Illuminate\Support\Facades\DB;
 
 class InvoiceService
 {
+    public function status()
+    {
+        return [
+            'paid'      => __('__PAID__'),
+            'overdue'   => __('__OVERDUE__'),
+            'opened'    => __('__OPENED__'),
+            'cancelled' => __('__CANCELLED__'),
+        ];
+    }
     public function find(User $currentUser = null)
     {
         return DB::table(function (Builder $query) use ($currentUser) {
+            $status = $this->status();
             $legacy = env('DB_DATABASE_LEGACY');
             $voip = env('DB_DATABASE_VOIP');
-            $status = [
-                'paid'      => __('__PAID__'),
-                'overdue'   => __('__OVERDUE__'),
-                'opened'    => __('__OPENED__'),
-                'cancelled' => __('__CANCELLED__'),
-            ];
             $query
             ->select(["i.id AS invoice_code", "date", "duedate", "total"])
             ->selectRaw('CASE WHEN faturas.invoiceid IS NOT NULL THEN 1 ELSE 0 END AS has_billet')
@@ -54,8 +58,7 @@ class InvoiceService
                       GROUP BY invoiceid
                 ) faturas
                 QUERY
-                ), 'faturas.invoiceid', 'i.id')
-            ;
+                ), 'faturas.invoiceid', 'i.id');
             if ($currentUser) {
                 $query->leftJoin(env('DB_DATABASE'). '.customer_user AS cu', 'cu.customer_id', '=', 'c.id')
                     ->where('cu.user_id', $currentUser->id);
