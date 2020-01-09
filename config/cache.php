@@ -51,6 +51,10 @@ return [
             'driver' => 'file',
             'path' => storage_path('framework/cache/data'),
         ],
+        'audio' => [
+            'driver' => 'file',
+            'path' => storage_path('audio/cache'),
+        ],
 
         'memcached' => [
             'driver' => 'memcached',
