@@ -46,11 +46,11 @@ class InvoiceController extends Controller
     public function csv($id, InvoiceService $service)
     {
         $headers = array(
-            "Content-type" => "text/csv",
-            "Content-Disposition" => "attachment; filename=file.csv",
-            "Pragma" => "no-cache",
-            "Cache-Control" => "must-revalidate, post-check=0, pre-check=0",
-            "Expires" => "0"
+            'Content-type' => 'text/csv',
+            'Content-Disposition' => 'attachment; filename=fatura-'.date('Ymd').'.csv',
+            'Pragma' => 'no-cache',
+            'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
+            'Expires' => '0'
         );
 
         $products = $service->products($id);
