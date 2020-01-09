@@ -30,26 +30,7 @@
                 </div>
                 <div class="table table-striped table-sm">
                   <table class="table" id="customer-table">
-                    <tfooter class=" text-primary">
-                    <tr>
-                        <th>
-                            {{ __('Code') }}
-                        </th>
-                      <th>
-                          {{ __('Name') }}
-                      </th>
-                      <th>
-                        {{ __('Document') }}
-                      </th>
-                      <th>
-                        {{ __('Creation date') }}
-                      </th>
-                      <th class="text-right">
-                        {{ __('Actions') }}
-                      </th>
-                    </tr>
-                    </tfooter>
-                      <thead class=" text-primary">
+                    <thead class=" text-primary">
                       <tr>
                           <th>
                               {{ __('Code') }}

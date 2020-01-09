@@ -49,25 +49,6 @@
                           </th>
                         </tr>
                     </thead>
-                      <tfoot class=" text-primary">
-                      <tr>
-                          <th>
-                              {{ __('Name') }}
-                          </th>
-                          <th>
-                              {{ __('Email') }}
-                          </th>
-                          <th>
-                              {{ __('Creation date') }}
-                          </th>
-                          <th>
-                              {{ __('Customers') }}
-                          </th>
-                          <th class="text-right">
-                              {{ __('Actions') }}
-                          </th>
-                      </tr>
-                      </tfoot>
                   </table>
                 </div>
               </div>
