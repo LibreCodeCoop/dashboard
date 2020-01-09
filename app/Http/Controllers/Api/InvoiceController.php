@@ -18,7 +18,14 @@ class InvoiceController extends Controller
         $query = $dataTables->query($service->find($user))
             ->addIndexColumn()
             ->addColumn('action', function ($invoice) {
-                $html[]= '<a data-toggle="modal" data-target="#modalInvoice" href="#modalInvoice" data-remote="' . route('invoice.show', ['invoice' => $invoice->invoice_code ]) . '" ><i class="material-icons">pageview</i></a>';
+                $view = '<a data-toggle="modal" data-target="#modalInvoice" href="#modalInvoice"';
+                $view.= ' data-remote="' . route('invoice.show', ['invoice' => $invoice->invoice_code ]) . '"';
+                $view.= ' data-csv="' . route('invoice.csv', ['invoice' => $invoice->invoice_code ])  . '"';
+                if ($invoice->has_billet) {
+                    $view.= ' data-billet="' . route('invoice.billet', ['invoice' => $invoice->invoice_code ]) . '"';
+                }
+                $view.= ' ><i class="material-icons">pageview</i></a>';
+                $html[]= $view;
                 if ($invoice->has_billet) {
                     $html[]= '<a target="_blank" href="' . route('invoice.billet', ['invoice' => $invoice->invoice_code ]) . '" ><i class="material-icons">attach_money</i></a>';
                 }

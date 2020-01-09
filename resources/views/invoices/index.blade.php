@@ -112,6 +112,8 @@
               <div class="modal-body h-100"><iframe src="" frameborder="0" style="width: 100%;height: 100%;position: relative;" ></iframe></div>
               <div class="modal-footer">
                 <button type="button" class="btn btn-primary" id="print">{!! __('<i class="material-icons">print</i> Print') !!}</button>
+                <a href="" class="btn btn-primary" id="billet">{!! __('<i class="material-icons">attach_money</i> Billet') !!}</a>
+                <a href="" class="btn btn-primary" id="download-csv">{!! __('<i class="material-icons">cloud_download</i> Download CSV') !!}</a>
                 <button type="button" class="btn" data-dismiss="modal">{{ __('Close') }}</button>
               </div>
           </div>
@@ -226,7 +228,13 @@
             $('#modalInvoice').on('show.bs.modal', function (e) {
                 var button = $(e.relatedTarget);
                 var modal = $(this);
-                modal.find('iframe').attr('src',button.data('remote'))
+                modal.find('iframe').attr('src',button.data('remote'));
+                $('#download-csv').show().attr('href',button.data('csv'))
+                if (button.data('billet')) {
+                    $('#billet').show().attr('href',button.data('billet'))
+                } else {
+                    $('#billet').hide()
+                }
             });
         });
     </script>
