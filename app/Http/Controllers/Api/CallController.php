@@ -34,7 +34,7 @@ class CallController
                     $builder->where('start_time', '>=', $keyword[0]);
                 }
                 if ($keyword[1]) {
-                    $builder->where('start_time', '<=', $keyword[0]);
+                    $builder->where('start_time', '<=', $keyword[1]);
                 }
             })
             ->filterColumn('client', function(Builder $builder, $keyword) {
