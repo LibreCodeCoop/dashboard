@@ -73,6 +73,7 @@
                 pageLength: {{ env('DEFAULT_PAGE_LENGTH') }},
                 ajax: '{{ route('api_customer.index') }}',
                 orderCellsTop: true,
+                order: [[1, 'asc']],
                 columns: [
                     {data: 'code', name: 'code', width: '20%'},
                     {data: 'name', name: 'name', width: '45%'},
