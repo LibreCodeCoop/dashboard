@@ -122,6 +122,9 @@ class CustomerController extends Controller
      */
     public function update(CustomerRequest $request, Customer  $customer)
     {
+        $request->merge([
+            'listen_records' => $request->get('listen_records')?1:0
+        ]);
         $customer->update($request->all());
 
         $customer->typeable()->update($request->all(['cnpj', 'social_reason', 'municipal_registration', 'state', 'phone', 'address']));
@@ -132,6 +135,9 @@ class CustomerController extends Controller
 
     public function updateUser(CustomerUserRequest $request, Customer  $customer)
     {
+        $request->merge([
+            'listen_records' => $request->get('listen_records')?1:0
+        ]);
         $customer->update($request->all());
 
         $hasPassword = $request->get('password');
