@@ -14,7 +14,7 @@ class InvoiceService
         return DB::table(function (Builder $query) use ($currentUser) {
             $legacy = env('DB_DATABASE_LEGACY');
             $voip = env('DB_DATABASE_VOIP');
-            $query->from($legacy . '.tblinvoices', 'i')
+            $query
             ->select(["i.id AS invoice_code", "date", "duedate", "total"])
             ->selectRaw('CASE WHEN faturas.invoiceid IS NOT NULL THEN 1 ELSE 0 END AS has_billet')
             ->selectRaw(<<<RAW
@@ -27,6 +27,8 @@ class InvoiceService
                 RAW
                 )
             ->selectRaw("CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END AS client")
+            ->addSelect(['c.id AS customer_id'])
+            ->from($legacy . '.tblinvoices', 'i')
             ->join(env('DB_DATABASE'). '.customers AS c', 'c.code', '=', 'i.userid')
             ->leftJoin(env('DB_DATABASE').'.companies AS co', function (JoinClause $join){
                 $join->on('co.id', '=', 'c.typeable_id')
@@ -36,7 +38,6 @@ class InvoiceService
                 $join->on('u.id', '=', 'c.typeable_id')
                     ->where("c.typeable_type", '=', $typeableType = "App\\User");
             })
-            ->leftJoin(env('DB_DATABASE'). '.customer_user AS cu', 'cu.customer_id', '=', 'c.id')
             ->leftJoin(DB::raw(
                 <<<QUERY
                 (
@@ -50,9 +51,10 @@ class InvoiceService
                 ), 'faturas.invoiceid', 'i.id')
             ;
             if ($currentUser) {
-                $query->where('cu.user_id', $currentUser->id);
+                $query->leftJoin(env('DB_DATABASE'). '.customer_user AS cu', 'cu.customer_id', '=', 'c.id')
+                    ->where('cu.user_id', $currentUser->id);
             }
-        })->select(['invoice_code', 'date', 'duedate', 'total', 'status', 'client', 'has_billet']);
+        })->select(['invoice_code', 'date', 'duedate', 'total', 'status', 'client', 'has_billet', 'customer_id']);
     }
 
     /**

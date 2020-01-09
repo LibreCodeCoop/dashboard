@@ -25,6 +25,9 @@ class InvoiceController extends Controller
                 $html[]= '<a class="invoice-print" target="_blank" href="' . route('invoice.show', ['invoice' => $invoice->invoice_code ]) . '?print=true" ><i class="material-icons">print</i></a>';
                 $html[]= '<a href="' . route('invoice.csv', ['invoice' => $invoice->invoice_code ]) . '" ><i class="material-icons">cloud_download</i></a>';
                 return implode(' | ', $html);
+            })
+            ->filterColumn('client', function(Builder $builder, $keyword) {
+                $builder->where('customer_id', '=', $keyword);
             });
 
         return $query->make(true);
