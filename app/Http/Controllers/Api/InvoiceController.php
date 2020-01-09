@@ -28,6 +28,24 @@ class InvoiceController extends Controller
             })
             ->filterColumn('client', function(Builder $builder, $keyword) {
                 $builder->where('customer_id', '=', $keyword);
+            })
+            ->filterColumn('date', function(Builder $builder, $keyword) {
+                $keyword = explode('|', $keyword);
+                if ($keyword[0]) {
+                    $builder->where('date', '>=', $keyword[0]);
+                }
+                if ($keyword[1]) {
+                    $builder->where('date', '<=', $keyword[0]);
+                }
+            })
+            ->filterColumn('duedate', function(Builder $builder, $keyword) {
+                $keyword = explode('|', $keyword);
+                if ($keyword[0]) {
+                    $builder->where('duedate', '>=', $keyword[0]);
+                }
+                if ($keyword[1]) {
+                    $builder->where('duedate', '<=', $keyword[0]);
+                }
             });
 
         return $query->make(true);

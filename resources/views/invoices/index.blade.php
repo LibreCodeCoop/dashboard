@@ -11,51 +11,70 @@
                 <p class="card-category"> {{ __('Here you can manage invoices') }}</p>
               </div>
               <div class="card-body">
-                @if (session('status'))
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="alert alert-success">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <i class="material-icons">close</i>
-                        </button>
-                        <span>{{ session('status') }}</span>
+                <div class="row">
+                  @if (!empty($customers))
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="customer">{{ __('Customer') }}</label>
+                    <select id="customer" class="form-control custom-select" name="customer">
+                      <option value="" selected>{{ __('All') }}</option>
+                      @foreach($customers as $id => $name)
+                          <option value="{{$id}}"  {{ $id == old("customer") }} >{{ $name }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  @endif
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="from-date">{{ __('Date') }}</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="from-date">{{__('From')}}</label>
                       </div>
+                      <input type="date" class="form-control" id="from-date">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="to-date">{{__('To')}}</label>
+                      </div>
+                      <input type="date" class="form-control" id="to-date">
                     </div>
                   </div>
-                @endif
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="from-duedate">{{ __('Due Date') }}</label>
+                    <div class="input-group">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="from-duedate">{{__('From')}}</label>
+                      </div>
+                      <input type="date" class="form-control" id="from-duedate">
+                      <div class="input-group-prepend">
+                        <label class="input-group-text" for="to-duedate">{{__('To')}}</label>
+                      </div>
+                      <input type="date" class="form-control" id="to-duedate">
+                    </div>
+                  </div>
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="status">{{ __('Status') }}</label>
+                    <select id="status" class="form-control custom-select" name="status">
+                      <option value="" selected>{{ __('All') }}</option>
+                      @foreach($status as $key => $value)
+                          <option value="{{$key}}"  {{ $key == old("status") }} >{{ $value }}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="col-md-auto">
+                    <label class="mdb-main-label" for="invoices-table_length">{{ __('Limit') }}</label>
+                    <select name="invoices-table_length" id="invoices-table_length" aria-controls="invoices-table" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select>
+                  </div>
+                </div>
                 <div class="table table-striped table-sm">
                   <table class="table" id="invoices-table">
                     <thead class=" text-primary">
                     <tr>
-                    <th>
-                        {{ __('Code') }}
-                    </th>                    <th>
-                        {{ __('Customer') }}
-                    </th>
-                    <th>
-                        {{ __('Date') }}
-                    </th>
-                    <th>
-                        {{ __('Due Date') }}
-                    </th>
-                        <th>
-                            {{ __('Total') }}
-                        </th>
-                    <th>
-                        {{ __('Status') }}
-                    </th>
-                      <th class="text-right">
-                        {{ __('Actions') }}
-                      </th>
-                    </tr>
-                    </thead>
-                      <tfoot class=" text-primary">
                       <th>
                           {{ __('Code') }}
                       </th>
+                      @if (!empty($customers))
                       <th>
                           {{ __('Customer') }}
                       </th>
+                      @endif
                       <th>
                           {{ __('Date') }}
                       </th>
@@ -65,13 +84,14 @@
                       <th>
                           {{ __('Total') }}
                       </th>
-                      <th>
+                      <th class="status">
                           {{ __('Status') }}
                       </th>
-                                            <th class="text-right">
-                                              {{ __('Actions') }}
-                                            </th>
-                      </tfoot>
+                      <th>
+                        {{ __('Actions') }}
+                      </th>
+                    </tr>
+                    </thead>
                   </table>
                 </div>
               </div>
@@ -126,7 +146,28 @@
                 $('.modal-body iframe').contents().find('body').append('<script>window.print()</sc'+'ript>')
             });
 
-            var table = $('#invoices-table').DataTable({
+            $.fn.dataTable.ext.search.push(
+                function( settings, data, dataIndex ) {
+                    console.log(data)
+                    var min = parseInt( $('#min').val(), 10 );
+                    var max = parseInt( $('#max').val(), 10 );
+                    var age = parseFloat( data[3] ) || 0; // use data for the age column
+            
+                    if ( ( isNaN( min ) && isNaN( max ) ) ||
+                        ( isNaN( min ) && age <= max ) ||
+                        ( min <= age   && isNaN( max ) ) ||
+                        ( min <= age   && age <= max ) )
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+            $('#min, #max').keyup( function() {
+                table.draw();
+            } );
+
+            table = $('#invoices-table').DataTable({
                 processing: true,
                 serverSide: true,
                 pageLength: {{ env('DEFAULT_PAGE_LENGTH') }},
@@ -134,9 +175,12 @@
                 orderCellsTop: true,
                 order: [[2, 'desc']],
                 fixedHeader: true,
+                sDom: '<"top">tr<"bottom"ip><"clear">',
                 columns: [
                     {data: 'invoice_code', name: 'invoice_code'},
+                    @if (!empty($customers))
                     {data: 'client', name: 'client'},
+                    @endif
                     {data: 'date', name: 'date'},
                     {data: 'duedate', name: 'duedate'},
                     {data: 'total', name: 'total'},
@@ -148,82 +192,33 @@
                         "render": function (data, type, row) {
                             return filterStatus(data);
                         },
-                        "targets": 5
+                        "targets": 'status'
                     },
                 ],
                 initComplete: function () {
-                    $('#invoices-table thead tr').clone().appendTo('#invoices-table thead');
-                    $('#invoices-table thead tr:eq(1) th').each( function (i) {
-                        if( i === 6) {
-                            $(this).html( '<span />' );
-                            return;
-                        } else if( i === 5 ) {
-                            var selectStatus = $(document.createElement("select"));
-                            selectStatus.addClass("custom-select custom-select-sm form-control form-control-sm");
-                            selectStatus.append($('<option>').val('').text('{{ __('All') }}'));
-                            ['Em atraso', 'Em aberto', 'Pago', 'Cancelada'].forEach(function (e) {
-                                selectStatus.append($('<option>', {
-                                    value: e,
-                                    text: e
-                                }))
-                            });
-
-                            selectStatus.on( 'keyup change', function () {
-                                if ( table.column(i).search() !== this.value ) {
-                                    table
-                                        .column(i)
-                                        .search( this.value )
-                                        .draw();
-                                }
-                            });
-                            $(this).html(selectStatus).addClass('hide-sort');
-                            return;
-                        } else if (i === 1) {
-
-                            var select = $(document.createElement("select"));
-                            select.addClass("custom-select custom-select-sm form-control form-control-sm");
-                            select.append($('<option>').val('').text('{{ __('All') }}'));
-                            $.get('{{ route("api_usercustomers.index", ['user' => $userId]) }}', function (data) {
-
-                                if(data.length === 1) {
-                                    $('#invoices-table thead tr:eq(1) th:eq(1)').css('display', 'none');
-                                    table.column(1).visible(false);
-                                    return;
-                                }
-
-                                data.forEach(function (e) {
-                                    select.append($('<option>',{
-                                        text: e.name,
-                                        value: e.id
-                                    }))
-                                })
-
-                                select.on( 'keyup change', function () {
-                                    if ( table.column(i).search() !== this.value ) {
-                                        table
-                                            .column(i)
-                                            .search( this.value )
-                                            .draw();
-                                    }
-                                });
-                            })
-
-                            $(this).html(select).addClass('hide-sort');
-                            return;
-                        }
-
-                        var title = $(this).text();
-                        $(this).html( '<input type="text" />' );
-
-                        $( 'input', this ).on( 'keyup change', function () {
-                            if ( table.column(i).search() !== this.value ) {
-                                table
-                                    .column(i)
-                                    .search( this.value )
-                                    .draw();
-                            }
-                        } );
-
+                    $('#customer').on( 'keyup change', function () {
+                        table
+                            .column('client:name')
+                            .search( this.value )
+                            .draw();
+                    });
+                    $('#status').on( 'keyup change', function () {
+                        table
+                            .column('status:name')
+                            .search( this.value )
+                            .draw();
+                    });
+                    $('#from-date,#to-date').on( 'keyup change', function () {
+                        table
+                            .column('date:name')
+                            .search( $('#from-date').val()+'|'+$('#to-date').val() )
+                            .draw();
+                    });
+                    $('#from-duedate,#to-duedate').on( 'keyup change', function () {
+                        table
+                            .column('duedate:name')
+                            .search( $('#from-duedate').val()+'|'+$('#to-duedate').val() )
+                            .draw();
                     });
                 }
             });
@@ -236,12 +231,6 @@
         });
     </script>
     <style>
-        .dataTables_filter {
-            display: none;
-        }
-        thead input {
-            width: 100%;
-        }
         table#invoices-table {
             width: 100%;
         }

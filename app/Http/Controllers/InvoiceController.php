@@ -11,8 +11,17 @@ class InvoiceController extends Controller
 {
     public function index()
     {
-        $userId = Auth::id();
-        return view('invoices.index', compact('userId'));
+        $user = Auth::user();
+
+        if ($user->is_admin) {
+            foreach (Customer::all() as $customer) {
+                $data['customers'][$customer->id] = $customer->name;
+            }
+        }
+
+        $data['status'] = (new InvoiceService())->status();
+        $data['userId'] = $user->id;
+        return view('invoices.index', $data);
     }
 
     public function show($id, InvoiceService $service){
