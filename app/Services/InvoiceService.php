@@ -14,14 +14,20 @@ class InvoiceService
         return DB::table(function (Builder $query) use ($currentUser) {
             $legacy = env('DB_DATABASE_LEGACY');
             $voip = env('DB_DATABASE_VOIP');
+            $status = [
+                'paid'      => __('__PAID__'),
+                'overdue'   => __('__OVERDUE__'),
+                'opened'    => __('__OPENED__'),
+                'cancelled' => __('__CANCELLED__'),
+            ];
             $query
             ->select(["i.id AS invoice_code", "date", "duedate", "total"])
             ->selectRaw('CASE WHEN faturas.invoiceid IS NOT NULL THEN 1 ELSE 0 END AS has_billet')
             ->selectRaw(<<<RAW
-                CASE WHEN status = 'Unpaid' AND duedate <= now() THEN 'Em atraso'
-                     WHEN status = 'Unpaid' AND duedate > now() THEN 'Em aberto'
-                     WHEN status = 'Paid' THEN 'Pago'
-                     WHEN status = 'Cancelled' THEN 'Cancelada'
+                CASE WHEN status = 'Unpaid' AND duedate <= now() THEN '{$status['overdue']}'
+                     WHEN status = 'Unpaid' AND duedate > now() THEN '{$status['opened']}'
+                     WHEN status = 'Paid' THEN '{$status['paid']}'
+                     WHEN status = 'Cancelled' THEN '{$status['cancelled']}'
                      ELSE status END
                   AS status
                 RAW

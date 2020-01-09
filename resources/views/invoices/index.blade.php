@@ -105,13 +105,13 @@
             var color = 'default'
 
             switch (status) {
-                case 'Em atraso':
+                case '{{__('__OVERDUE__')}}':
                     color = 'danger';
                     break;
-                case 'Em aberto':
+                case '{{__('__OPENED__')}}':
                     color = 'warning';
                     break;
-                case 'Pago':
+                case '{{__('__PAID__')}}':
                     color = 'success';
                     break;
                 default:
