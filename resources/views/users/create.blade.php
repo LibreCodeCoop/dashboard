@@ -113,7 +113,7 @@
                   <label class="col-sm-2 col-form-label" for="input-is-admin">{{ __('Is admin') }}</label>
                   <div class="col-sm-7">
                     <div class="form-group pull-left">
-                      <input class="form-control" name="is_admin" id="input-is-admin" type="checkbox"value="1" />
+                      <input class="" name="is_admin" id="input-is-admin" type="checkbox"value="1" />
                     </div>
                   </div>
                 </div>
