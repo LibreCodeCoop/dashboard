@@ -16,14 +16,6 @@ RUN apt-get install -y git libzip-dev \
     && docker-php-ext-install pdo pdo_mysql mysqli \
     && docker-php-ext-install zip
 
-RUN git clone https://github.com/nikic/php-ast.git \
-    && cd php-ast \
-    && phpize \
-    && ./configure \
-    && make install \
-    && echo 'extension=ast.so' > /usr/local/etc/php/php.ini \
-    && cd .. && rm -rf php-ast
-
 # Install xdebug
 RUN pecl install xdebug-2.9.0 \
     && docker-php-ext-enable xdebug

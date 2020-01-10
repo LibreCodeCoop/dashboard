@@ -20,6 +20,8 @@ Make sure port 3306 and 80 are free.
 Create `.env` file from `.env.example`
 Create `docker-compose.yml` file from `docker-compose-example.yml`
 
+> PS: If you don't use internal database, remove the `db` service.
+
 run:
 ```bash
 docker-compose up
@@ -27,9 +29,13 @@ docker-compose down
 docker-compose up
 ```
 
-PS: Is necessary run up, down and up now because in the first up is created an environment.
-
 open http://localhost
+
+## Run in production
+
+* Remove the `mailhog` service from `docker-compose.yml`
+* Remove environment of xdebug from `docker-compose.yml`
+* Remove instalation xdebug lines from `.docker/php7/Dockerfile`
 
 ## Customize
 
