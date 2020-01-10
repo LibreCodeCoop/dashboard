@@ -2,7 +2,7 @@
 @section('content')
     <div class="container" style="max-width: 100%">
 <header>
-    <img src="{{ asset("img/logo.png") }}" class="logo">
+    <img src="{{ asset("images") }}/logo.png") " class="logo">
     <section>
         <p>{{ env('COMPANY_SOCIAL_REASON', 'Dashboard LTDA') }}</p>
         <p>{{ env('COMPANY_CNPJ', '##.###.###/####-##') }}</p>

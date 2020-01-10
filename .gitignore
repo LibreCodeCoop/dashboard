@@ -1,8 +1,11 @@
 /node_modules
 /public/hot
+/public/css/
+/public/material/css/material-dashboard.css
 /public/storage
 /storage/*.key
 /storage/logs/*.log
+/storage/audio/
 /vendor
 .env
 .env.backup

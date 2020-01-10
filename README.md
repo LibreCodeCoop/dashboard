@@ -33,10 +33,10 @@ open http://localhost
 ## Customize
 
 ### Logo
-`public/img/logo.png`
+`public/image/logo.png`
 
 ### Login background
-`public/material/img/login.jpg`
+`public/material/image/login.jpg`
 
 ### Colors
   Change the file `public/material/scss/material-dashboard/variables/_brand.scss`

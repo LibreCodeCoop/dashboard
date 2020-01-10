@@ -28,6 +28,12 @@ services:
     image: blueimp/mailhog
     ports:
       - 8025:8025
+  nodejs:
+    image: node:latest
+    working_dir: "/var/www/app"
+    volumes:
+      - .:/var/www/app
+    command: bash -c "if [ -f package.json ]; then npm install; npm run dev; fi"
   db:
     image: mariadb
     ports:
