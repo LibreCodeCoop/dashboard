@@ -31,7 +31,7 @@ class AppServiceProvider extends ServiceProvider
         });
 
         Blade::directive('totalduration', function ($value) {
-            return "<?php echo (int)($value/60), (($value%60)!=0)? ':'.$value%60 : ''; ?>";
+            return "<?php echo str_pad((int)($value/60), 2, 0, STR_PAD_LEFT), ($value%60!=0? ':'.str_pad($value%60, 2, 0, STR_PAD_LEFT) : ':00'); ?>";
         });
     }
 }
