@@ -9,6 +9,7 @@
 /vendor
 .env
 .env.backup
+docker-compose.yml
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml

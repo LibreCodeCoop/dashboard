@@ -18,6 +18,7 @@ The project needs to be internationalized. Do not display any text to the user t
 Make sure port 3306 and 80 are free.
 
 Create `.env` file from `.env.example`
+Create `docker-compose.yml` file from `docker-compose-example.yml`
 
 run:
 ```bash
