@@ -46,6 +46,9 @@ Look images in this folders and change:
  * `public/material/image/`
 
 ### CSS and colors
+
+> NOTE: Read the concept first: https://laravel.com/docs/6.x/mix
+
 Change the file `public/material/scss/material-dashboard/variables/_brand.scss`
 
 using the vars from
