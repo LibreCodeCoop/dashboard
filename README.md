@@ -63,6 +63,16 @@ After make all customizations, restart nodejs container to build assets:
 docker-compose restart nodejs
 ```
 
+### Translation
+
+Define the default locale in `.env` file changing the environment `APP_LOCALE` to default app locale.
+
+If don't exist, create a json file following instructions from https://laravel.com/docs/6.x/localization
+
+If there is a word that is used in more than one place and it must have different translations in each place, look for that word or phrase in the project and change the word or phrase in each place to be different and apply the translation to each of the sentences. created.
+
+> NOTE: When making a translation, please submit a pull request.
+
 ## Contributing
 
 Read the [contributing](/CONTRIBUTING.md) file first.
