@@ -44,9 +44,8 @@ Change the file `public/material/scss/material-dashboard/variables/_brand.scss`
 using the vars from
 
  * `public/material/scss/material-dashboard/variables/_colors.scss`
-
-
  * `public/material/scss/material-dashboard/bootstrap/scss/_variables.scss`
+ * `resources/sass/invoice.scss`
 
 If you want more CSS customizations, change the file `resources/sass/app.scss`
 
