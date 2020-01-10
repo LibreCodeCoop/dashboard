@@ -4,7 +4,8 @@ RUN apt-get update
 
 RUN apt-get install -y \
         git \
-        libzip-dev
+        libzip-dev \
+        unzip
 RUN docker-php-ext-install -j "$(nproc)" \
         zip
 
