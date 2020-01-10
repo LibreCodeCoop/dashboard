@@ -22,7 +22,8 @@ Create `docker-compose.yml` file from `docker-compose-example.yml`
 
 > PS: If you don't use internal database, remove the `db` service.
 
-run:
+In first time run:
+
 ```bash
 docker-compose up
 docker-compose down
