@@ -14,12 +14,6 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css">
     <!-- CSS Files -->
     <link href="{{ asset('material') }}/css/material-dashboard.css?v=2.1.1" rel="stylesheet" />
-    <style>
-        :root {
-            --app-background-color: {{ env('APP_BACKGROUND_COLOR', '#f15a22') }};
-            --app-background-color-light: {{ env('APP_BACKGROUND_COLOR_LIGHT', '#f17959') }};
-        }
-    </style>
     <link href="{{ asset('css') }}/app.css" rel="stylesheet" />
     </head>
     <body class="{{ $class ?? '' }}">

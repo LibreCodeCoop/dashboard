@@ -32,16 +32,28 @@ open http://localhost
 
 ## Customize
 
-### Logo
-`public/image/logo.png`
+### Images
 
-### Login background
-`public/material/image/login.jpg`
+Look images in this folders and change:
+ * `public/image/`
+ * `public/material/image/`
 
-### Colors
-  Change the file `public/material/scss/material-dashboard/variables/_brand.scss`
+### CSS and colors
+Change the file `public/material/scss/material-dashboard/variables/_brand.scss`
 
-  using the vars from `public/material/scss/material-dashboard/variables/_colors.scss`
+using the vars from
+
+ * `public/material/scss/material-dashboard/variables/_colors.scss`
+
+
+ * `public/material/scss/material-dashboard/bootstrap/scss/_variables.scss`
+
+If you want more CSS customizations, change the file `resources/sass/app.scss`
+
+After change, restart nodejs container to build assets:
+```bash
+docker-compose restart nodejs
+```
 
 ## Contributing
 
