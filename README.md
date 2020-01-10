@@ -46,11 +46,13 @@ using the vars from
 
  * `public/material/scss/material-dashboard/variables/_colors.scss`
  * `public/material/scss/material-dashboard/bootstrap/scss/_variables.scss`
- * `resources/sass/invoice.scss`
 
 If you want more CSS customizations, change the file `resources/sass/app.scss`
 
-After change, restart nodejs container to build assets:
+**Invoice customizations:**
+ * `resources/sass/invoice.scss`
+
+After make all customizations, restart nodejs container to build assets:
 ```bash
 docker-compose restart nodejs
 ```
