@@ -45,7 +45,7 @@ Look images in this folders and change:
  * `public/image/`
  * `public/material/image/`
 
-### CSS and colors
+### Assets: CSS
 
 > NOTE: Read the concept first: https://laravel.com/docs/6.x/mix
 
