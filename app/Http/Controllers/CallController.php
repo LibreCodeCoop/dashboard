@@ -25,6 +25,7 @@ class CallController extends Controller
             foreach (Customer::all() as $customer) {
                 $data['customers'][$customer->id] = $customer->name;
             }
+            asort($data['customers']);
         } else {
             $user->customers->load('typeable');
             foreach($user->customers as $customer) {
@@ -32,6 +33,8 @@ class CallController extends Controller
             }
             if (count($data['customers']) <= 1) {
                 unset($data['customers']);
+            } else {
+                asort($data['customers']);
             }
         }
 
