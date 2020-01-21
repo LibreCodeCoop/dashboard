@@ -28,17 +28,23 @@ class CallController
                     </button>";
                 }
             })
+            ->filterColumn('origin_number', function(Builder $builder, $keyword) {
+                $builder->where('cdr.caller_id_number', 'like', '%'.$keyword.'%');
+            })
+            ->filterColumn('destination_number', function(Builder $builder, $keyword) {
+                $builder->where('cdr.destination_number', 'like', '%'.$keyword.'%');
+            })
             ->filterColumn('start_time', function(Builder $builder, $keyword) {
                 $keyword = explode('|', $keyword);
                 if ($keyword[0]) {
-                    $builder->where('start_time', '>=', $keyword[0]);
+                    $builder->where('cdr.start_stamp', '>=', $keyword[0]);
                 }
                 if ($keyword[1]) {
-                    $builder->where('start_time', '<=', $keyword[1]);
+                    $builder->where('cdr.start_stamp', '<=', $keyword[1]);
                 }
             })
             ->filterColumn('client', function(Builder $builder, $keyword) {
-                $builder->where('customer_id', '=', $keyword);
+                $builder->where('cs.id', '=', $keyword);
             });
 
         return $query->make(true);
