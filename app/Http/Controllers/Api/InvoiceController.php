@@ -34,7 +34,7 @@ class InvoiceController extends Controller
                 return implode(' | ', $html);
             })
             ->filterColumn('client', function(Builder $builder, $keyword) {
-                $builder->where('customer_id', '=', $keyword);
+                $builder->where('c.id', '=', $keyword);
             })
             ->filterColumn('date', function(Builder $builder, $keyword) {
                 $keyword = explode('|', $keyword);
@@ -43,6 +43,17 @@ class InvoiceController extends Controller
                 }
                 if ($keyword[1]) {
                     $builder->where('date', '<=', $keyword[1]);
+                }
+            })
+            ->filterColumn('status', function(Builder $builder, $keyword) {
+                if ($keyword == 'overdue') {
+                    $builder->whereRaw("status = 'Unpaid' AND duedate <= now()");
+                } elseif ($keyword == 'opened') {
+                    $builder->whereRaw("status = 'Unpaid' AND duedate > now()");
+                } elseif ($keyword == 'paid') {
+                    $builder->whereRaw("status = 'Paid'");
+                } elseif ($keyword == 'cancelled') {
+                    $builder->whereRaw("status = 'Cancelled'");
                 }
             })
             ->filterColumn('duedate', function(Builder $builder, $keyword) {
