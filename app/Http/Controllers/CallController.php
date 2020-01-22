@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Call;
 use App\Customer;
-use App\Services\CallService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
@@ -38,7 +36,6 @@ class CallController extends Controller
             }
         }
 
-        $data['userId'] = $user->id;
         return view('calls.index', $data);
     }
 

@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Api;
 
+use App\Customer;
 use App\Services\CallService;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
@@ -44,9 +45,46 @@ class CallController
                 }
             })
             ->filterColumn('client', function(Builder $builder, $keyword) {
-                $builder->where('cs.id', '=', $keyword);
+                $builder->where('client.id', '=', $keyword);
+            })
+            ->filterColumn('domain', function(Builder $builder, $keyword) {
+                $builder->where('client.domain', '=', $keyword);
             });
 
-        return $query->make(true);
+        $return = $query->make(true);
+        $data = $this->setDomainFilter($return->getData(), $request);
+        return $return->setData($data);
+    }
+
+    private function setDomainFilter($data, $request)
+    {
+        $user = $request->user();
+        $columns = $request->get('columns');
+        $customers = [];
+        foreach ($columns as $parameter) {
+            if ($parameter['name'] == 'client' && $parameter['search']['value']) {
+                $customers = [(int)$parameter['search']['value']];
+                break;
+            }
+        }
+        if (!$customers) {
+            if ($user->is_admin) {
+                foreach (Customer::all() as $customer) {
+                    $customers[] = $customer->id;
+                }
+            } else {
+                $user->customers->load('typeable');
+                foreach($user->customers as $customer) {
+                    $customers[] = $customer->id;
+                }
+            }
+        }
+        if ($customers) {
+            $domains = (new CallService())->findDomainsByCustomerId($user, $customers)->all();
+            if (count($domains) > 1) {
+                $data->dataDomains = $domains;
+            }
+        }
+        return $data;
     }
 }

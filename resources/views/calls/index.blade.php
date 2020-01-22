@@ -1,6 +1,20 @@
 @extends('layouts.app', ['activePage' => 'call-history', 'titlePage' => __('Calls Management')])
 
 @section('content')
+  <style>
+    .dataTables_filter {
+        display: none;
+    }
+    thead input {
+        width: 100%;
+    }
+    table#call-table {
+        width: 100%;
+    }
+    #domainsContainer {
+      display: none;
+    }
+  </style>
   <div class="content">
     <div class="container-fluid">
       <div class="row">
@@ -35,6 +49,12 @@
                     </select>
                   </div>
                   @endif
+                  <div class="col-md-auto" id="domainsContainer">
+                    <label class="mdb-main-label" for="domains">{{ __('Domains') }}</label>
+                    <select id="domains" class="form-control custom-select" name="domains">
+                      <option value="" selected>{{ __('All') }}</option>
+                    </select>
+                  </div>
                   <div class="col-md-auto">
                     <label class="mdb-main-label" for="source">{{ __('Source Phone') }}</label>
                     <input id="source" class="form-control" name="source" placeholder="{{ __('Source Phone') }}">
@@ -70,6 +90,9 @@
                         {{ __('Customer') }}
                     </th>
                     @endif
+                    <th>
+                        {{ __('Domain') }}
+                    </th>
                     <th>
                         {{ __('Start Time') }}
                     </th>
@@ -130,7 +153,6 @@
         }
         function downloadAudio(id){
             urlRaw = '{{ route('call.audio.download') }}/?uuid=' + id;
-            console.log(urlRaw);
             $("#downloadIFrame").attr("src",urlRaw);
         }
 
@@ -140,14 +162,43 @@
                 processing: true,
                 serverSide: true,
                 pageLength: {{ env('DEFAULT_PAGE_LENGTH') }},
-                ajax: '{{ route('api_call.index') }}',
+                ajax: {
+                    url: '{{ route('api_call.index') }}',
+                    dataFilter: function(data) {
+                        var column = table.column('domain:name');
+                        var json = jQuery.parseJSON( data );
+                        if (typeof json.dataDomains !== 'undefined' && json.dataDomains.length > 1) {
+                            var selected = $('#domains').val();
+                            column.visible(true);
+                            $('#domainsContainer').show(1000);
+                            $('#domains')
+                                .find('option')
+                                .remove()
+                                .end()
+                                .append($('<option value=""">{{ __('All') }}</option>'));
+                            $.each(json.dataDomains, function (i, item) {
+                                $('#domains').append($('<option>', { 
+                                    value: item.domain,
+                                    text : item.domain,
+                                    selected: selected == item.domain
+                                }));
+                            });
+                        } else {
+                          column.visible(false);
+                          $('#domainsContainer').hide(1000);
+                        }
+                        return JSON.stringify( json );
+                    }
+                },
                 sDom: '<"top">tr<"bottom"ip><"clear">',
-                orderCellsTop: true,
-                order: [[1, 'desc']],
+                // orderCellsTop: true,
+                // order: [[1, 'desc']],
+                ordering: false,
                 columns: [
                     @if (!empty($customers))
                     {data: 'client', name: 'client'},
                     @endif
+                    {data: 'domain', name: 'domain', visible: false },
                     {data: 'start_time', name: 'start_time'},
                     {data: 'duration', name: 'duration'},
                     {data: 'origin_number', name: 'origin_number'},
@@ -158,6 +209,12 @@
                     $('#customer').on( 'keyup change', function () {
                         table
                             .column('client:name')
+                            .search( this.value )
+                            .draw();
+                    });
+                    $('#domains').on( 'keyup change', function () {
+                        table
+                            .column('domain:name')
                             .search( this.value )
                             .draw();
                     });
@@ -185,8 +242,6 @@
                 }
             });
 
-
-
             $('#playerModal').on('hide.bs.modal', function (event) {
                 player = document.getElementById('call-player');
                 player.pause();
@@ -194,15 +249,4 @@
             });
         });
     </script>
-    <style>
-        .dataTables_filter {
-            display: none;
-        }
-        thead input {
-            width: 100%;
-        }
-        table#call-table {
-            width: 100%;
-        }
-    </style>
 @endpush

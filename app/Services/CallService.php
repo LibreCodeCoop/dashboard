@@ -10,16 +10,16 @@ class CallService
 {
     public function find(User $currentUser = null)
     {
-        $sub = DB::table((env('DB_DATABASE_LEGACY') . '.tblcustomfieldsvalues as context'));
-        $sub
+        $sub = DB::table((env('DB_DATABASE_LEGACY') . '.tblcustomfieldsvalues as context'))
+            ->distinct()
             ->select([
+                'cs.id',
                 'd.userid AS code',
-                'context.value AS dominio',
+                'context.value AS domain',
                 'cs.listen_records'
             ]);
         $sub
             ->selectRaw('CASE WHEN co.id IS NOT NULL THEN co.social_reason ELSE u.name END as client')
-            ->from((env('DB_DATABASE_LEGACY') . '.tblcustomfieldsvalues as context'))
             ->join(env('DB_DATABASE_LEGACY') . ".tblcustomfields as context_field", function (JoinClause $join) {
                 $join->on('context_field.id', '=', 'context.fieldid')
                     ->where("context_field.fieldname", '=', 'Dominio no PABX');
@@ -41,8 +41,9 @@ class CallService
         }
         $query = DB::table( DB::raw("({$sub->toSql()}) as client") )
             ->select([
+                'client.id as customer_id',
                 'client.client',
-                'client.dominio',
+                'client.domain',
                 'cdr.start_stamp as start_time'
             ])
             ->addSelect([
@@ -59,9 +60,34 @@ class CallService
         }
         $query
             ->join(env('DB_DATABASE_VOIP') . ".cdr_report as cdr", function (JoinClause $join) {
-                $join->on('cdr.dominio', '=', 'client.dominio');
+                $join->on('cdr.dominio', '=', 'client.domain');
             })->leftjoin(env('DB_DATABASE_VOIP') . ".gravacoes_s3", 'cdr.uuid', '=', 'gravacoes_s3.uuid')
             ->mergeBindings($sub);
         return $query;
+    }
+
+    public function findDomainsByCustomerId($currentUser, $customer)
+    {
+
+        $sub = DB::table((env('DB_DATABASE_LEGACY') . '.tblcustomfieldsvalues as context'))
+            ->select([
+                'context.value AS domain',
+            ]);
+        $sub
+            ->join(env('DB_DATABASE_LEGACY') . ".tblcustomfields as context_field", function (JoinClause $join) {
+                $join->on('context_field.id', '=', 'context.fieldid')
+                    ->where("context_field.fieldname", '=', 'Dominio no PABX');
+            })
+            ->join(env('DB_DATABASE_LEGACY') . ".tblhosting as d", 'd.id', '=', 'context.relid')
+            ->join(env('DB_DATABASE') . ".customers as cs", 'cs.code', '=', 'd.userid');
+        if ($currentUser) {
+            $sub
+                ->join(env('DB_DATABASE') . ".customer_user as cu", 'cu.customer_id', '=', 'cs.id')
+                ->where('cu.user_id', '=',  $currentUser->id);
+        }
+        $sub->whereIn('cs.id', $customer)
+            ->orderBy('context.value')
+            ->groupBy(['context.value']);
+        return $sub->get();
     }
 }
