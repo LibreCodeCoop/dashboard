@@ -17,6 +17,7 @@ class InvoiceController extends Controller
             foreach (Customer::all() as $customer) {
                 $data['customers'][$customer->id] = $customer->name;
             }
+            asort($data['customers']);
         }
 
         $data['status'] = (new InvoiceService())->status();
