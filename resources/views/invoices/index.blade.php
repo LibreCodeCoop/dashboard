@@ -60,7 +60,16 @@
                   </div>
                   <div class="col-md-auto">
                     <label class="mdb-main-label" for="invoices-table_length">{{ __('Limit') }}</label>
-                    <select name="invoices-table_length" id="invoices-table_length" aria-controls="invoices-table" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="100">100</option></select>
+                    <select name="invoices-table_length" id="invoices-table_length" aria-controls="invoices-table" class="custom-select custom-select-sm form-control form-control-sm">
+                      @for($i = 10; $i <= 100; $i+=10)
+                        <option value="{{ $i }}"
+                          @if($i < env('DEFAULT_PAGE_LENGTH') && $i+10 >= env('DEFAULT_PAGE_LENGTH') )
+                            selected="selected"
+                          @endif>
+                          {{ $i }}
+                        </option>
+                      @endfor
+                    </select>
                   </div>
                 </div>
                 <div class="table table-striped table-sm">

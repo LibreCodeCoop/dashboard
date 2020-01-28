@@ -24,7 +24,20 @@
                   </div>
                 @endif
                 <div class="row">
-                  <div class="col-12 text-right">
+                  <div class="col-md-2">
+                    <label class="mdb-main-label" for="customers-table_length">{{ __('Limit') }}</label>
+                    <select name="customers-table_length" id="customers-table_length" aria-controls="customers-table" class="custom-select custom-select-sm form-control form-control-sm">
+                      @for($i = 10; $i <= 100; $i+=10)
+                        <option value="{{ $i }}"
+                          @if($i < env('DEFAULT_PAGE_LENGTH') && $i+10 >= env('DEFAULT_PAGE_LENGTH') )
+                            selected="selected"
+                          @endif>
+                          {{ $i }}
+                        </option>
+                      @endfor
+                    </select>
+                  </div>
+                  <div class="col-10 text-right">
                     <a href="{{ route('customer.create') }}" class="btn btn-sm btn-primary">{{ __('Add customer') }}</a>
                   </div>
                 </div>
@@ -74,6 +87,7 @@
                 ajax: '{{ route('api_customer.index') }}',
                 orderCellsTop: true,
                 order: [[1, 'asc']],
+                sDom: '<"top">tr<"bottom"ip><"clear">',
                 columns: [
                     {data: 'code', name: 'code', width: '20%'},
                     {data: 'name', name: 'name', width: '45%'},
@@ -101,6 +115,9 @@
                                     .draw();
                             }
                         });
+                    });
+                    $('#customers-table_length').on( 'keyup change', function () {
+                        table.page.len( this.value ).draw();
                     });
                 }
             });

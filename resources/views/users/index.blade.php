@@ -24,7 +24,20 @@
                   </div>
                 @endif
                 <div class="row">
-                  <div class="col-12 text-right">
+                  <div class="col-md-2">
+                    <label class="mdb-main-label" for="users-table_length">{{ __('Limit') }}</label>
+                    <select name="users-table_length" id="users-table_length" aria-controls="users-table" class="custom-select custom-select-sm form-control form-control-sm">
+                      @for($i = 10; $i <= 100; $i+=10)
+                        <option value="{{ $i }}"
+                          @if($i < env('DEFAULT_PAGE_LENGTH') && $i+10 >= env('DEFAULT_PAGE_LENGTH') )
+                            selected="selected"
+                          @endif>
+                          {{ $i }}
+                        </option>
+                      @endfor
+                    </select>
+                  </div>
+                  <div class="col-md-10 text-right">
                     <a href="{{ route('user.create') }}" class="btn btn-sm btn-primary">{{ __('Add user') }}</a>
                   </div>
                 </div>
@@ -73,6 +86,7 @@
                 pageLength: {{ env('DEFAULT_PAGE_LENGTH') }},
                 ajax: '{{ route('api_user.index') }}',
                 orderCellsTop: true,
+                sDom: '<"top">tr<"bottom"ip><"clear">',
                 columns: [
                     {data: 'name', name: 'name', width: '20%'},
                     {data: 'email', name: 'email', width: '20%'},
@@ -100,6 +114,9 @@
                                     .draw();
                             }
                         });
+                    });
+                    $('#users-table_length').on( 'keyup change', function () {
+                        table.page.len( this.value ).draw();
                     });
                 }
             });
