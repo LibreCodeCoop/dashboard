@@ -1,4 +1,4 @@
-![GitHub](https://img.shields.io/github/license/lyseontech/dashboard)
+![GitHub](https://img.shields.io/github/license/librecodecoop/dashboard)
 
 # Administrative dashboard
 
